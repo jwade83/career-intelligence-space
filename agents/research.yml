@@ -1,0 +1,75 @@
+# Research Agent Configuration
+# Agent 1: Research Runner - Core research automation framework
+
+metadata:
+  id: agent-research-001
+  name: "Research Runner"
+  type: "research"
+  version: "1.0.0"
+  created: "2025-09-09"
+  status: "active"
+
+configuration:
+  runtime:
+    environment: "python"
+    requirements:
+      - "requests>=2.28.0"
+      - "pyyaml>=6.0"
+      - "python-dotenv>=1.0.0"
+    timeout: 300
+    memory_limit: "512MB"
+    
+  inputs:
+    required:
+      - research_query
+      - output_format
+    optional:
+      - search_depth
+      - source_filters
+      - validation_rules
+      
+  outputs:
+    primary: "research_results.json"
+    logs: "research_log.md"
+    metadata: "execution_metadata.yml"
+
+execution:
+  stages:
+    - name: "initialize"
+      module: "init_handler"
+      timeout: 30
+    - name: "search"
+      module: "search_handler"
+      timeout: 120
+    - name: "analyze"
+      module: "analysis_handler"
+      timeout: 90
+    - name: "format"
+      module: "output_handler"
+      timeout: 60
+      
+  error_handling:
+    retry_attempts: 3
+    fallback_mode: "basic_search"
+    escalation: "log_and_continue"
+
+integration:
+  github:
+    issue_templates: [".github/ISSUE_TEMPLATE/research_task.yml"]
+    workflows: [".github/workflows/agent-ci.yml"]
+    
+  logging:
+    level: "INFO"
+    destination: "99_LOGS/agents/research_runner_log.md"
+    format: "structured"
+    
+  dependencies:
+    templates: "tasks/templates/TEMPLATE_research_task.yml"
+    documentation: ["docs/RESEARCH_RUNBOOK.md", "docs/AGENTS_OVERVIEW.md"]
+    
+validation:
+  schema_version: "1.0"
+  required_fields: ["metadata", "configuration", "execution"]
+  optional_fields: ["integration", "validation"]
+
+# UPGRADE
