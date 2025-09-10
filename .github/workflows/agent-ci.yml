@@ -27,6 +27,7 @@ jobs:
           error_count=0
           agent_count=0
           queue_count=0
+          intel_manifests=0
           
           # Find and validate agent YAML files with skip guard
           if [ -d "agents" ]; then
@@ -53,6 +54,17 @@ jobs:
                 fi
                 if ! yq e 'has("description") and (.description | length > 0)' "$file" | grep -q true; then
                   echo "::error file=$file::Missing or empty description field"; error_count=$((error_count+1))
+                fi
+                # Agent 3 (Intel) specific validation
+                agent_type=$(yq e '.type // "unknown"' "$file")
+                if [ "$agent_type" = "intel" ]; then
+                  if ! yq e 'has("intelligence_sources") and (.intelligence_sources | type == "!!seq")' "$file" | grep -q true; then
+                    echo "::error file=$file::Intel agent missing or invalid intelligence_sources (must be YAML sequence)"; error_count=$((error_count+1))
+                  fi
+                  if ! yq e 'has("output_format")' "$file" | grep -q true; then
+                    echo "::error file=$file::Intel agent missing output_format"; error_count=$((error_count+1))
+                  fi
+                  intel_manifests=$((intel_manifests + 1))
                 fi
               done
             else
@@ -100,6 +112,15 @@ jobs:
                 if ! yq e 'has("priority") and (.priority | type == "!!int")' "$file" | grep -q true; then
                   echo "::error file=$file::Missing or invalid priority field (must be integer)"; error_count=$((error_count+1))
                 fi
+                # Agent 3 (Intel) queue task validation
+                if yq e 'has("agent_type") and (.agent_type == "intel")' "$file" | grep -q true; then
+                  if ! yq e 'has("intel_requirements")' "$file" | grep -q true; then
+                    echo "::error file=$file::Intel queue task missing intel_requirements"; error_count=$((error_count+1))
+                  fi
+                  if ! yq e 'has("sources_requested") and (.sources_requested | type == "!!seq")' "$file" | grep -q true; then
+                    echo "::error file=$file::Intel queue task missing or invalid sources_requested (must be YAML sequence)"; error_count=$((error_count+1))
+                  fi
+                fi
               done
             else
               echo "No queue files found in tasks/queue/ directory"
@@ -111,6 +132,7 @@ jobs:
           # Set outputs for summary
           echo "agent_count=$agent_count" >> $GITHUB_OUTPUT
           echo "queue_count=$queue_count" >> $GITHUB_OUTPUT
+          echo "intel_manifests=$intel_manifests" >> $GITHUB_OUTPUT
           echo "error_count=$error_count" >> $GITHUB_OUTPUT
           
           if [ "$error_count" -gt 0 ]; then exit 1; fi
@@ -123,6 +145,7 @@ jobs:
           echo "### Files Processed:" >> $GITHUB_STEP_SUMMARY
           echo "• Agent files: ${{ steps.validate.outputs.agent_count }}" >> $GITHUB_STEP_SUMMARY
           echo "• Queue files: ${{ steps.validate.outputs.queue_count }}" >> $GITHUB_STEP_SUMMARY
+          echo "• Intel manifests: ${{ steps.validate.outputs.intel_manifests }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.validate.outcome }}" = "success" ]; then
             echo "✅ **All validations passed successfully**" >> $GITHUB_STEP_SUMMARY
@@ -138,4 +161,65 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
           fi
           
+          # Intel Agent specific summary
+          if [ "${{ steps.validate.outputs.intel_manifests }}" -gt 0 ]; then
+            echo "### 🔍 Intel Agent Integration" >> $GITHUB_STEP_SUMMARY
+            echo "Successfully validated ${{ steps.validate.outputs.intel_manifests }} Intel agent manifest(s) with intelligence source and output format requirements." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
           echo "*Workflow run: ${{ github.run_id }}*" >> $GITHUB_STEP_SUMMARY
+
+      - name: Weekly Log Update
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          # Update weekly CI logs
+          log_dir="99_LOGS/ci"
+          mkdir -p "$log_dir"
+          
+          # Get current week (YYYY-WW format)
+          current_week=$(date +"%Y-W%U")
+          log_file="$log_dir/weekly-${current_week}.md"
+          
+          # Create or append to weekly log
+          if [ ! -f "$log_file" ]; then
+            echo "# CI Weekly Log - Week $current_week" > "$log_file"
+            echo "" >> "$log_file"
+            echo "## Summary" >> "$log_file"
+            echo "- Agent validations: 0" >> "$log_file"
+            echo "- Queue validations: 0" >> "$log_file"
+            echo "- Intel manifests: 0" >> "$log_file"
+            echo "" >> "$log_file"
+            echo "## Runs" >> "$log_file"
+            echo "" >> "$log_file"
+          fi
+          
+          # Update counters
+          agents=${{ steps.validate.outputs.agent_count }}
+          queues=${{ steps.validate.outputs.queue_count }}
+          intel=${{ steps.validate.outputs.intel_manifests }}
+          
+          # Append run entry
+          echo "- $(date '+%Y-%m-%d %H:%M:%S'): Agents=$agents, Queues=$queues, Intel=$intel ([Run #${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}))" >> "$log_file"
+          
+          # Update summary counters (simple increment for now)
+          current_agents=$(grep "Agent validations:" "$log_file" | head -1 | grep -o '[0-9]*' | tail -1)
+          current_queues=$(grep "Queue validations:" "$log_file" | head -1 | grep -o '[0-9]*' | tail -1)
+          current_intel=$(grep "Intel manifests:" "$log_file" | head -1 | grep -o '[0-9]*' | tail -1)
+          
+          new_agents=$((current_agents + agents))
+          new_queues=$((current_queues + queues))
+          new_intel=$((current_intel + intel))
+          
+          sed -i "s/Agent validations: [0-9]*/Agent validations: $new_agents/" "$log_file"
+          sed -i "s/Queue validations: [0-9]*/Queue validations: $new_queues/" "$log_file"
+          sed -i "s/Intel manifests: [0-9]*/Intel manifests: $new_intel/" "$log_file"
+          
+          # Add and commit if there are changes
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add "$log_file"
+          if ! git diff --cached --quiet; then
+            git commit -m "ci(logs): update weekly log $current_week with validation counts"
+            git push
+          fi
