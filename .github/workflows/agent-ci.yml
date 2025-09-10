@@ -47,8 +47,10 @@ jobs:
                 exit 1
               fi
               
-              yq e 'has("definition_of_done") and (.definition_of_done | type == "!!seq")' "$file" | grep -q true \
-              || { echo "::error file=$file::Missing or invalid definition_of_done (must be YAML sequence)"; error_count=$((error_count+1)); }
+              if ! yq e '"'"'has("definition_of_done") and (.definition_of_done | type == "!!seq")"'"'" "$file" | grep -q true; then
+                echo "::error file=$file::Missing or invalid definition_of_done (must be YAML sequence)"
+                exit 1
+              fi
             ' || error_count=$((error_count + 1))
           fi
           
@@ -69,3 +71,16 @@ jobs:
             if find tasks/queue -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
               find tasks/queue -name "*.yml" -print0 | xargs -0 -I {} bash -c '
                 file="{}"
+                # Basic YAML syntax validation
+                if ! yq eval "." "$file" > /dev/null 2>&1; then
+                  echo "::error file=$file::Invalid YAML syntax"
+                  exit 1
+                fi
+              ' || error_count=$((error_count + 1))
+            fi
+          fi
+          
+          if [ $error_count -gt 0 ]; then
+            echo "Validation failed with $error_count errors"
+            exit 1
+          fi
