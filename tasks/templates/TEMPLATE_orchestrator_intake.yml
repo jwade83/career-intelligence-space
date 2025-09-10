@@ -1,0 +1,91 @@
+# Orchestrator Intake Template
+# Schema for Translator Agent intake process
+# Purpose: Bridge between external inputs and internal task routing
+
+schema_version: "1.0"
+template_id: "orchestrator_intake"
+agent_type: "orchestrator"
+priority: "normal"
+
+intake:
+  # External request capture
+  source:
+    type: "" # email, web, api, manual
+    origin: "" # specific source identifier
+    timestamp: "" # ISO 8601 format
+    user_id: "" # requestor identification
+  
+  # Request classification
+  classification:
+    category: "" # career_guidance, market_analysis, skill_assessment, etc.
+    complexity: "" # simple, moderate, complex
+    urgency: "" # low, normal, high, critical
+    estimated_effort: "" # hours/story points
+  
+  # Content extraction
+  content:
+    raw_input: "" # original request text
+    structured_query: "" # parsed/cleaned version
+    context: "" # background information
+    constraints: "" # limitations, deadlines, etc.
+    success_criteria: "" # expected outcomes
+
+routing:
+  # Agent assignment logic
+  target_agents:
+    primary: "" # main responsible agent
+    secondary: [] # supporting agents if needed
+    escalation: "" # fallback agent for complex cases
+  
+  # Task breakdown
+  task_decomposition:
+    subtasks: [] # list of atomic tasks
+    dependencies: [] # task ordering requirements
+    parallel_execution: false # can tasks run concurrently
+  
+  # Quality gates
+  validation:
+    input_complete: false # all required fields populated
+    classification_valid: false # proper categorization
+    routing_confirmed: false # agent assignment verified
+
+metadata:
+  # Tracking information
+  intake_id: "" # unique identifier
+  created_by: "orchestrator"
+  created_at: "" # ISO 8601 timestamp
+  updated_at: "" # last modification time
+  status: "pending" # pending, routed, completed, failed
+  
+  # Audit trail
+  processing_log: [] # step-by-step intake actions
+  routing_decisions: [] # why specific agents were chosen
+  validation_results: [] # quality check outcomes
+
+# Bridge schema for downstream agents
+bridge:
+  # Standard format for all agent types
+  task_format:
+    id: "" # derived from intake_id
+    type: "" # maps to agent capability
+    priority: "" # inherited from intake
+    deadline: "" # calculated from urgency
+    input_data: {} # formatted for target agent
+    context: {} # relevant background
+    success_criteria: [] # measurable outcomes
+    dependencies: [] # prerequisite tasks
+
+# Definition of Done for Orchestrator intake
+dod:
+  - "[ ] Source information captured completely"
+  - "[ ] Request properly classified and categorized"
+  - "[ ] Content extracted and structured"
+  - "[ ] Target agents identified and available"
+  - "[ ] Task breakdown completed with dependencies"
+  - "[ ] Validation gates passed"
+  - "[ ] Bridge format prepared for downstream agents"
+  - "[ ] Intake logged and audit trail created"
+  - "[ ] Routing decisions documented with rationale"
+  - "[ ] Error handling and escalation paths defined"
+
+# UPGRADE
