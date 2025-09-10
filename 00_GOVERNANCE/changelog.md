@@ -40,4 +40,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Contributing guidelines and standards
 - Code of conduct and community guidelines
 
-# UPGRADE: Implement automated changelog generation and version tagging system.
+# UPGRADE:
