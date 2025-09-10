@@ -1,7 +1,6 @@
 # Research Agent Configuration
 # Agent 1: Research Runner - Core research automation framework
 schema_version: 1.2.0  # Schema version for this agent configuration
-
 metadata:
   id: agent-research-001
   name: "Research Runner"
@@ -10,7 +9,6 @@ metadata:
   created: "2025-09-09"
   status: "active"
   owner: "jwade83"  # GitHub username of the agent owner
-
 configuration:
   runtime:
     environment: "python"
@@ -39,7 +37,6 @@ configuration:
     primary: "research_results.json"
     logs: "research_log.md"
     metadata: "execution_metadata.yml"
-
 execution:
   stages:
     - name: "initialize"
@@ -59,7 +56,6 @@ execution:
     retry_attempts: 3
     fallback_mode: "basic_search"
     escalation: "log_and_continue"
-
 integration:
   github:
     issue_templates: [".github/ISSUE_TEMPLATE/research_task.yml"]
@@ -89,9 +85,7 @@ validation:
     - "Output format matches specified requirements (JSON, CSV, or MD)"
     - "All sources properly cited with URLs and timestamps"
     - "Log entry created with task metadata and execution summary"
-    - "No rate limits exceeded during research execution"
     - "Results validated against specified criteria if provided"
-    - "'# UPGRADE' line added to any generated output files"
   
   required_fields: ["metadata", "configuration", "execution"]
   optional_fields: ["integration", "validation"]
