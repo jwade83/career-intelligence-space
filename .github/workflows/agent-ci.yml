@@ -1,10 +1,8 @@
 name: Agent CI
-
 on:
   pull_request:
   push:
     branches: [main]
-
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -24,7 +22,6 @@ jobs:
             rm -f yq_linux_amd64
             echo "yq installed to /usr/local/bin"
           fi
-
       - name: Validate YAML files with schema checks
         run: |
           error_count=0
@@ -65,23 +62,25 @@ jobs:
           fi
           
           # Find and validate queue YAML files
-          if find tasks/queue -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
-            find tasks/queue -name "*.yml" -print0 | xargs -0 -I {} bash -c '
-              file="{}"
-              # Basic YAML syntax validation
-              if ! yq eval "." "$file" > /dev/null 2>&1; then
-                echo "::error file=$file::Invalid YAML syntax"
-                exit 1
-              fi
-              
-              # Schema validation for queued tasks
-              for field in title priority status assigned_to due_date; do
-                if ! yq eval ".$field" "$file" > /dev/null 2>&1 || [ "$(yq eval ".$field" "$file")" = "null" ]; then
-                  echo "::error file=$file::Missing required field: $field"
+          if [ -d "tasks/queue" ]; then
+            if find tasks/queue -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
+              find tasks/queue -name "*.yml" -print0 | xargs -0 -I {} bash -c '
+                file="{}"
+                # Basic YAML syntax validation
+                if ! yq eval "." "$file" > /dev/null 2>&1; then
+                  echo "::error file=$file::Invalid YAML syntax"
                   exit 1
                 fi
-              done
-            ' || error_count=$((error_count + 1))
+                
+                # Schema validation for queued tasks
+                for field in title priority status assigned_to due_date; do
+                  if ! yq eval ".$field" "$file" > /dev/null 2>&1 || [ "$(yq eval ".$field" "$file")" = "null" ]; then
+                    echo "::error file=$file::Missing required field: $field"
+                    exit 1
+                  fi
+                done
+              ' || error_count=$((error_count + 1))
+            fi
           fi
           
           if [ $error_count -gt 0 ]; then
@@ -94,7 +93,6 @@ jobs:
               echo "PASS: All YAML files validated successfully"
             fi
           fi
-
       - name: Validate Markdown files with content checks
         run: |
           error_count=0
@@ -128,7 +126,6 @@ jobs:
               echo "PASS: All Markdown files validated successfully"
             fi
           fi
-
       - name: Report results (PR)
         if: github.event_name == 'pull_request'
         run: |
@@ -146,7 +143,6 @@ jobs:
             echo "### Validation Summary" >> $GITHUB_STEP_SUMMARY
             echo "See workflow logs for detailed error information." >> $GITHUB_STEP_SUMMARY
           fi
-
       - name: Update weekly review (main)
         if: github.ref == 'refs/heads/main'
         run: |
@@ -158,7 +154,6 @@ jobs:
             echo "❌ Validation checks failed" >> 99_LOGS/weekly_review.md
           fi
           echo "" >> 99_LOGS/weekly_review.md
-
       - name: Auto-commit weekly review
         if: github.ref == 'refs/heads/main'
         run: |
@@ -171,5 +166,4 @@ jobs:
             git commit -m "Auto-update weekly review from CI"
             git push
           fi
-
 # UPGRADE
