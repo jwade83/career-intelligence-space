@@ -1,0 +1,245 @@
+# Orchestrator Agent Configuration - Career Intelligence Platform
+schema_version: "1.0"
+# Agent 0: Orchestrator - Bridge coordination and task routing across the career intelligence ecosystem
+# Flat compatibility keys for schema bridge
+agent_id: "orchestrator"
+name: "Orchestrator"
+description: "Central orchestration agent for coordinating workflows and routing tasks across specialized agents"
+type: "bridge_orchestrator"
+priority: "critical"
+status: "scaffold"
+owner: "jwade83"
+
+# Definition of done - comprehensive orchestration criteria as YAML sequence
+definition_of_done:
+  - "Successfully routed incoming requests to appropriate specialized agents"
+  - "Established communication protocols between agents and external systems"
+  - "Implemented workflow orchestration patterns for complex multi-agent tasks"
+  - "Created monitoring and health-check systems for agent ecosystem"
+  - "Established error handling and fallback mechanisms for failed agent interactions"
+  - "Implemented load balancing and resource allocation across agent instances"
+  - "Created standardized data exchange formats and validation schemas"
+  - "Established security protocols for inter-agent communication"
+  - "Implemented logging and audit trails for all orchestration activities"
+  - "Created configuration management system for agent behavior and routing rules"
+
+# Service Level Agreement requirements
+sla:
+  max_response_time: "1 minute"
+  availability: "99.95%"
+  throughput: "100 requests/minute"
+
+# Domain restrictions for orchestration sources
+allowed_domains: ["internal", "platform", "api.linkedin.com", "api.glassdoor.com", "gov", "edu"]
+disallowed_domains: ["malicious.com", "spam-career.net", "untrusted-source.com"]
+
+# Nested configuration sections
+metadata:
+  created_by: "comet_assistant"
+  created_at: "2025-09-09T22:24:00Z"
+  version: "0.1.0"
+  description: "Central orchestration agent for coordinating workflows and routing tasks across specialized agents"
+  tags:
+    - "orchestration"
+    - "bridge"
+    - "coordination"
+    - "routing"
+    - "workflow_management"
+    - "task_distribution"
+  capabilities:
+    - "Multi-agent task routing and coordination"
+    - "Workflow orchestration and state management"
+    - "Real-time health monitoring and diagnostics"
+    - "Load balancing and resource optimization"
+    - "Error handling and recovery orchestration"
+    - "Security and access control enforcement"
+
+configuration:
+  runtime:
+    environment: "python"
+    max_concurrent_tasks: 16
+    timeout_seconds: 300
+    memory_limit: "8GB"
+    cpu_cores: 8
+    requirements:
+      - "asyncio>=3.9.0"
+      - "aiohttp>=3.8.0"
+      - "pydantic>=1.10.0"
+      - "celery>=5.2.0"
+      - "redis>=4.3.0"
+      - "prometheus-client>=0.14.0"
+  
+  orchestration:
+    routing_engine: "rule_based_with_ml_fallback"
+    agent_registry:
+      - "research_agent"
+      - "synthesis_agent"
+      - "intelligence_agent"
+    workflow_patterns:
+      - "sequential_pipeline"
+      - "parallel_fanout"
+      - "conditional_branching"
+      - "event_driven_triggers"
+    state_management: "redis_backed"
+    
+  monitoring:
+    health_check_interval: 30
+    performance_metrics: true
+    distributed_tracing: true
+    log_aggregation: "elasticsearch"
+    alerting_threshold:
+      error_rate: 0.05
+      response_time_p99: 5000
+      availability: 0.999
+    
+  routing_rules:
+    default_timeout: 180
+    retry_policy:
+      max_attempts: 3
+      backoff_strategy: "exponential"
+      base_delay: 1
+    load_balancing:
+      strategy: "weighted_round_robin"
+      health_aware: true
+      circuit_breaker: true
+      
+  inputs:
+    required:
+      - "task_definition"
+      - "request_context"
+      - "agent_capabilities"
+    optional:
+      - "user_preferences"
+      - "priority_level"
+      - "execution_constraints"
+      
+  outputs:
+    primary: "orchestration_result.json"
+    audit_log: "orchestration_audit.md"
+    metrics: "performance_metrics.yml"
+    health_status: "agent_health.json"
+
+integration:
+  dependencies:
+    - "agent_registry_service"
+    - "workflow_engine"
+    - "monitoring_infrastructure"
+    - "security_service"
+    - "configuration_management"
+    
+  interfaces:
+    input:
+      - type: "rest_api"
+        format: "json"
+        endpoint: "/api/v1/orchestrate"
+      - type: "message_queue"
+        format: "json"
+        source: "task_queue"
+      - type: "webhook"
+        format: "json"
+        source: "external_systems"
+        
+    output:
+      - type: "agent_api"
+        format: "json"
+        destination: "specialized_agents"
+      - type: "monitoring_api"
+        format: "metrics"
+        destination: "prometheus"
+      - type: "audit_log"
+        format: "structured"
+        destination: "audit_system"
+        
+  protocols:
+    communication: "secure_messaging"
+    authentication: "mutual_tls"
+    encryption: "tls_1.3"
+    
+  logging:
+    level: "INFO"
+    destination: "99_LOGS/agents/orchestrator_log.md"
+    format: "structured"
+
+execution:
+  stages:
+    - name: "request_validation"
+      module: "validation_handler"
+      timeout: 10
+    - name: "agent_selection"
+      module: "routing_engine"
+      timeout: 30
+    - name: "task_distribution"
+      module: "distribution_handler"
+      timeout: 60
+    - name: "execution_monitoring"
+      module: "monitoring_handler"
+      timeout: 120
+    - name: "result_aggregation"
+      module: "aggregation_handler"
+      timeout: 30
+    - name: "response_formatting"
+      module: "response_handler"
+      timeout: 15
+      
+  error_handling:
+    retry_attempts: 3
+    fallback_mode: "degraded_service"
+    escalation: "alert_operations_team"
+
+guardrails:
+  security:
+    access_control:
+      - "jwt_token_validation"
+      - "role_based_authorization"
+      - "rate_limiting_enforcement"
+    data_protection:
+      - "encryption_in_transit"
+      - "encryption_at_rest"
+      - "audit_trail_logging"
+      - "data_sanitization"
+    compliance:
+      - "gdpr_compliance"
+      - "ccpa_compliance"
+      - "data_residency_requirements"
+      
+  operational:
+    quality_control:
+      - "input_validation"
+      - "output_verification"
+      - "health_check_validation"
+    rate_limits:
+      - "request_throttling"
+      - "resource_usage_limits"
+      - "agent_queue_management"
+    monitoring:
+      - "performance_tracking"
+      - "error_rate_monitoring"
+      - "resource_utilization_tracking"
+      
+  ethical:
+    privacy:
+      - "data_minimization"
+      - "consent_verification"
+      - "right_to_deletion"
+    transparency:
+      - "routing_decision_logging"
+      - "performance_reporting"
+      - "error_disclosure"
+    fairness:
+      - "equal_resource_allocation"
+      - "bias_prevention"
+      - "equitable_service_delivery"
+
+validation:
+  required_fields: ["metadata", "configuration", "integration", "execution"]
+  optional_fields: ["validation", "guardrails"]
+  schema_compliance: true
+  
+# Orchestration performance metrics
+metrics:
+  routing_accuracy_target: 0.95
+  average_response_time_target: 2.0
+  agent_utilization_target: 0.75
+  error_rate_threshold: 0.02
+
+# UPGRADE:
