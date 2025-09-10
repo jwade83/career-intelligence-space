@@ -1,0 +1,19 @@
+# Research task for business management tools in Portland area
+queue:
+  - agent_type: research
+    task_id: "bmt-pdx-research-001"
+    priority: high
+    description: "Research business management tools available in Portland, Oregon area"
+    target_location: "Portland, Oregon"
+    research_focus:
+      - business_management_software
+      - local_service_providers
+      - pricing_analysis
+      - feature_comparison
+    deliverables:
+      - market_analysis_report
+      - vendor_comparison_matrix
+      - pricing_summary
+    deadline: "2025-09-12"
+    assigned_to: "research_agent"
+    status: "queued"
