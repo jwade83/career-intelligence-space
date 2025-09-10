@@ -1,0 +1,47 @@
+# Orchestrator Intake - Test Case for CI Validation Pass
+# Date: 2025-09-09
+# Purpose: Valid orchestrator intake to ensure CI validation passes
+
+metadata:
+  version: "1.0"
+  created_date: "2025-09-09T22:55:00Z"
+  created_by: "agent-ci-system"
+  description: "Test orchestrator intake for CI validation"
+  priority: "medium"
+  tags:
+    - "test"
+    - "ci-validation"
+    - "orchestrator"
+
+request:
+  id: "test-orch-20250909-001"
+  type: "orchestrator_intake"
+  source: "ci_test"
+  timestamp: "2025-09-09T22:55:00Z"
+  
+parameters:
+  task_type: "validation_test"
+  complexity: "low"
+  estimated_duration: "5m"
+  requirements:
+    - "basic_yaml_validation"
+    - "schema_compliance"
+  
+routing:
+  target_agent: "orchestrator"
+  agent_id: "agent_0"
+  queue_priority: "normal"
+  
+validation:
+  schema_version: "v1.0"
+  required_fields:
+    - metadata
+    - request
+    - parameters
+    - routing
+  status: "valid"
+  
+output:
+  format: "yaml"
+  destination: "queue/processed"
+  notification: false
