@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install yq
         run: |
           # Try to install to $HOME/bin first, fallback to /usr/local/bin
@@ -22,65 +22,54 @@ jobs:
             rm -f yq_linux_amd64
             echo "yq installed to /usr/local/bin"
           fi
+
       - name: Validate YAML files with schema checks
         run: |
           error_count=0
           
           # Find and validate agent YAML files
           if find agents -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
-            find agents -name "*.yml" -print0 | xargs -0 -I {} bash -c '
-              file="{}"
+            for file in agents/*.yml; do
               # Basic YAML syntax validation
               if ! yq eval "." "$file" > /dev/null 2>&1; then
                 echo "::error file=$file::Invalid YAML syntax"
-                exit 1
+                error_count=$((error_count + 1))
+                continue
               fi
               
               # Schema validation for agents
-              if ! yq eval ".schema_version" "$file" > /dev/null 2>&1 || [ "$(yq eval ".schema_version" "$file")" = "null" ]; then
-                echo "::error file=$file::Missing required field: schema_version"
-                exit 1
+              error_count=${error_count:-0}
+              if ! yq e 'has("schema_version")' "$file" | grep -q true; then
+                echo "::error file=$file::Missing schema_version"; error_count=$((error_count+1))
               fi
-              
-              if ! yq eval ".definition_of_done" "$file" > /dev/null 2>&1 || [ "$(yq eval ".definition_of_done" "$file")" = "null" ]; then
-                echo "::error file=$file::Missing required field: definition_of_done"
-                exit 1
+              if ! yq e 'has("definition_of_done") and (.definition_of_done | type == "!!seq")' "$file" | grep -q true; then
+                echo "::error file=$file::Missing or invalid definition_of_done (must be YAML sequence)"; error_count=$((error_count+1))
               fi
-              
-              if ! yq e '"'"'has("definition_of_done") and (.definition_of_done | type == "!!seq")"'"'" "$file" | grep -q true; then
-                echo "::error file=$file::Missing or invalid definition_of_done (must be YAML sequence)"
-                exit 1
-              fi
-            ' || error_count=$((error_count + 1))
+            done
           fi
           
           # Find and validate task template YAML files
           if find tasks/templates -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
-            find tasks/templates -name "*.yml" -print0 | xargs -0 -I {} bash -c '
-              file="{}"
+            for file in tasks/templates/*.yml; do
               # Basic YAML syntax validation
               if ! yq eval "." "$file" > /dev/null 2>&1; then
                 echo "::error file=$file::Invalid YAML syntax"
-                exit 1
+                error_count=$((error_count + 1))
               fi
-            ' || error_count=$((error_count + 1))
+            done
           fi
           
           # Find and validate queue YAML files
           if [ -d "tasks/queue" ]; then
             if find tasks/queue -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
-              find tasks/queue -name "*.yml" -print0 | xargs -0 -I {} bash -c '
-                file="{}"
+              for file in tasks/queue/*.yml; do
                 # Basic YAML syntax validation
                 if ! yq eval "." "$file" > /dev/null 2>&1; then
                   echo "::error file=$file::Invalid YAML syntax"
-                  exit 1
+                  error_count=$((error_count + 1))
                 fi
-              ' || error_count=$((error_count + 1))
+              done
             fi
           fi
           
-          if [ $error_count -gt 0 ]; then
-            echo "Validation failed with $error_count errors"
-            exit 1
-          fi
+          if [ "$error_count" -gt 0 ]; then exit 1; fi
