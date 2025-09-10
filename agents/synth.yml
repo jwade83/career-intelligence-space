@@ -3,6 +3,7 @@ schema_version: "1.0"
 # Agent metadata describing core intelligence capabilities
 agent_id: "synth"
 name: "Synthesizer"
+description: "Synthesizer agent for aggregating and analyzing multi-source intelligence data into actionable insights"
 type: "intelligence_synthesis"
 priority: "high"
 status: "scaffold"
