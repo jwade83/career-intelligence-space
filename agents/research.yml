@@ -1,5 +1,16 @@
 # Research Agent Configuration
 # Agent 1: Research Runner - Core research automation framework
+
+# Flat keys for Agent 1 bridge support
+name: "Research Runner"
+owner: "jwade83"
+sla:
+  max_response_time: "5 minutes"
+  availability: "99.5%"
+  throughput: "10 tasks/hour"
+allowed_domains: ["edu", "gov", "org", "github.com"]
+disallowed_domains: ["example.com", "spam-site.net"]
+
 schema_version: 1.2.0  # Schema version for this agent configuration
 metadata:
   id: agent-research-001
@@ -86,6 +97,9 @@ validation:
     - "All sources properly cited with URLs and timestamps"
     - "Log entry created with task metadata and execution summary"
     - "Results validated against specified criteria if provided"
+    - "'# UPGRADE:' line appended to every modified file"
+    - "Changelog and 99_LOGS entries updated"
+    - "Pillar mapping recorded"
   
   required_fields: ["metadata", "configuration", "execution"]
   optional_fields: ["integration", "validation"]
