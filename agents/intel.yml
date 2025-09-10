@@ -4,6 +4,7 @@ schema_version: "1.0"
 # Flat compatibility keys for schema bridge
 agent_id: "intel"
 name: "Intelligence Delivery"
+description: "Intelligence delivery agent for processing and disseminating career intelligence insights"
 type: "intelligence_delivery"
 priority: "high"
 status: "scaffold"
