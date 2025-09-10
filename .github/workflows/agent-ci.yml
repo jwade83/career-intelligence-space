@@ -130,4 +130,12 @@ jobs:
             echo "❌ **Validation failed - check logs for details**" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Add split-CI nudge when agent count >= 3
+          if [ "${{ steps.validate.outputs.agent_count }}" -ge 3 ]; then
+            echo "### 💡 Optimization Hint" >> $GITHUB_STEP_SUMMARY
+            echo "With ${{ steps.validate.outputs.agent_count }} agents, consider evolving to split-CI architecture for better performance and parallel execution." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
           echo "*Workflow run: ${{ github.run_id }}*" >> $GITHUB_STEP_SUMMARY
