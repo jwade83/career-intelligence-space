@@ -1,0 +1,232 @@
+# Intelligence Delivery Agent Configuration - Career Intelligence Platform
+schema_version: "1.0"
+
+# Agent 3: Intelligence Delivery - Advanced analytics and intelligence dissemination
+# Flat compatibility keys for schema bridge
+agent_id: "intel"
+name: "Intelligence Delivery"
+type: "intelligence_delivery"
+priority: "high"
+status: "scaffold"
+owner: "jwade83"
+
+# Definition of done - comprehensive intelligence delivery criteria as YAML sequence
+definition_of_done:
+  - "Processed synthesized intelligence data into actionable career insights"
+  - "Generated personalized intelligence briefings with confidence levels"
+  - "Created trend analysis reports with predictive indicators"
+  - "Delivered intelligence via multiple channels (email, dashboard, API)"
+  - "Maintained intelligence quality metrics and accuracy tracking"
+  - "Implemented feedback loops for intelligence refinement"
+  - "Established intelligence archival and retrieval systems"
+  - "Ensured compliance with privacy and data protection standards"
+  - "Documented intelligence methodologies and decision frameworks"
+
+# Service Level Agreement requirements
+sla:
+  max_response_time: "3 minutes"
+  availability: "99.9%"
+  throughput: "20 deliveries/hour"
+
+# Domain restrictions for intelligence sources
+allowed_domains: ["linkedin.com", "glassdoor.com", "indeed.com", "gov", "edu"]
+disallowed_domains: ["malicious.com", "spam-career.net"]
+
+# Nested configuration sections
+metadata:
+  created_by: "comet_assistant"
+  created_at: "2025-09-09T19:25:00Z"
+  version: "0.1.0"
+  description: "Intelligence delivery agent for processing and disseminating career intelligence insights"
+  tags:
+    - "intelligence"
+    - "delivery"
+    - "analytics"
+    - "career_insights"
+    - "trend_analysis"
+  capabilities:
+    - "Advanced analytics processing"
+    - "Multi-channel intelligence delivery"
+    - "Personalized insight generation"
+    - "Predictive trend analysis"
+    - "Real-time intelligence streaming"
+    - "Intelligence quality assurance"
+
+configuration:
+  runtime:
+    environment: "python"
+    max_concurrent_tasks: 8
+    timeout_seconds: 180
+    memory_limit: "4GB"
+    cpu_cores: 4
+    requirements:
+      - "pandas>=1.5.0"
+      - "numpy>=1.21.0"
+      - "scikit-learn>=1.1.0"
+      - "matplotlib>=3.5.0"
+      - "requests>=2.28.0"
+  
+  analytics:
+    processing_engines:
+      - "statistical_analysis"
+      - "machine_learning"
+      - "natural_language_processing"
+      - "time_series_forecasting"
+    confidence_threshold: 0.80
+    trend_window_days: 90
+    prediction_horizon_days: 30
+    
+  delivery:
+    channels:
+      - "email"
+      - "dashboard"
+      - "api"
+      - "mobile_push"
+    formats:
+      - "html_report"
+      - "json_structured"
+      - "pdf_briefing"
+      - "executive_summary"
+    scheduling:
+      - "real_time"
+      - "daily"
+      - "weekly"
+      - "monthly"
+
+  inputs:
+    required:
+      - "synthesized_data"
+      - "user_preferences"
+      - "delivery_channel"
+    optional:
+      - "custom_filters"
+      - "priority_keywords"
+      - "exclusion_criteria"
+      
+  outputs:
+    primary: "intelligence_briefing.json"
+    reports: "trend_analysis.pdf"
+    logs: "delivery_log.md"
+    metrics: "quality_metrics.yml"
+
+integration:
+  dependencies:
+    - "synthesizer_agent"
+    - "user_preference_service"
+    - "delivery_infrastructure"
+    - "analytics_engine"
+    - "notification_service"
+    
+  interfaces:
+    input:
+      - type: "message_queue"
+        format: "json"
+        source: "synthesizer_output"
+      - type: "rest_api"
+        format: "json"
+        endpoint: "/api/v1/intelligence/process"
+      - type: "database"
+        format: "structured"
+        table: "user_preferences"
+        
+    output:
+      - type: "email_service"
+        format: "html"
+        destination: "subscriber_list"
+      - type: "dashboard_api"
+        format: "json"
+        destination: "intelligence_dashboard"
+      - type: "webhook"
+        format: "json"
+        destination: "external_consumers"
+        
+  protocols:
+    communication: "secure_messaging"
+    authentication: "oauth2_bearer"
+    encryption: "tls_1.3"
+    
+  logging:
+    level: "INFO"
+    destination: "99_LOGS/agents/intel_delivery_log.md"
+    format: "structured"
+
+execution:
+  stages:
+    - name: "data_ingestion"
+      module: "ingestion_handler"
+      timeout: 30
+    - name: "analytics_processing"
+      module: "analytics_engine"
+      timeout: 90
+    - name: "insight_generation"
+      module: "insight_processor"
+      timeout: 60
+    - name: "delivery_formatting"
+      module: "format_handler"
+      timeout: 30
+    - name: "multi_channel_delivery"
+      module: "delivery_handler"
+      timeout: 45
+      
+  error_handling:
+    retry_attempts: 3
+    fallback_mode: "basic_delivery"
+    escalation: "alert_admin"
+
+guardrails:
+  security:
+    access_control:
+      - "role_based_access"
+      - "intelligence_classification"
+      - "subscriber_verification"
+    data_protection:
+      - "encryption_at_rest"
+      - "encrypted_transmission"
+      - "audit_trail_logging"
+      - "data_anonymization"
+    compliance:
+      - "gdpr_compliance"
+      - "ccpa_compliance"
+      - "data_retention_limits"
+      
+  operational:
+    quality_control:
+      - "intelligence_validation"
+      - "accuracy_scoring"
+      - "relevance_filtering"
+    rate_limits:
+      - "delivery_throttling"
+      - "api_rate_limiting"
+      - "resource_management"
+    monitoring:
+      - "delivery_success_tracking"
+      - "user_engagement_metrics"
+      - "system_performance_monitoring"
+      
+  ethical:
+    privacy:
+      - "data_minimization"
+      - "consent_management"
+      - "right_to_deletion"
+    transparency:
+      - "source_attribution"
+      - "methodology_disclosure"
+      - "confidence_reporting"
+    fairness:
+      - "bias_detection"
+      - "equitable_access"
+      - "inclusive_intelligence"
+
+validation:
+  required_fields: ["metadata", "configuration", "integration", "execution"]
+  optional_fields: ["validation", "guardrails"]
+  schema_compliance: true
+  
+# Intelligence quality metrics
+metrics:
+  accuracy_threshold: 0.85
+  relevance_score_minimum: 0.75
+  user_satisfaction_target: 0.90
+  delivery_success_rate_target: 0.99
+
+# UPGRADE: Implement machine learning for predictive career intelligence, add natural language query interface, integrate with major job platforms APIs
