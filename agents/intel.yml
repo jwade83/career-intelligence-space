@@ -1,6 +1,5 @@
 # Intelligence Delivery Agent Configuration - Career Intelligence Platform
 schema_version: "1.0"
-
 # Agent 3: Intelligence Delivery - Advanced analytics and intelligence dissemination
 # Flat compatibility keys for schema bridge
 agent_id: "intel"
@@ -9,9 +8,9 @@ type: "intelligence_delivery"
 priority: "high"
 status: "scaffold"
 owner: "jwade83"
-
 # Definition of done - comprehensive intelligence delivery criteria as YAML sequence
 definition_of_done:
+  - "Structured output written to specified paths OR explicit limits documented"
   - "Processed synthesized intelligence data into actionable career insights"
   - "Generated personalized intelligence briefings with confidence levels"
   - "Created trend analysis reports with predictive indicators"
@@ -21,17 +20,14 @@ definition_of_done:
   - "Established intelligence archival and retrieval systems"
   - "Ensured compliance with privacy and data protection standards"
   - "Documented intelligence methodologies and decision frameworks"
-
 # Service Level Agreement requirements
 sla:
   max_response_time: "3 minutes"
   availability: "99.9%"
   throughput: "20 deliveries/hour"
-
 # Domain restrictions for intelligence sources
 allowed_domains: ["linkedin.com", "glassdoor.com", "indeed.com", "gov", "edu"]
 disallowed_domains: ["malicious.com", "spam-career.net"]
-
 # Nested configuration sections
 metadata:
   created_by: "comet_assistant"
@@ -51,7 +47,6 @@ metadata:
     - "Predictive trend analysis"
     - "Real-time intelligence streaming"
     - "Intelligence quality assurance"
-
 configuration:
   runtime:
     environment: "python"
@@ -92,7 +87,6 @@ configuration:
       - "daily"
       - "weekly"
       - "monthly"
-
   inputs:
     required:
       - "synthesized_data"
@@ -108,7 +102,6 @@ configuration:
     reports: "trend_analysis.pdf"
     logs: "delivery_log.md"
     metrics: "quality_metrics.yml"
-
 integration:
   dependencies:
     - "synthesizer_agent"
@@ -149,7 +142,6 @@ integration:
     level: "INFO"
     destination: "99_LOGS/agents/intel_delivery_log.md"
     format: "structured"
-
 execution:
   stages:
     - name: "data_ingestion"
@@ -172,7 +164,6 @@ execution:
     retry_attempts: 3
     fallback_mode: "basic_delivery"
     escalation: "alert_admin"
-
 guardrails:
   security:
     access_control:
@@ -216,7 +207,6 @@ guardrails:
       - "bias_detection"
       - "equitable_access"
       - "inclusive_intelligence"
-
 validation:
   required_fields: ["metadata", "configuration", "integration", "execution"]
   optional_fields: ["validation", "guardrails"]
@@ -228,5 +218,4 @@ metrics:
   relevance_score_minimum: 0.75
   user_satisfaction_target: 0.90
   delivery_success_rate_target: 0.99
-
 # UPGRADE: Implement machine learning for predictive career intelligence, add natural language query interface, integrate with major job platforms APIs
