@@ -2,6 +2,7 @@
 # Agent 1: Research Runner - Core research automation framework
 # Flat keys for Agent 1 bridge support
 name: "Research Runner"
+description: "Core research automation framework for conducting structured research tasks"
 owner: "jwade83"
 sla:
   max_response_time: "5 minutes"
