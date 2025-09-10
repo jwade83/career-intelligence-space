@@ -1,5 +1,7 @@
 # AGENTS OVERVIEW
 
+Note: Agent 1 currently includes both flat (compat) and nested fields while CI migrates.
+
 ## Career Intelligence Space Agent System
 
 This document provides a comprehensive overview of all agents in the Career Intelligence Space platform, their capabilities, interactions, and deployment strategies.
