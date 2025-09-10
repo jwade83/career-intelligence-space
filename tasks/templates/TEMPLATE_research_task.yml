@@ -1,6 +1,7 @@
+schema_version: 1
+id: # Optional field for task identification
 # Research Task Template
 # Template for creating standardized research tasks in the Career Intelligence Space platform
-
 # Task Metadata
 name: "Research Task Template"
 version: "1.0.0"
@@ -8,7 +9,6 @@ template_id: "TEMPLATE_research_task"
 created: "2025-09-09"
 last_updated: "2025-09-09"
 author: "Career Intelligence Space Team"
-
 # Task Configuration
 task:
   # Basic Task Information
@@ -116,7 +116,6 @@ workflow:
         - create_github_issue_if_requested
         - send_notifications
         - update_task_status
-
 # Success Criteria
 success_criteria:
   # Output Requirements
@@ -133,7 +132,6 @@ success_criteria:
   executive_summary_present: true
   recommendations_present: true
   all_sections_completed: true
-
 # Failure Handling
 error_handling:
   # Retry Configuration
@@ -160,7 +158,6 @@ error_handling:
   resource_exhaustion_error:
     action: "reduce_scope_and_retry"
     scope_reduction_factor: 0.5
-
 # Monitoring and Logging
 monitoring:
   # Progress Tracking
@@ -182,7 +179,6 @@ monitoring:
   log_destination: "99_LOGS/agents/research_runner_log.md"
   include_timestamps: true
   include_performance_data: true
-
 # Resource Requirements
 resources:
   # Compute Resources
@@ -197,7 +193,6 @@ resources:
   # API Quotas
   api_calls_per_hour: 1000
   rate_limit_buffer: 0.8  # Use 80% of available quota
-
 # Security Settings
 security:
   # Data Protection
@@ -214,7 +209,6 @@ security:
   log_all_actions: true
   retain_audit_logs: true
   audit_log_retention_days: 2555  # 7 years
-
 # Integration Configuration
 integrations:
   # GitHub Integration
@@ -247,7 +241,6 @@ integrations:
     timeout: 30  # seconds
     retry_attempts: 3
     circuit_breaker: true
-
 # Template Variables
 # These can be overridden when instantiating the template
 variables:
@@ -305,7 +298,6 @@ variables:
     default: "medium"
     allowed_values: ["low", "medium", "high", "critical"]
     description: "Task priority level"
-
 # Usage Examples
 examples:
   - name: "Basic Research Task"
@@ -333,7 +325,6 @@ examples:
       max_sources: 10
       timeout: 1800
       output_format: "json"
-
 # Changelog
 changelog:
   - version: "1.0.0"
@@ -345,5 +336,4 @@ changelog:
       - "Comprehensive error handling"
       - "Resource management configuration"
       - "Security and audit controls"
-
 # UPGRADE
