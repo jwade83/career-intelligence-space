@@ -1,5 +1,6 @@
 # Research Agent Configuration
 # Agent 1: Research Runner - Core research automation framework
+schema_version: 1.2.0  # Schema version for this agent configuration
 
 metadata:
   id: agent-research-001
@@ -8,6 +9,7 @@ metadata:
   version: "1.0.0"
   created: "2025-09-09"
   status: "active"
+  owner: "jwade83"  # GitHub username of the agent owner
 
 configuration:
   runtime:
@@ -18,6 +20,11 @@ configuration:
       - "python-dotenv>=1.0.0"
     timeout: 300
     memory_limit: "512MB"
+    
+  sla:  # Service Level Agreement - format: {metric}: {target_value}
+    max_response_time: "5 minutes"  # Required: Maximum time to complete a standard research task
+    availability: "99.5%"  # Required: Expected uptime percentage
+    throughput: "10 tasks/hour"  # Required: Expected task processing rate
     
   inputs:
     required:
@@ -67,9 +74,26 @@ integration:
     templates: "tasks/templates/TEMPLATE_research_task.yml"
     documentation: ["docs/RESEARCH_RUNBOOK.md", "docs/AGENTS_OVERVIEW.md"]
     
+  guardrails:
+    # Usage: allowed_domains restricts research to specific domains (e.g., ["edu", "gov", "org"])
+    # Usage: disallowed_domains blocks specific domains from research (e.g., ["example.com", "spam-site.net"])
+    allowed_domains: []  # Empty means all domains allowed by default
+    disallowed_domains: []  # Empty means no domains blocked by default
+    auth_boundaries: false  # No login-gated scraping unless authorized
+    rate_limits: true  # Respect ToS and rate limits
+    no_pii: true  # No collection of personally identifiable information
+    
 validation:
-  schema_version: "1.0"
+  definition_of_done:  # Array format for completion criteria
+    - "Research query successfully executed with results captured"
+    - "Output format matches specified requirements (JSON, CSV, or MD)"
+    - "All sources properly cited with URLs and timestamps"
+    - "Log entry created with task metadata and execution summary"
+    - "No rate limits exceeded during research execution"
+    - "Results validated against specified criteria if provided"
+    - "'# UPGRADE' line added to any generated output files"
+  
   required_fields: ["metadata", "configuration", "execution"]
   optional_fields: ["integration", "validation"]
-
-# UPGRADE
+  
+# UPGRADE: Add integration with multiple search engines, implement caching mechanism, add real-time progress updates
