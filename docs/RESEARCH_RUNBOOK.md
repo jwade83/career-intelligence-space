@@ -4,14 +4,21 @@
 
 This comprehensive runbook provides detailed operational procedures for the Research Runner Agent in the Career Intelligence Space platform.
 
+## Conventions
+
+- **Screenshot filenames**: YYYYMMDD_taskid_srcslug_step.png
+- **Authority rubric**: gov/edu > peer-review > industry > blog
+
 ### Quick Reference
 
 #### Emergency Contacts
+
 - **System Administrator**: admin@career-intel.space
 - **On-Call Engineer**: oncall@career-intel.space
 - **GitHub Repository**: jwade83/career-intelligence-space
 
 #### Key Files
+
 - **Agent Config**: `agents/research.yml`
 - **Task Template**: `tasks/templates/TEMPLATE_research_task.yml`
 - **Log Directory**: `99_LOGS/agents/`
@@ -20,6 +27,7 @@ This comprehensive runbook provides detailed operational procedures for the Rese
 ### Pre-Operations Checklist
 
 #### System Prerequisites
+
 ```bash
 # Verify system status
 health-check --comprehensive
@@ -36,6 +44,7 @@ test-connectivity --all-endpoints
 ```
 
 #### Environment Setup
+
 ```bash
 # Set required environment variables
 export CIS_AGENT_TIMEOUT=3600
@@ -53,6 +62,7 @@ echo "GitHub token: ${GITHUB_TOKEN:0:8}..."
 #### 1. Starting a Research Task
 
 ##### Manual Task Creation
+
 ```bash
 # Basic research task
 run-research \
@@ -72,6 +82,7 @@ run-research \
 ```
 
 ##### Template-Based Task Creation
+
 ```bash
 # Create from template
 create-task \
@@ -84,6 +95,7 @@ batch-create-tasks --input research-topics.yml
 ```
 
 ##### GitHub Issue Integration
+
 ```bash
 # Create task from GitHub issue
 create-task-from-issue \
@@ -100,6 +112,7 @@ run-research \
 #### 2. Monitoring Task Execution
 
 ##### Real-Time Monitoring
+
 ```bash
 # Watch active tasks
 watch-tasks --status active --refresh 30
@@ -112,6 +125,7 @@ tail -f 99_LOGS/agents/research_runner_log.md
 ```
 
 ##### Progress Tracking
+
 ```bash
 # Check task progress
 get-task-status --id task_20250909_001
@@ -126,6 +140,7 @@ export-task-report --date-range "2025-09-01:2025-09-09" --format json
 #### 3. Task Management
 
 ##### Pause/Resume Operations
+
 ```bash
 # Pause running task
 pause-task --id task_20250909_001
@@ -138,6 +153,7 @@ pause-all-tasks --reason "System maintenance"
 ```
 
 ##### Task Cancellation
+
 ```bash
 # Cancel specific task
 cancel-task --id task_20250909_001 --reason "Obsolete requirement"
@@ -152,6 +168,7 @@ emergency-stop --confirm --reason "Critical system issue"
 ### Performance Optimization
 
 #### Resource Tuning
+
 ```bash
 # Adjust concurrent task limit
 set-config --key max_concurrent_tasks --value 3
@@ -165,6 +182,7 @@ set-config --key cache_size --value "1GB"
 ```
 
 #### Load Balancing
+
 ```bash
 # Scale agent instances
 scale-agent --name research --instances 3
@@ -181,7 +199,9 @@ rebalance-tasks --strategy round-robin
 #### Common Issues and Solutions
 
 ##### 1. Task Timeouts
+
 **Symptoms**: Tasks hanging, no progress updates
+
 **Diagnosis**:
 ```bash
 # Check task status
@@ -208,7 +228,9 @@ recreate-task --from-id <task_id>
 ```
 
 ##### 2. Memory Issues
+
 **Symptoms**: High memory usage, OOM errors
+
 **Diagnosis**:
 ```bash
 # Monitor memory usage
@@ -234,7 +256,9 @@ set-config --key memory_cleanup_interval --value 300
 ```
 
 ##### 3. API Rate Limiting
+
 **Symptoms**: HTTP 429 errors, slow data collection
+
 **Diagnosis**:
 ```bash
 # Check API usage
@@ -260,7 +284,9 @@ set-config --key backoff_strategy --value exponential
 ```
 
 ##### 4. Configuration Errors
+
 **Symptoms**: Agent startup failures, invalid settings
+
 **Diagnosis**:
 ```bash
 # Validate configuration
@@ -291,6 +317,7 @@ validate-config --file agents/research.yml
 #### Routine Maintenance
 
 ##### Daily Tasks
+
 ```bash
 # Check system health
 health-check --comprehensive | tee daily-health-$(date +%Y%m%d).log
@@ -306,6 +333,7 @@ backup-config --destination s3://cis-backups/configs/$(date +%Y%m%d)
 ```
 
 ##### Weekly Tasks
+
 ```bash
 # Performance analysis
 generate-performance-report --week-ending $(date +%Y-%m-%d)
@@ -322,6 +350,7 @@ rotate-logs --keep 30
 ```
 
 ##### Monthly Tasks
+
 ```bash
 # Capacity planning
 generate-capacity-report --month $(date +%Y-%m)
@@ -339,6 +368,7 @@ test-disaster-recovery --dry-run
 ### Emergency Procedures
 
 #### Critical System Failure
+
 ```bash
 # Immediate response
 emergency-stop --all-agents
@@ -355,6 +385,7 @@ run-health-checks
 ```
 
 #### Data Corruption
+
 ```bash
 # Stop all operations
 emergency-stop --reason "Data corruption detected"
@@ -372,6 +403,7 @@ validate-results
 ### Monitoring and Alerting
 
 #### Key Metrics
+
 ```yaml
 metrics:
   performance:
@@ -379,13 +411,11 @@ metrics:
     - average_task_duration
     - resource_utilization
     - error_rate
-  
   health:
     - agent_uptime
     - memory_usage
     - cpu_usage
     - disk_usage
-  
   business:
     - research_quality_score
     - source_diversity
@@ -394,18 +424,17 @@ metrics:
 ```
 
 #### Alert Thresholds
+
 ```yaml
 alerts:
   critical:
     - agent_down: 0 tolerance
     - error_rate: >10%
     - memory_usage: >90%
-  
   warning:
     - task_duration: >2x average
     - cpu_usage: >80%
     - disk_usage: >85%
-  
   info:
     - new_task_created
     - task_completed
@@ -415,18 +444,17 @@ alerts:
 ### Performance Benchmarks
 
 #### Expected Performance
+
 ```yaml
 benchmarks:
   task_completion:
     shallow_research: "5-15 minutes"
     deep_research: "30-60 minutes"
     batch_processing: "2-4 hours per 10 tasks"
-  
   resource_usage:
     memory: "<2GB per task"
     cpu: "<70% sustained"
     disk: "<100MB per task output"
-  
   quality_metrics:
     source_accuracy: ">95%"
     citation_completeness: ">90%"
@@ -436,6 +464,7 @@ benchmarks:
 ### Security Procedures
 
 #### Access Control
+
 ```bash
 # Review access permissions
 audit-permissions --agent research
@@ -451,6 +480,7 @@ analyze-security-logs --time-range 24h
 ```
 
 #### Data Protection
+
 ```bash
 # Encrypt sensitive data
 encrypt-data --agent-data research
@@ -468,6 +498,7 @@ update-privacy-config --gdpr-compliant
 ### Integration Points
 
 #### GitHub Workflow
+
 ```bash
 # Sync with repository
 git-sync --repo jwade83/career-intelligence-space
@@ -483,6 +514,7 @@ deploy --environment production --confirm
 ```
 
 #### External Services
+
 ```bash
 # Test API connections
 test-external-apis --all
@@ -500,6 +532,7 @@ sync-rate-limits --from-providers
 ### Documentation Updates
 
 #### Runbook Maintenance
+
 ```bash
 # Auto-generate sections
 update-runbook --auto-generate --sections metrics,procedures
