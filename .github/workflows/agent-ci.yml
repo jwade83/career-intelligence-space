@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install yq
         run: |
           # Try to install to $HOME/bin first, fallback to /usr/local/bin
@@ -22,7 +21,6 @@ jobs:
             rm -f yq_linux_amd64
             echo "yq installed to /usr/local/bin"
           fi
-
       - name: Validate YAML files with schema checks
         run: |
           error_count=0
@@ -59,14 +57,17 @@ jobs:
             done
           fi
           
-          # Find and validate queue YAML files
+          # Find and validate queue YAML files with array guard
           if [ -d "tasks/queue" ]; then
-            if find tasks/queue -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
-              for file in tasks/queue/*.yml; do
+            shopt -s nullglob
+            queue_files=(tasks/queue/*.yml)
+            if [ ${#queue_files[@]} -gt 0 ]; then
+              for file in "${queue_files[@]}"; do
                 # Basic YAML syntax validation
-                if ! yq eval "." "$file" > /dev/null 2>&1; then
+                if ! yq e 'true' "$file" >/dev/null 2>&1; then
                   echo "::error file=$file::Invalid YAML syntax"
-                  error_count=$((error_count + 1))
+                  error_count=$((error_count+1))
+                  continue
                 fi
               done
             fi
