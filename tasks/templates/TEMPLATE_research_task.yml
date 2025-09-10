@@ -1,0 +1,349 @@
+# Research Task Template
+# Template for creating standardized research tasks in the Career Intelligence Space platform
+
+# Task Metadata
+name: "Research Task Template"
+version: "1.0.0"
+template_id: "TEMPLATE_research_task"
+created: "2025-09-09"
+last_updated: "2025-09-09"
+author: "Career Intelligence Space Team"
+
+# Task Configuration
+task:
+  # Basic Task Information
+  id: "research_${timestamp}_${random_suffix}"
+  type: "research"
+  agent: "research"
+  priority: "medium"  # low, medium, high, critical
+  status: "pending"   # pending, running, completed, failed, cancelled
+  
+  # Task Parameters
+  parameters:
+    # Research Topic (REQUIRED)
+    topic: "${topic}"  # Placeholder - will be replaced with actual topic
+    
+    # Research Depth
+    depth: "${depth:-medium}"  # shallow, medium, deep
+    
+    # Source Configuration
+    max_sources: "${max_sources:-25}"
+    source_types:
+      - "academic"
+      - "industry_reports"
+      - "news_articles"
+      - "blog_posts"
+      - "government_data"
+      - "social_media"
+    
+    # Time Constraints
+    timeout: "${timeout:-3600}"  # seconds
+    deadline: "${deadline:-}"    # optional deadline
+    
+    # Output Configuration
+    output_format: "${output_format:-markdown}"
+    output_directory: "${output_directory:-./99_LOGS/agents/}"
+    include_citations: true
+    include_summary: true
+    include_recommendations: true
+    
+    # Quality Controls
+    min_source_credibility: "${min_credibility:-0.7}"  # 0.0-1.0
+    require_peer_review: false
+    fact_check_enabled: true
+    
+    # Integration Settings
+    create_github_issue: "${create_issue:-false}"
+    assignee: "${assignee:-}"
+    labels:
+      - "research"
+      - "agent-generated"
+      - "${priority}"
+    
+# Execution Workflow
+workflow:
+  stages:
+    - name: "initialization"
+      description: "Initialize research task and validate parameters"
+      timeout: 60
+      actions:
+        - validate_topic
+        - check_resources
+        - setup_workspace
+    
+    - name: "discovery"
+      description: "Discover and collect relevant sources"
+      timeout: 900
+      actions:
+        - search_academic_sources
+        - search_industry_reports
+        - search_news_articles
+        - filter_by_relevance
+        - validate_source_credibility
+    
+    - name: "analysis"
+      description: "Analyze collected sources and extract insights"
+      timeout: 1200
+      actions:
+        - extract_key_information
+        - identify_trends
+        - find_contradictions
+        - synthesize_findings
+    
+    - name: "synthesis"
+      description: "Create comprehensive research output"
+      timeout: 600
+      actions:
+        - generate_executive_summary
+        - create_detailed_report
+        - format_citations
+        - generate_recommendations
+    
+    - name: "review"
+      description: "Quality assurance and validation"
+      timeout: 300
+      actions:
+        - fact_check_findings
+        - validate_citations
+        - check_completeness
+        - assess_quality_metrics
+    
+    - name: "delivery"
+      description: "Deliver research output and create integrations"
+      timeout: 180
+      actions:
+        - save_output_files
+        - create_github_issue_if_requested
+        - send_notifications
+        - update_task_status
+
+# Success Criteria
+success_criteria:
+  # Output Requirements
+  output_generated: true
+  min_word_count: 1000
+  min_sources_cited: 5
+  
+  # Quality Metrics
+  source_credibility_avg: 0.7
+  content_relevance_score: 0.8
+  citation_accuracy: 0.95
+  
+  # Completeness Checks
+  executive_summary_present: true
+  recommendations_present: true
+  all_sections_completed: true
+
+# Failure Handling
+error_handling:
+  # Retry Configuration
+  max_retries: 3
+  retry_delay: 300  # seconds
+  exponential_backoff: true
+  
+  # Error Types and Actions
+  timeout_error:
+    action: "extend_timeout_and_retry"
+    max_extensions: 2
+    extension_duration: 1800
+  
+  source_access_error:
+    action: "skip_source_and_continue"
+    max_skips: 5
+    fallback_sources: true
+  
+  quality_threshold_error:
+    action: "request_manual_review"
+    notify_admin: true
+    pause_execution: true
+  
+  resource_exhaustion_error:
+    action: "reduce_scope_and_retry"
+    scope_reduction_factor: 0.5
+
+# Monitoring and Logging
+monitoring:
+  # Progress Tracking
+  progress_updates: true
+  update_interval: 300  # seconds
+  
+  # Metrics Collection
+  collect_performance_metrics: true
+  track_resource_usage: true
+  log_api_calls: true
+  
+  # Alerting
+  alert_on_timeout: true
+  alert_on_quality_issues: true
+  alert_on_completion: true
+  
+  # Logging Configuration
+  log_level: "info"  # debug, info, warn, error
+  log_destination: "99_LOGS/agents/research_runner_log.md"
+  include_timestamps: true
+  include_performance_data: true
+
+# Resource Requirements
+resources:
+  # Compute Resources
+  cpu_limit: "2 cores"
+  memory_limit: "4GB"
+  disk_space: "1GB"
+  
+  # Network Resources
+  bandwidth_limit: "100Mbps"
+  concurrent_connections: 10
+  
+  # API Quotas
+  api_calls_per_hour: 1000
+  rate_limit_buffer: 0.8  # Use 80% of available quota
+
+# Security Settings
+security:
+  # Data Protection
+  encrypt_sensitive_data: true
+  sanitize_pii: true
+  data_retention_days: 365
+  
+  # Access Control
+  require_authentication: true
+  allowed_users: ["${user}"]
+  required_permissions: ["research:read", "research:write"]
+  
+  # Audit Trail
+  log_all_actions: true
+  retain_audit_logs: true
+  audit_log_retention_days: 2555  # 7 years
+
+# Integration Configuration
+integrations:
+  # GitHub Integration
+  github:
+    enabled: "${github_enabled:-true}"
+    repository: "jwade83/career-intelligence-space"
+    issue_template: "research_task.yml"
+    auto_assign: "${assignee:-jwade83}"
+    labels:
+      - "research"
+      - "agent"
+      - "${priority}"
+  
+  # Notification Services
+  notifications:
+    email:
+      enabled: "${email_notifications:-false}"
+      recipients: ["${notification_email:-}"]
+      events: ["completion", "failure", "timeout"]
+    
+    slack:
+      enabled: "${slack_notifications:-false}"
+      webhook_url: "${slack_webhook:-}"
+      channel: "#research-updates"
+      events: ["completion", "failure"]
+  
+  # External APIs
+  external_apis:
+    rate_limiting: true
+    timeout: 30  # seconds
+    retry_attempts: 3
+    circuit_breaker: true
+
+# Template Variables
+# These can be overridden when instantiating the template
+variables:
+  topic:
+    type: "string"
+    required: true
+    description: "The research topic to investigate"
+    example: "AI Impact on Career Development"
+  
+  depth:
+    type: "string"
+    required: false
+    default: "medium"
+    allowed_values: ["shallow", "medium", "deep"]
+    description: "The depth of research to perform"
+  
+  max_sources:
+    type: "integer"
+    required: false
+    default: 25
+    min_value: 5
+    max_value: 100
+    description: "Maximum number of sources to analyze"
+  
+  timeout:
+    type: "integer"
+    required: false
+    default: 3600
+    min_value: 300
+    max_value: 14400
+    description: "Task timeout in seconds"
+  
+  output_format:
+    type: "string"
+    required: false
+    default: "markdown"
+    allowed_values: ["markdown", "json", "pdf", "html"]
+    description: "Output format for research report"
+  
+  create_issue:
+    type: "boolean"
+    required: false
+    default: false
+    description: "Whether to create GitHub issue for task"
+  
+  assignee:
+    type: "string"
+    required: false
+    default: "jwade83"
+    description: "GitHub user to assign issue to"
+  
+  priority:
+    type: "string"
+    required: false
+    default: "medium"
+    allowed_values: ["low", "medium", "high", "critical"]
+    description: "Task priority level"
+
+# Usage Examples
+examples:
+  - name: "Basic Research Task"
+    description: "Simple research on a career topic"
+    variables:
+      topic: "Remote Work Impact on Career Growth"
+      depth: "medium"
+      max_sources: 20
+  
+  - name: "Deep Dive Research"
+    description: "Comprehensive research with GitHub integration"
+    variables:
+      topic: "Artificial Intelligence in Hiring Processes"
+      depth: "deep"
+      max_sources: 50
+      timeout: 7200
+      create_issue: true
+      priority: "high"
+  
+  - name: "Quick Analysis"
+    description: "Fast shallow research for trending topics"
+    variables:
+      topic: "Job Market Trends Q3 2025"
+      depth: "shallow"
+      max_sources: 10
+      timeout: 1800
+      output_format: "json"
+
+# Changelog
+changelog:
+  - version: "1.0.0"
+    date: "2025-09-09"
+    changes:
+      - "Initial template creation"
+      - "Basic research workflow implementation"
+      - "GitHub integration support"
+      - "Comprehensive error handling"
+      - "Resource management configuration"
+      - "Security and audit controls"
+
+# UPGRADE
