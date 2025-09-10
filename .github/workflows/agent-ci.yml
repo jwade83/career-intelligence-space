@@ -81,6 +81,7 @@ jobs:
           if [ -d "tasks" ]; then
             shopt -s nullglob
             queue_files=(tasks/*.yml)
+            QUEUE_COUNT=${#queue_files[@]}
             if [ ${#queue_files[@]} -gt 0 ]; then
               for file in "${queue_files[@]}"; do
                 queue_count=$((queue_count + 1))
@@ -125,5 +126,4 @@ jobs:
             echo "💡 Optimization hint: Consider consolidating agent manifests for better maintainability."
           fi
           echo "Validated $agent_count agent(s) and $queue_count queue file(s)"
-
 # UPGRADE
