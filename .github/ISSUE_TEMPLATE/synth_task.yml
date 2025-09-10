@@ -1,0 +1,49 @@
+---
+name: "Synth Task"
+description: "Template for Agent 2 (Synthesizer) tasks"
+title: "[SYNTH] <task short description>"
+labels: [agent:synth, status:queued]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: "Task Title"
+      description: "Concise summary"
+    validations:
+      required: true
+  - type: textarea
+    id: source_files
+    attributes:
+      label: "Source Files"
+      description: "Paths to research artifacts (e.g., 03_RESEARCH/...)"
+    validations:
+      required: true
+  - type: textarea
+    id: deliver_to
+    attributes:
+      label: "Deliver To"
+      description: "Target repo path(s) (e.g., 02_TEMPLATES/..., 04_TOOLS/...)"
+    validations:
+      required: true
+  - type: textarea
+    id: dod_criteria
+    attributes:
+      label: "Definition of Done"
+      description: "Checklist for completion"
+    validations:
+      required: true
+  - type: textarea
+    id: guardrails
+    attributes:
+      label: "Guardrails"
+      description: "Boundaries (tone, privacy, exclusions)"
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      description: "Context, style guides, etc."
+    validations:
+      required: false
+# UPGRADE
