@@ -21,12 +21,13 @@ jobs:
             rm -f yq_linux_amd64
             echo "yq installed to /usr/local/bin"
           fi
-      - name: Validate Synth agent and queue files
+      - name: Validate agent and queue files
+        id: validate
         run: |
           error_count=0
           agent_count=0
           queue_count=0
-
+          
           # Find and validate agent YAML files with skip guard
           if [ -d "agents" ]; then
             shopt -s nullglob
@@ -40,7 +41,6 @@ jobs:
                   error_count=$((error_count + 1))
                   continue
                 fi
-
                 # Enhanced schema validation for Synth agents
                 if ! yq e 'has("schema_version")' "$file" | grep -q true; then
                   echo "::error file=$file::Missing schema_version"; error_count=$((error_count+1))
@@ -61,7 +61,7 @@ jobs:
           else
             echo "agents/ directory not found - skipping agent validation"
           fi
-
+          
           # Find and validate task template YAML files with skip guard
           if [ -d "tasks/templates" ]; then
             shopt -s nullglob
@@ -76,7 +76,7 @@ jobs:
               done
             fi
           fi
-
+          
           # Enhanced validation for queue YAML files with skip guard
           if [ -d "tasks/queue" ]; then
             shopt -s nullglob
@@ -90,7 +90,6 @@ jobs:
                   error_count=$((error_count+1))
                   continue
                 fi
-
                 # Enhanced queue schema validation
                 if ! yq e 'has("task_id") and (.task_id | length > 0)' "$file" | grep -q true; then
                   echo "::error file=$file::Missing or empty task_id field"; error_count=$((error_count+1))
@@ -108,16 +107,22 @@ jobs:
           else
             echo "tasks/queue/ directory not found - skipping queue validation"
           fi
-
+          
+          # Set outputs for summary
+          echo "agent_count=$agent_count" >> $GITHUB_OUTPUT
+          echo "queue_count=$queue_count" >> $GITHUB_OUTPUT
+          echo "error_count=$error_count" >> $GITHUB_OUTPUT
+          
           if [ "$error_count" -gt 0 ]; then exit 1; fi
+          
       - name: Validation Summary
         if: always()
         run: |
-          echo "## Synth CI Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Agent CI Validation Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Files Processed:" >> $GITHUB_STEP_SUMMARY
-          echo "- Agent files: ${{ steps.validate.outputs.agent_count || 0 }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Queue files: ${{ steps.validate.outputs.queue_count || 0 }}" >> $GITHUB_STEP_SUMMARY
+          echo "• Agent files: ${{ steps.validate.outputs.agent_count }}" >> $GITHUB_STEP_SUMMARY
+          echo "• Queue files: ${{ steps.validate.outputs.queue_count }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.validate.outcome }}" = "success" ]; then
             echo "✅ **All validations passed successfully**" >> $GITHUB_STEP_SUMMARY
