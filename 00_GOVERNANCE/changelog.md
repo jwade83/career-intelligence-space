@@ -1,9 +1,6 @@
 # Changelog
-
 All notable changes to the career-intelligence-space project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
@@ -15,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Research and case study frameworks
 - Asset management system
 - Logging and analytics infrastructure
+- ci(agent1): finalize hardening (yq install, nullglob, PR summary)
 
 ## [0.1.0] - 2025-09-09
 
