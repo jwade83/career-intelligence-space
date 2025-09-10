@@ -1,0 +1,159 @@
+name: Orchestrator Intake Request
+description: Request the Orchestrator to translate and route external inputs to the appropriate agents
+title: "[Orchestrator] "
+labels: ["orchestrator", "intake", "routing"]
+assignees: []
+projects: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Orchestrator Intake Request
+        
+        Use this template to submit requests that need to be translated and routed to the appropriate agents in the Career Intelligence Space system.
+        
+        The Orchestrator will:
+        - Classify and structure your request
+        - Determine the appropriate target agents
+        - Create properly formatted tasks for downstream processing
+        - Ensure quality gates are met before routing
+
+  - type: dropdown
+    id: source_type
+    attributes:
+      label: Request Source
+      description: How is this request being submitted?
+      options:
+        - Email
+        - Web interface
+        - API call
+        - Manual entry
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: user_id
+    attributes:
+      label: Requestor ID
+      description: User identifier or email of the person making this request
+      placeholder: "user@example.com or user_123"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Request Category
+      description: What type of career intelligence do you need?
+      options:
+        - Career guidance
+        - Market analysis
+        - Skill assessment
+        - Job search strategy
+        - Salary negotiation
+        - Interview preparation
+        - Resume optimization
+        - Professional networking
+        - Industry research
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency Level
+      description: How quickly do you need this completed?
+      options:
+        - Low (1-2 weeks)
+        - Normal (3-5 days)
+        - High (1-2 days)
+        - Critical (same day)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Estimated Complexity
+      description: How complex do you think this request is?
+      options:
+        - Simple (straightforward, single agent)
+        - Moderate (may need 2-3 agents)
+        - Complex (multi-agent, dependencies)
+    validations:
+      required: true
+
+  - type: textarea
+    id: raw_request
+    attributes:
+      label: Raw Request
+      description: Please provide your original request exactly as submitted
+      placeholder: "Paste or type the original request here..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Background Context
+      description: Any additional background information that might help
+      placeholder: "Current role, experience level, specific goals, constraints, etc."
+    validations:
+      required: false
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints & Limitations
+      description: Any deadlines, budget limits, or other constraints
+      placeholder: "Must complete by [date], budget under $X, specific requirements..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: success_criteria
+    attributes:
+      label: Success Criteria
+      description: How will you know this request has been completed successfully?
+      placeholder: "Specific deliverables, metrics, or outcomes expected..."
+    validations:
+      required: true
+
+  - type: input
+    id: estimated_effort
+    attributes:
+      label: Estimated Effort
+      description: Your guess at time/effort required (hours, story points, etc.)
+      placeholder: "2 hours, 5 story points, 1 day, etc."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: routing_preferences
+    attributes:
+      label: Agent Routing Preferences
+      description: Do you have preferences for which agents should handle this?
+      options:
+        - label: Research Agent (market data, trends, analysis)
+        - label: Synthesizer Agent (combining multiple sources)
+        - label: Intelligence Agent (strategic insights, recommendations)
+        - label: No preference (let Orchestrator decide)
+          required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      description: Please confirm the following
+      options:
+        - label: I have provided sufficient detail for routing
+          required: true
+        - label: I understand this will be translated into agent-specific tasks
+          required: true
+        - label: I am available for clarification if needed
+          required: true
+
+# UPGRADE
