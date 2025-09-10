@@ -11,6 +11,7 @@ allowed_domains: ["edu", "gov", "org", "github.com"]
 disallowed_domains: ["example.com", "spam-site.net"]
 schema_version: 1.2.0  # Schema version for this agent configuration
 definition_of_done:
+  - "Structured output written to specified paths OR explicit limits documented"
   - "Research query successfully executed with results captured"
   - "Output format matches specified requirements (JSON, CSV, or MD)"
   - "All sources properly cited with URLs and timestamps"
