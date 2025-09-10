@@ -21,56 +21,108 @@ jobs:
             rm -f yq_linux_amd64
             echo "yq installed to /usr/local/bin"
           fi
-      - name: Validate YAML files with schema checks
+      - name: Validate Synth agent and queue files
         run: |
           error_count=0
-          
-          # Find and validate agent YAML files
-          if find agents -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
-            for file in agents/*.yml; do
-              # Basic YAML syntax validation
-              if ! yq eval "." "$file" > /dev/null 2>&1; then
-                echo "::error file=$file::Invalid YAML syntax"
-                error_count=$((error_count + 1))
-                continue
-              fi
-              
-              # Schema validation for agents
-              error_count=${error_count:-0}
-              if ! yq e 'has("schema_version")' "$file" | grep -q true; then
-                echo "::error file=$file::Missing schema_version"; error_count=$((error_count+1))
-              fi
-              if ! yq e 'has("definition_of_done") and (.definition_of_done | type == "!!seq")' "$file" | grep -q true; then
-                echo "::error file=$file::Missing or invalid definition_of_done (must be YAML sequence)"; error_count=$((error_count+1))
-              fi
-            done
+          agent_count=0
+          queue_count=0
+
+          # Find and validate agent YAML files with skip guard
+          if [ -d "agents" ]; then
+            shopt -s nullglob
+            agent_files=(agents/*.yml)
+            if [ ${#agent_files[@]} -gt 0 ]; then
+              for file in "${agent_files[@]}"; do
+                agent_count=$((agent_count + 1))
+                # Basic YAML syntax validation
+                if ! yq eval "." "$file" > /dev/null 2>&1; then
+                  echo "::error file=$file::Invalid YAML syntax"
+                  error_count=$((error_count + 1))
+                  continue
+                fi
+
+                # Enhanced schema validation for Synth agents
+                if ! yq e 'has("schema_version")' "$file" | grep -q true; then
+                  echo "::error file=$file::Missing schema_version"; error_count=$((error_count+1))
+                fi
+                if ! yq e 'has("definition_of_done") and (.definition_of_done | type == "!!seq")' "$file" | grep -q true; then
+                  echo "::error file=$file::Missing or invalid definition_of_done (must be YAML sequence)"; error_count=$((error_count+1))
+                fi
+                if ! yq e 'has("name") and (.name | length > 0)' "$file" | grep -q true; then
+                  echo "::error file=$file::Missing or empty name field"; error_count=$((error_count+1))
+                fi
+                if ! yq e 'has("description") and (.description | length > 0)' "$file" | grep -q true; then
+                  echo "::error file=$file::Missing or empty description field"; error_count=$((error_count+1))
+                fi
+              done
+            else
+              echo "No agent files found in agents/ directory"
+            fi
+          else
+            echo "agents/ directory not found - skipping agent validation"
           fi
-          
-          # Find and validate task template YAML files
-          if find tasks/templates -name "*.yml" -print0 2>/dev/null | xargs -0 test -f 2>/dev/null; then
-            for file in tasks/templates/*.yml; do
-              # Basic YAML syntax validation
-              if ! yq eval "." "$file" > /dev/null 2>&1; then
-                echo "::error file=$file::Invalid YAML syntax"
-                error_count=$((error_count + 1))
-              fi
-            done
+
+          # Find and validate task template YAML files with skip guard
+          if [ -d "tasks/templates" ]; then
+            shopt -s nullglob
+            template_files=(tasks/templates/*.yml)
+            if [ ${#template_files[@]} -gt 0 ]; then
+              for file in "${template_files[@]}"; do
+                # Basic YAML syntax validation
+                if ! yq eval "." "$file" > /dev/null 2>&1; then
+                  echo "::error file=$file::Invalid YAML syntax"
+                  error_count=$((error_count + 1))
+                fi
+              done
+            fi
           fi
-          
-          # Find and validate queue YAML files with array guard
+
+          # Enhanced validation for queue YAML files with skip guard
           if [ -d "tasks/queue" ]; then
             shopt -s nullglob
             queue_files=(tasks/queue/*.yml)
             if [ ${#queue_files[@]} -gt 0 ]; then
               for file in "${queue_files[@]}"; do
+                queue_count=$((queue_count + 1))
                 # Basic YAML syntax validation
                 if ! yq e 'true' "$file" >/dev/null 2>&1; then
                   echo "::error file=$file::Invalid YAML syntax"
                   error_count=$((error_count+1))
                   continue
                 fi
+
+                # Enhanced queue schema validation
+                if ! yq e 'has("task_id") and (.task_id | length > 0)' "$file" | grep -q true; then
+                  echo "::error file=$file::Missing or empty task_id field"; error_count=$((error_count+1))
+                fi
+                if ! yq e 'has("status")' "$file" | grep -q true; then
+                  echo "::error file=$file::Missing status field"; error_count=$((error_count+1))
+                fi
+                if ! yq e 'has("priority") and (.priority | type == "!!int")' "$file" | grep -q true; then
+                  echo "::error file=$file::Missing or invalid priority field (must be integer)"; error_count=$((error_count+1))
+                fi
               done
+            else
+              echo "No queue files found in tasks/queue/ directory"
             fi
+          else
+            echo "tasks/queue/ directory not found - skipping queue validation"
           fi
-          
+
           if [ "$error_count" -gt 0 ]; then exit 1; fi
+      - name: Validation Summary
+        if: always()
+        run: |
+          echo "## Synth CI Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Files Processed:" >> $GITHUB_STEP_SUMMARY
+          echo "- Agent files: ${{ steps.validate.outputs.agent_count || 0 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Queue files: ${{ steps.validate.outputs.queue_count || 0 }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.validate.outcome }}" = "success" ]; then
+            echo "✅ **All validations passed successfully**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Validation failed - check logs for details**" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "*Workflow run: ${{ github.run_id }}*" >> $GITHUB_STEP_SUMMARY
