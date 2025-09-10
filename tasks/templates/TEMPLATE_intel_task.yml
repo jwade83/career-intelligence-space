@@ -1,0 +1,21 @@
+---
+schema_version: 1
+id: ""  # optional unique id (YYYYMMDD-<slug>)
+title: ""  # concise summary
+agent: "intel"  # MUST be "intel"
+priority: P1  # P0|P1|P2
+due_date: ""  # ISO 8601
+assignee: ""
+source_files: []  # REQUIRED: paths to research & synth artifacts
+analysis_scope: []  # REQUIRED: topics & questions to validate (bullets)
+deliver_to: []  # REQUIRED: repo path(s) for outputs
+pillar_map: []  # e.g., ["Negotiation","Job Search","Upskilling","Exploration"]
+dod:
+  criteria:
+    - "Citations reconciled (no missing & contradictory refs)"
+    - "QA note or LIMITS block added where evidence weak"
+    - "Trajectory snapshot (6–24mo options) included when applicable"
+guardrails: []  # tone, privacy, risk constraints
+tolerance: "strict"  # strict|balanced|exploratory
+notes: ""
+# UPGRADE
