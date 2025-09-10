@@ -1,0 +1,62 @@
+---
+name: "Intel Task"
+description: "Template for Agent 3 (Intelligence Delivery) tasks"
+title: "[INTEL] <short description>"
+labels: [agent:intel, status:queued]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: "Task Title"
+      description: "Concise summary"
+    validations:
+      required: true
+  - type: textarea
+    id: source_files
+    attributes:
+      label: "Source Files"
+      description: "Paths to research & synth artifacts"
+    validations:
+      required: true
+  - type: textarea
+    id: analysis_scope
+    attributes:
+      label: "Analysis Scope"
+      description: "What should be validated or interpreted?"
+    validations:
+      required: true
+  - type: textarea
+    id: deliver_to
+    attributes:
+      label: "Deliver To"
+      description: "Target repo path(s) for outputs"
+    validations:
+      required: true
+  - type: textarea
+    id: dod_criteria
+    attributes:
+      label: "Definition of Done"
+      description: "Acceptance checks"
+    validations:
+      required: true
+  - type: textarea
+    id: guardrails
+    attributes:
+      label: "Guardrails"
+      description: "Boundaries (tone, privacy, exclusions)"
+    validations:
+      required: false
+  - type: dropdown
+    id: tolerance
+    attributes:
+      label: "Analysis Tolerance"
+      options: ["strict","balanced","exploratory"]
+      default: 0
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      description: "Context, style guides, risk flags"
+    validations:
+      required: false
+# UPGRADE
