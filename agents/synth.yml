@@ -1,15 +1,14 @@
 # Synthesizer Agent Configuration - Schema Bridge Manifest
 schema_version: "1.0"
-
 # Agent metadata describing core intelligence capabilities
 agent_id: "synth"
 name: "Synthesizer"
 type: "intelligence_synthesis"
 priority: "high"
 status: "scaffold"
-
 # Definition of done - comprehensive completion criteria as YAML sequence
 definition_of_done:
+  - "Structured output written to specified paths OR explicit limits documented"
   - "Aggregated multi-source data points into coherent intelligence briefings"
   - "Cross-referenced findings across research domains for pattern identification"
   - "Generated actionable synthesis reports with confidence ratings"
@@ -18,7 +17,6 @@ definition_of_done:
   - "Maintained audit trail of synthesis decision points and data lineage"
   - "Integrated feedback loops for synthesis quality improvement"
   - "Established synthesis pipeline monitoring and health metrics"
-
 # Nested configuration sections
 metadata:
   created_by: "comet_assistant"
@@ -36,7 +34,6 @@ metadata:
     - "Confidence-rated output generation"
     - "Cross-domain correlation analysis"
     - "Structured report generation"
-
 configuration:
   runtime:
     max_concurrent_tasks: 5
@@ -63,7 +60,6 @@ configuration:
       - "synthesis_accuracy"
       - "processing_time"
       - "source_coverage"
-
 integration:
   dependencies:
     - "research_agent"
@@ -88,7 +84,6 @@ integration:
     communication: "message_queue"
     authentication: "token_based"
     encryption: "aes_256"
-
 guardrails:
   security:
     access_control:
