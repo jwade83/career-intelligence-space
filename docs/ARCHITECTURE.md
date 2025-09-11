@@ -1,0 +1,201 @@
+# Career Intelligence Space — Architecture
+
+## System Overview
+
+CIS (Career Intelligence Space) is an automated career research and decision support system designed to convert unstructured career opportunities into structured analysis and actionable insights.
+
+## High-Level Architecture
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   ChatGPT       │    │    Perplexity    │    │     GitHub      │
+│  (Thinking      │    │  (Orchestrator   │    │  (Control       │
+│   Partner)      │    │   Intake)        │    │   Plane)        │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+         │                        │                        │
+         │                        │                        │
+         └────────────────────────┼────────────────────────┘
+                                  │
+                          ┌───────▼────────┐
+                          │  Agent System  │
+                          │                │
+                          │ ┌────────────┐ │
+                          │ │Agent 0     │ │
+                          │ │Orchestrator│ │
+                          │ └────────────┘ │
+                          │ ┌────────────┐ │
+                          │ │Agent 1     │ │
+                          │ │Research    │ │
+                          │ └────────────┘ │
+                          │ ┌────────────┐ │
+                          │ │Agent 2     │ │
+                          │ │Synthesizer │ │
+                          │ └────────────┘ │
+                          │ ┌────────────┐ │
+                          │ │Agent 3     │ │
+                          │ │Intelligence│ │
+                          │ └────────────┘ │
+                          └────────────────┘
+```
+
+## Component Responsibilities
+
+### External Systems
+
+- **ChatGPT**: Thinking partner for drafting, interview notes normalization, and canvas documents
+- **Perplexity**: Runs orchestrator-style intakes, produces task queue YAML files
+- **GitHub**: Central control plane for schemas, queues, CI validation, artifacts, and logs
+
+### Agent System
+
+#### Agent 0: Orchestrator
+- **Purpose**: Convert intakes to executable task queues
+- **Input**: Normalized intake documents from Perplexity
+- **Output**: `tasks/*.yml` files with agent assignments
+- **Runbook**: `docs/ORCH_RUNBOOK.md`
+
+#### Agent 1: Research
+- **Purpose**: Market research, role discovery, comparable analysis
+- **Input**: Research task specifications
+- **Output**: Market data, role comparisons, salary benchmarks
+- **Runbook**: `docs/RESEARCH_RUNBOOK.md`
+
+#### Agent 2: Synthesizer
+- **Purpose**: Aggregate research into actionable insights
+- **Input**: Research outputs, interview data
+- **Output**: Role scorecards, decision briefs, negotiation prep
+- **Runbook**: `docs/SYNTH_RUNBOOK.md`
+
+#### Agent 3: Intelligence
+- **Purpose**: Deep analysis, pattern recognition, strategic insights
+- **Input**: Historical data, market trends, career trajectories
+- **Output**: Strategic recommendations, risk assessments, opportunity rankings
+- **Runbook**: `docs/INTEL_RUNBOOK.md`
+
+## Data Flow
+
+### 1. Ingest Phase
+```
+Interview Notes → ChatGPT → Normalized Intake → Perplexity
+```
+
+### 2. Orchestration Phase
+```
+Intake → Orchestrator → tasks/YYYYMMDD-orch-<name>.yml
+```
+
+### 3. Execution Phase
+```
+Queue → CI Validation → Agent Assignment → Deliverable Generation
+```
+
+### 4. Decision Phase
+```
+Deliverables → Role Node Update → Scorecard → DECISIONS.md Entry
+```
+
+### 5. Tracking Phase
+```
+Completed Tasks → STATUS.md Update → Dashboard Refresh
+```
+
+## File System Organization
+
+### Core Directories
+
+```
+├── docs/                 # Documentation and runbooks
+│   ├── VISION.md         # System charter and goals
+│   ├── ARCHITECTURE.md   # This file
+│   ├── *_RUNBOOK.md      # Agent-specific SOPs
+│   └── STATUS.md         # Auto-generated system status
+├── tasks/                # Task queue files
+│   └── YYYYMMDD-orch-*.yml
+├── agents/               # Agent manifests and configurations
+│   ├── agent0/           # Orchestrator
+│   ├── agent1/           # Research
+│   ├── agent2/           # Synthesizer
+│   └── agent3/           # Intelligence
+├── 00_GOVERNANCE/        # Policies and procedures
+├── 01_GUIDELINES/        # Best practices and standards
+├── 02_TEMPLATES/         # Reusable templates
+├── 03_RESEARCH/          # Research outputs and findings
+├── 04_TOOLS/             # Utilities and helper scripts
+├── 05_ASSETS/            # Static assets and resources
+├── 06_CASES/             # Case studies and examples
+└── 99_LOGS/              # System logs and audit trails
+```
+
+### Naming Conventions
+
+- **Role Node IDs**: `role_<company>_<role>_<timebox>` (e.g., `role_bluestone_mt_2025q3`)
+- **Queue Files**: `tasks/YYYYMMDD-orch-<shortname>.yml` with top-level `queue:`
+- **Decision Log**: `DECISIONS.md` (ADR-lite format, newest first)
+- **Status Page**: `docs/STATUS.md` (auto-generated by queue processor)
+
+## CI/CD Pipeline
+
+### Validation Steps
+1. **Schema Validation**: Ensure all YAML files conform to expected schemas
+2. **Task Validation**: Verify task definitions include required `deliverables[]`
+3. **Agent Assignment**: Confirm assigned agents exist and are configured
+4. **Dependency Check**: Validate task dependencies and execution order
+
+### Automation Triggers
+- **Queue Processing**: Automatic agent assignment on task file commits
+- **Status Updates**: Auto-generation of STATUS.md on task completion
+- **Decision Logging**: Automatic DECISIONS.md updates for significant changes
+
+## Security & Privacy
+
+### Data Protection
+- **PII Exclusion**: No personally identifiable information stored in repository
+- **External References**: Sensitive data referenced via external secure stores
+- **Access Control**: Repository-level permissions for data access
+
+### Audit Trail
+- **Change Tracking**: All modifications tracked via Git history
+- **Decision Records**: ADR-lite entries for all significant decisions
+- **Agent Logs**: Comprehensive logging in `99_LOGS/` directory
+
+## Scalability Considerations
+
+### Performance
+- **Queue Processing**: Asynchronous task execution
+- **Agent Isolation**: Independent agent execution environments
+- **Caching**: Intelligent caching of research data and API calls
+
+### Extensibility
+- **Plugin Architecture**: New agents can be added without system changes
+- **Schema Evolution**: Versioned schemas support backward compatibility
+- **Integration Points**: Well-defined APIs for external system integration
+
+## Monitoring & Observability
+
+### Key Metrics
+- **Coverage**: % of live leads with Role Nodes & scores
+- **Velocity**: Median time from intake → decision brief
+- **Quality**: % of tasks passing CI without revision
+- **Leverage**: # of negotiation levers captured per engaged role
+
+### Alerting
+- **Failed Tasks**: Notification on task execution failures
+- **Schema Violations**: Alerts for validation failures
+- **System Health**: Monitoring of agent performance and availability
+
+## Future Roadmap
+
+### Phase 1 (Current)
+- Docs pack completion
+- STATUS.md automation
+- Comparables & Stage-2 flows
+
+### Phase 2
+- Auto-score helpers
+- Negotiation brief generator
+- Role taxonomy development
+
+### Phase 3
+- Recurring market sweeps
+- Pipeline refresh automation
+- Semi-automated outreach drafts
