@@ -9,7 +9,6 @@ type: "bridge_orchestrator"
 priority: "critical"
 status: "scaffold"
 owner: "jwade83"
-
 # Definition of done - comprehensive orchestration criteria as YAML sequence
 definition_of_done:
   - "Successfully routed incoming requests to appropriate specialized agents"
@@ -22,17 +21,14 @@ definition_of_done:
   - "Established security protocols for inter-agent communication"
   - "Implemented logging and audit trails for all orchestration activities"
   - "Created configuration management system for agent behavior and routing rules"
-
 # Service Level Agreement requirements
 sla:
   max_response_time: "1 minute"
   availability: "99.95%"
   throughput: "100 requests/minute"
-
 # Domain restrictions for orchestration sources
 allowed_domains: ["internal", "platform", "api.linkedin.com", "api.glassdoor.com", "gov", "edu"]
 disallowed_domains: ["malicious.com", "spam-career.net", "untrusted-source.com"]
-
 # Nested configuration sections
 metadata:
   created_by: "comet_assistant"
@@ -53,7 +49,6 @@ metadata:
     - "Load balancing and resource optimization"
     - "Error handling and recovery orchestration"
     - "Security and access control enforcement"
-
 configuration:
   runtime:
     environment: "python"
@@ -75,6 +70,7 @@ configuration:
       - "research_agent"
       - "synthesis_agent"
       - "intelligence_agent"
+      - "journal_agent"
     workflow_patterns:
       - "sequential_pipeline"
       - "parallel_fanout"
@@ -102,6 +98,37 @@ configuration:
       strategy: "weighted_round_robin"
       health_aware: true
       circuit_breaker: true
+    
+    # Task routing patterns - map input patterns to agents
+    task_routes:
+      # Research and intelligence gathering tasks
+      - pattern: ["research", "investigate", "analyze", "study"]
+        agent: "research"
+        deliver_to: "research_agent"
+        completion: "research_complete"
+      
+      # Data synthesis and report generation  
+      - pattern: ["synthesize", "compile", "generate report", "summarize"]
+        agent: "synth"
+        deliver_to: "synthesis_agent"
+        completion: "synthesis_complete"
+      
+      # Intelligence analysis and insights
+      - pattern: ["intelligence", "insight", "trend analysis", "market intel"]
+        agent: "intel"
+        deliver_to: "intelligence_agent"
+        completion: "intelligence_complete"
+      
+      # Journal and logging tasks
+      - pattern: ["journal", "journalize", "log", "captain's log", "journalize today"]
+        agent: "journal"
+        deliver_to: "journal_agent"
+        completion: "journal_complete"
+        examples:
+          - "journalize today"
+          - "captain's log"
+          - "create journal entry"
+          - "log today's activities"
       
   inputs:
     required:
@@ -118,7 +145,6 @@ configuration:
     audit_log: "orchestration_audit.md"
     metrics: "performance_metrics.yml"
     health_status: "agent_health.json"
-
 integration:
   dependencies:
     - "agent_registry_service"
@@ -159,7 +185,6 @@ integration:
     level: "INFO"
     destination: "99_LOGS/agents/orchestrator_log.md"
     format: "structured"
-
 execution:
   stages:
     - name: "request_validation"
@@ -185,7 +210,6 @@ execution:
     retry_attempts: 3
     fallback_mode: "degraded_service"
     escalation: "alert_operations_team"
-
 guardrails:
   security:
     access_control:
@@ -229,7 +253,6 @@ guardrails:
       - "equal_resource_allocation"
       - "bias_prevention"
       - "equitable_service_delivery"
-
 validation:
   required_fields: ["metadata", "configuration", "integration", "execution"]
   optional_fields: ["validation", "guardrails"]
@@ -241,5 +264,4 @@ metrics:
   average_response_time_target: 2.0
   agent_utilization_target: 0.75
   error_rate_threshold: 0.02
-
 # UPGRADE:
