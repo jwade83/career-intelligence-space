@@ -1,0 +1,126 @@
+# Journal Task Template
+# Schema for journalization tasks within the career intelligence platform
+
+schema_version: "1.0"
+type: "journal_task"
+id: "journal-{YYYYMMDD}-{UUID}"
+
+task:
+  metadata:
+    created_at: "{ISO_8601_TIMESTAMP}"
+    created_by: "user"
+    priority: "normal"  # low, normal, high, urgent
+    status: "pending"   # pending, in_progress, completed, failed
+    estimated_duration: "15m"
+    actual_duration: null
+    
+  context:
+    date: "{YYYY-MM-DD}"
+    journal_type: "daily"  # daily, weekly, monthly, project, reflection
+    trigger_event: null    # optional: what prompted this journal entry
+    tags: []              # optional: thematic tags for categorization
+    
+  objectives:
+    primary: "Capture daily insights and progress"
+    secondary:
+      - "Identify patterns and trends"
+      - "Document lessons learned"
+      - "Track goal progression"
+      - "Process experiences and emotions"
+      
+  inputs:
+    reflection_prompts:
+      - "What were the key accomplishments today?"
+      - "What challenges did I encounter?"
+      - "What did I learn?"
+      - "How do I feel about my progress?"
+      - "What would I do differently?"
+    previous_entries: []   # references to related journal entries
+    context_data: {}       # any relevant external data or metrics
+    
+  processing:
+    method: "structured_reflection"
+    framework: "STAR"      # STAR, GROW, 5-Whys, etc.
+    analysis_depth: "moderate"  # light, moderate, deep
+    cross_reference: true   # link to previous entries and patterns
+    
+  outputs:
+    journal_entry:
+      format: "markdown"
+      sections:
+        - "summary"
+        - "accomplishments"
+        - "challenges"
+        - "learnings"
+        - "reflections"
+        - "next_actions"
+      word_count_target: 300
+      
+    insights:
+      - "pattern_identification"
+      - "trend_analysis"
+      - "growth_opportunities"
+      - "action_items"
+      
+    metadata:
+      sentiment_score: null
+      key_themes: []
+      referenced_goals: []
+      follow_up_tasks: []
+      
+  success_criteria:
+    - "Entry captures key daily experiences"
+    - "Insights are actionable and specific"
+    - "Connections to previous entries are identified"
+    - "Personal growth opportunities are highlighted"
+    - "Entry contributes to long-term pattern recognition"
+    
+  validation:
+    quality_checks:
+      - "completeness": "All required sections are filled"
+      - "clarity": "Thoughts are clearly articulated"
+      - "depth": "Adequate reflection depth achieved"
+      - "actionability": "Contains specific next steps"
+      
+    metrics:
+      - "entry_length": "target: 200-500 words"
+      - "reflection_time": "target: 10-20 minutes"
+      - "insight_count": "target: 2-5 key insights"
+      - "action_items": "target: 1-3 specific actions"
+      
+  error_handling:
+    - "If reflection feels superficial, provide deeper prompts"
+    - "If no insights emerge, suggest alternative frameworks"
+    - "If time constraint is hit, focus on core accomplishments"
+    - "If emotional processing is needed, adjust prompts accordingly"
+    
+  integration:
+    upstream_dependencies: []
+    downstream_outputs:
+      - "Pattern analysis reports"
+      - "Goal tracking updates"
+      - "Personal development insights"
+      - "Long-term trend identification"
+      
+    storage:
+      primary_location: "99_LOGS/journal/"
+      backup_location: "user_data/journals/"
+      retention_period: "indefinite"
+      access_level: "private"
+      
+  notifications:
+    on_completion:
+      - "Update daily tracker"
+      - "Add to pattern analysis queue"
+      - "Trigger goal review if applicable"
+    on_failure:
+      - "Log error details"
+      - "Notify user of incomplete entry"
+      - "Suggest simplified approach"
+      
+# Template usage notes:
+# 1. Replace {VARIABLES} with actual values
+# 2. Customize reflection_prompts based on user preferences
+# 3. Adjust processing method based on journal_type
+# 4. Scale analysis_depth based on available time
+# 5. Configure notifications based on user workflow
