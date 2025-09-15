@@ -1,0 +1,40 @@
+---
+schema_version: 1
+id: "20250914-intel-bluestone-int2"
+title: "Bluestone Property Management Intelligence Analysis"
+agent: "intel"
+priority: P1
+due_date: "2025-09-16"
+assignee: "jwade83"
+source_files:
+  - "./99_LOGS/agents/research_20250914_bluestone_int2.md"
+  - "./99_LOGS/agents/synth_20250914_bluestone_int2.md"
+  - "./03_RESEARCH/companies/bluestone/20250914_int2_debrief.md"
+analysis_scope:
+  - "Validate compensation structure claims (health/dental $200/month, no OT policy)"
+  - "Assess advancement limitations and maintenance role trajectory implications"
+  - "Evaluate workplace culture red flags (departing tech, difficult property manager)"
+  - "Compare maintenance technician market standards against Bluestone offer"
+  - "Analyze tool allowance ambiguity and financial impact on candidate"
+  - "Investigate AppFolio CMMS adoption and operational efficiency indicators"
+deliver_to:
+  - "./99_LOGS/agents/"
+  - "./03_RESEARCH/companies/bluestone/"
+pillar_map:
+  - "Job Search"
+  - "Negotiation"
+  - "Career Development"
+  - "Upskilling"
+dod:
+  criteria:
+    - "Citations reconciled (no missing & contradictory refs)"
+    - "QA note or LIMITS block added where evidence weak"
+    - "Trajectory snapshot (6–24mo options) included when applicable"
+guardrails:
+  - "Professional assessment tone"
+  - "Company privacy protection"
+  - "Risk evaluation transparency"
+  - "Evidence-based recommendations only"
+tolerance: "balanced"
+notes: "Generate final intelligence assessment of Bluestone Property Management maintenance technician opportunity. Focus on career trajectory viability, compensation competitiveness, and workplace stability indicators. Provide actionable decision framework with clear risk/reward analysis."
+# UPGRADE
