@@ -1,0 +1,32 @@
+---
+schema_version: 1
+id: "20250914-synth-bluestone-int2"
+title: "Bluestone Property Management Interview Synthesis"
+agent: "synth"
+priority: P1
+due_date: "2025-09-15"
+assignee: "jwade83"
+source_files:
+  - "./99_LOGS/agents/research_20250914_bluestone_int2.md"
+  - "./03_RESEARCH/companies/bluestone/20250914_int2_debrief.md"
+deliver_to:
+  - "./99_LOGS/agents/"
+  - "./03_RESEARCH/companies/bluestone/"
+pillar_map:
+  - "Job Search"
+  - "Negotiation"
+  - "Career Development"
+dod:
+  criteria:
+    - "Key compensation insights extracted from interview data"
+    - "Work environment assessment completed with red flags identified"
+    - "Career progression analysis highlighting limitations"
+    - "Maintenance role context and industry comparisons included"
+    - "Actionable recommendations provided for decision-making"
+guardrails:
+  - "Maintain professional tone in assessment"
+  - "Respect company privacy - no proprietary information disclosure"
+  - "Focus on factual interview data analysis"
+  - "Provide balanced perspective on opportunities vs. limitations"
+notes: "Synthesize R2 interview debrief data with research findings to create comprehensive analysis of Bluestone Property Management opportunity. Focus on maintenance technician role specifics, compensation structure, advancement potential, and workplace culture indicators."
+# UPGRADE
