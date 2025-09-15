@@ -1,0 +1,85 @@
+# Task Configuration File
+# Version: 2.1
+# Created: 2025-09-14
+# Purpose: Orchestrator intake for Bluestone R2 integration
+
+metadata:
+  task_id: "20250914-orch-bluestone-int2-full"
+  version: "2.1"
+  created_date: "2025-09-14"
+  priority: "high"
+  status: "pending"
+  tags:
+    - orchestrator
+    - bluestone
+    - integration
+    - research
+    - synthesis
+    - intelligence
+
+task:
+  name: "Bluestone R2 Orchestration Pipeline"
+  description: "Route research data through synthesis to intelligence generation from debrief"
+  type: "orchestration"
+  
+workflow:
+  stages:
+    - name: "research"
+      description: "Data collection and analysis phase"
+      inputs:
+        - debrief_data
+        - market_intelligence
+        - competitor_analysis
+      outputs:
+        - research_summary
+        - key_findings
+      
+    - name: "synthesis"
+      description: "Data synthesis and pattern recognition"
+      inputs:
+        - research_summary
+        - key_findings
+      outputs:
+        - synthesized_report
+        - actionable_insights
+      
+    - name: "intelligence"
+      description: "Intelligence generation and recommendations"
+      inputs:
+        - synthesized_report
+        - actionable_insights
+      outputs:
+        - intelligence_brief
+        - strategic_recommendations
+
+parameters:
+  bluestone_config:
+    version: "R2"
+    integration_mode: "full"
+    data_sources:
+      - debrief_sessions
+      - market_data
+      - competitive_intel
+    
+  processing:
+    batch_size: 100
+    timeout: 3600
+    retry_attempts: 3
+    
+  outputs:
+    format: "json"
+    compression: "gzip"
+    retention_days: 90
+
+notifications:
+  on_start:
+    - email: "ops@company.com"
+  on_completion:
+    - email: "ops@company.com"
+    - slack: "#orchestrator-alerts"
+  on_error:
+    - email: "ops@company.com"
+    - slack: "#orchestrator-alerts"
+    - pager: "on-call-engineer"
+
+# UPGRADE
