@@ -1,0 +1,135 @@
+schema_version: 1
+id: "20250914-research-bluestone-int2"
+# Research Task Template
+name: "Bluestone Property Management Research Task"
+version: "1.0.0"
+template_id: "TEMPLATE_research_task"
+created: "2025-09-14"
+last_updated: "2025-09-14"
+author: "Career Intelligence Space Team"
+
+# Task Configuration
+task:
+  # Basic Task Information
+  id: "research_20250914_bluestone_int2"
+  type: "research"
+  agent: "research"
+  priority: "high"
+  status: "pending"
+  
+  # Task Parameters
+  parameters:
+    # Research Topic (REQUIRED)
+    topic: "Bluestone Property Management R2 Interview Analysis"
+    
+    # Research Depth
+    depth: "medium"
+    
+    # Source Configuration
+    max_sources: 20
+    source_types:
+      - "debrief_sessions"
+      - "market_data"
+      - "competitive_intel"
+      - "industry_reports"
+      - "government_data"
+    
+    # Time Constraints
+    timeout: 3600
+    deadline: "2025-09-15T23:59:59Z"
+    
+    # Output Configuration
+    output_format: "markdown"
+    output_directory: "./99_LOGS/agents/"
+    include_citations: true
+    include_summary: true
+    include_recommendations: true
+    
+    # Quality Controls
+    min_source_credibility: 0.7
+    require_peer_review: false
+    fact_check_enabled: true
+    
+    # Integration Settings
+    create_github_issue: false
+    assignee: "jwade83"
+    labels:
+      - "research"
+      - "agent-generated"
+      - "bluestone"
+      - "high"
+
+# Execution Workflow
+workflow:
+  stages:
+    - name: "initialization"
+      description: "Initialize research task and validate parameters"
+      timeout: 60
+      actions:
+        - validate_topic
+        - check_resources
+        - setup_workspace
+    
+    - name: "discovery"
+      description: "Discover and collect relevant sources"
+      timeout: 900
+      actions:
+        - search_debrief_data
+        - search_market_intelligence
+        - search_competitor_analysis
+        - filter_by_relevance
+        - validate_source_credibility
+    
+    - name: "analysis"
+      description: "Analyze collected sources and extract insights"
+      timeout: 1200
+      actions:
+        - extract_key_information
+        - identify_trends
+        - find_contradictions
+        - synthesize_findings
+    
+    - name: "synthesis"
+      description: "Create comprehensive research output"
+      timeout: 600
+      actions:
+        - generate_executive_summary
+        - create_detailed_report
+        - format_citations
+        - generate_recommendations
+    
+    - name: "review"
+      description: "Quality assurance and validation"
+      timeout: 300
+      actions:
+        - fact_check_findings
+        - validate_citations
+        - check_completeness
+        - assess_quality_metrics
+    
+    - name: "delivery"
+      description: "Deliver research output and create integrations"
+      timeout: 180
+      actions:
+        - save_output_files
+        - send_notifications
+        - update_task_status
+
+# Success Criteria
+success_criteria:
+  # Output Requirements
+  output_generated: true
+  min_word_count: 800
+  min_sources_cited: 3
+  
+  # Quality Metrics
+  source_credibility_avg: 0.7
+  content_relevance_score: 0.8
+  citation_accuracy: 0.95
+  
+  # Completeness Checks
+  executive_summary_present: true
+  recommendations_present: true
+  all_sections_completed: true
+
+# UPGRADE
