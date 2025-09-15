@@ -1,0 +1,112 @@
+name: "Journal Task"
+description: "Create a journal entry task for tracking project insights, reflections, or progress updates"
+title: "[JOURNAL] "
+labels: ["journal", "task"]
+assignees: []
+projects: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Journal Task Creation
+        Use this form to create a new journal entry task for documenting insights, reflections, or progress updates.
+        
+  - type: input
+    id: task_title
+    attributes:
+      label: "Task Title"
+      description: "Brief, descriptive title for this journal entry"
+      placeholder: "Weekly Progress Review - Sprint 3"
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: journal_type
+    attributes:
+      label: "Journal Type"
+      description: "What type of journal entry is this?"
+      options:
+        - "Project Reflection"
+        - "Progress Update"
+        - "Learning Summary"
+        - "Decision Log"
+        - "Weekly Review"
+        - "Meeting Notes"
+        - "Other"
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority Level"
+      description: "How urgent is this journal entry?"
+      options:
+        - "Low - For reference"
+        - "Medium - Should be completed this week"
+        - "High - Needs immediate attention"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: context
+    attributes:
+      label: "Context & Background"
+      description: "Provide context for this journal entry - what prompted it?"
+      placeholder: "This journal entry is needed because..."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: key_points
+    attributes:
+      label: "Key Points to Cover"
+      description: "What specific topics, insights, or updates should be documented?"
+      placeholder: "- Achievement highlights\n- Challenges encountered\n- Lessons learned\n- Next steps"
+    validations:
+      required: true
+      
+  - type: input
+    id: due_date
+    attributes:
+      label: "Target Completion Date"
+      description: "When should this journal entry be completed?"
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: false
+      
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: "Visibility Level"
+      description: "Who should have access to this journal entry?"
+      options:
+        - "Public - Anyone can view"
+        - "Team - Team members only"
+        - "Private - Personal use only"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: "Additional Notes"
+      description: "Any other relevant information or special instructions"
+      placeholder: "Include any specific formatting requirements, related documents, or special considerations..."
+    validations:
+      required: false
+      
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Pre-submission Checklist"
+      description: "Please verify before submitting"
+      options:
+        - label: "I have provided a clear, descriptive title"
+          required: true
+        - label: "I have specified the journal type and priority level"
+          required: true
+        - label: "I have outlined the key points to be covered"
+          required: true
+        - label: "I understand the visibility level selected"
+          required: true
