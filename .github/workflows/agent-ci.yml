@@ -167,4 +167,3 @@ jobs:
           fi
           echo "Validated $agent_count agent(s) and $queue_count queue file(s)"
           echo "Journal files validated: ${JOURNAL_COUNT:-0}" >> $GITHUB_STEP_SUMMARY
-# UPGRADE
