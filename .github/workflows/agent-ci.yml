@@ -25,6 +25,7 @@ jobs:
         id: validate
         run: |
           error_count=0
+          JOURNAL_COUNT=0
           agent_count=0
           queue_count=0
           intel_manifests=0
@@ -109,6 +110,44 @@ jobs:
             fi
           fi
           
+          # Captain's Log journal validation
+          if [ -d "99_LOGS/journal" ]; then
+            shopt -s nullglob
+            journal_files=(99_LOGS/journal/*.md)
+            if [ ${#journal_files[@]} -gt 0 ]; then
+              for file in "${journal_files[@]}"; do
+                # Check filename pattern: YYYYMMDD_journal.md
+                basename_file=$(basename "$file")
+                if ! [[ "$basename_file" =~ ^[0-9]{8}_journal\.md$ ]]; then
+                  echo "::error file=$file::Journal filename must match pattern YYYYMMDD_journal.md"
+                  error_count=$((error_count + 1))
+                  continue
+                fi
+                
+                # Check required headings
+                required_headings=("Daily Journal" "Actions" "Notes" "Links")
+                for heading in "${required_headings[@]}"; do
+                  if ! grep -q "^## *${heading}" "$file" && ! grep -q "^# *${heading}" "$file"; then
+                    echo "::error file=$file::Missing required heading: ${heading}"
+                    error_count=$((error_count + 1))
+                  fi
+                done
+                
+                # Check file ends with exactly one # UPGRADE
+                last_lines=$(tail -n 5 "$file" | grep -v '^$')
+                if [ "$(echo "$last_lines" | tail -n 1)" != "# UPGRADE" ]; then
+                  echo "::error file=$file::Journal must end with exactly one line containing '# UPGRADE'"
+                  error_count=$((error_count + 1))
+                elif [ "$(echo "$last_lines" | grep -c '^# UPGRADE$')" -gt 1 ]; then
+                  echo "::error file=$file::Journal must have exactly one '# UPGRADE' line"
+                  error_count=$((error_count + 1))
+                else
+                  JOURNAL_COUNT=$((JOURNAL_COUNT + 1))
+                fi
+              done
+            fi
+          fi
+          
           # Set outputs and summary
           echo "agent_count=$agent_count" >> $GITHUB_OUTPUT
           echo "queue_count=$queue_count" >> $GITHUB_OUTPUT
@@ -116,6 +155,7 @@ jobs:
           echo "orchestrator_manifests=$orchestrator_manifests" >> $GITHUB_OUTPUT
           echo "error_count=$error_count" >> $GITHUB_OUTPUT
           
+          # Final gate check
           if [ $error_count -gt 0 ]; then
             echo "::error::Validation failed with $error_count errors"
             exit 1
@@ -126,4 +166,5 @@ jobs:
             echo "💡 Optimization hint: Consider consolidating agent manifests for better maintainability."
           fi
           echo "Validated $agent_count agent(s) and $queue_count queue file(s)"
+          echo "Journal files validated: ${JOURNAL_COUNT:-0}" >> $GITHUB_STEP_SUMMARY
 # UPGRADE
