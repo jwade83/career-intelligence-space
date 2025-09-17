@@ -16,7 +16,6 @@
 - CSV/MD are CI-preferred; PDFs retained as recruiter-facing snapshots.
 - Additional batches will include case studies after sensitivity review.
 
-# UPGRADE
 
 ## Batch 2 Adds (2025-09-16)
 - 05_ASSETS/case_studies/
@@ -45,3 +44,4 @@
   - 20250901_HelloTech_Highlights_OnePager_v1.md
   - 20250829_HelloTech_TrainingSkills_v1.pdf
   - 20250829_HelloTech_Ingestion_Catalog_v2_enriched_no_payout.md
+# UPGRADE
