@@ -36,3 +36,12 @@
   - 20250904_ApplicationOutcomeLog_v3.md
 - 03_RESEARCH/company_dossiers/
   - 20250901_CompanyDossier_Template_v1.md/pdf
+
+## Batch 3 Adds (2025-09-16)
+- 05_ASSETS/resumes/
+  - 20250827_JohnWade_Resume_Bluestone_v1.pdf
+  - 20250828_JohnWade_Resume_ATSNeutral_v1.pdf
+- 05_ASSETS/skills/
+  - 20250901_HelloTech_Highlights_OnePager_v1.md
+  - 20250829_HelloTech_TrainingSkills_v1.pdf
+  - 20250829_HelloTech_Ingestion_Catalog_v2_enriched_no_payout.md
