@@ -1,0 +1,188 @@
+name: Auto-update Migration Map
+
+# Trigger on pushes to main that modify docs structure
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '!docs/migration_map.md'  # Don't trigger on the file we're updating
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-migration-map:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better analysis
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml pathlib
+
+      - name: Generate migration map
+        run: |
+          cat > generate_migration_map.py << 'EOF'
+          import os
+          import yaml
+          from pathlib import Path
+          from datetime import datetime
+          import re
+
+          def extract_frontmatter(file_path):
+              """Extract YAML frontmatter from markdown files"""
+              try:
+                  with open(file_path, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                  
+                  # Check for YAML frontmatter
+                  if content.startswith('---'):
+                      parts = content.split('---', 2)
+                      if len(parts) >= 3:
+                          try:
+                              return yaml.safe_load(parts[1])
+                          except yaml.YAMLError:
+                              pass
+                  return {}
+              except Exception:
+                  return {}
+
+          def analyze_docs_structure():
+              """Analyze the docs directory structure"""
+              docs_path = Path('docs')
+              if not docs_path.exists():
+                  return {}
+
+              structure = {}
+              
+              for file_path in docs_path.rglob('*.md'):
+                  if file_path.name == 'migration_map.md':
+                      continue
+                      
+                  rel_path = file_path.relative_to(docs_path)
+                  frontmatter = extract_frontmatter(file_path)
+                  
+                  # Get file stats
+                  stat = file_path.stat()
+                  
+                  structure[str(rel_path)] = {
+                      'title': frontmatter.get('title', file_path.stem.replace('_', ' ').replace('-', ' ').title()),
+                      'description': frontmatter.get('description', ''),
+                      'category': frontmatter.get('category', 'General'),
+                      'tags': frontmatter.get('tags', []),
+                      'created': frontmatter.get('created', ''),
+                      'modified': datetime.fromtimestamp(stat.st_mtime).strftime('%Y-%m-%d'),
+                      'size_bytes': stat.st_size,
+                      'path': str(file_path.relative_to(Path.cwd()))
+                  }
+              
+              return structure
+
+          def generate_migration_map():
+              """Generate the migration map content"""
+              structure = analyze_docs_structure()
+              
+              if not structure:
+                  return "# Migration Map\n\nNo documentation files found in docs/ directory.\n"
+              
+              # Sort by category, then by title
+              sorted_files = sorted(structure.items(), key=lambda x: (x[1]['category'], x[1]['title']))
+              
+              content = []
+              content.append("# Documentation Migration Map")
+              content.append("")
+              content.append(f"*Auto-generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}*")
+              content.append("")
+              content.append("This file tracks the current structure and metadata of all documentation files.")
+              content.append("")
+              
+              # Group by category
+              categories = {}
+              for file_path, metadata in sorted_files:
+                  category = metadata['category']
+                  if category not in categories:
+                      categories[category] = []
+                  categories[category].append((file_path, metadata))
+              
+              for category, files in sorted(categories.items()):
+                  content.append(f"## {category}")
+                  content.append("")
+                  
+                  for file_path, metadata in files:
+                      content.append(f"### [{metadata['title']}]({metadata['path']})")
+                      content.append("")
+                      if metadata['description']:
+                          content.append(f"**Description:** {metadata['description']}")
+                          content.append("")
+                      content.append(f"- **Path:** `{file_path}`")
+                      content.append(f"- **Last Modified:** {metadata['modified']}")
+                      content.append(f"- **Size:** {metadata['size_bytes']} bytes")
+                      if metadata['tags']:
+                          content.append(f"- **Tags:** {', '.join(metadata['tags'])}")
+                      if metadata['created']:
+                          content.append(f"- **Created:** {metadata['created']}")
+                      content.append("")
+              
+              # Add summary statistics
+              content.append("## Summary")
+              content.append("")
+              content.append(f"- **Total Files:** {len(structure)}")
+              content.append(f"- **Categories:** {len(categories)}")
+              total_size = sum(meta['size_bytes'] for meta in structure.values())
+              content.append(f"- **Total Size:** {total_size:,} bytes")
+              content.append("")
+              content.append("---")
+              content.append("")
+              content.append("*This file is automatically updated by GitHub Actions when docs/ content changes.*")
+              
+              return "\n".join(content)
+
+          # Generate and write the migration map
+          map_content = generate_migration_map()
+          
+          with open('docs/migration_map.md', 'w', encoding='utf-8') as f:
+              f.write(map_content)
+          
+          print(f"Migration map updated with {len(analyze_docs_structure())} files")
+          EOF
+          
+          python generate_migration_map.py
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --quiet docs/migration_map.md; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes to migration map"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in migration map"
+          fi
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/migration_map.md
+          git commit -m "docs: auto-update migration_map.md [skip ci]"
+          git push
+
+      - name: Create summary
+        run: |
+          echo "## Migration Map Update Results" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check-changes.outputs.changed }}" = "true" ]; then
+            echo "✅ Migration map updated successfully" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ No changes detected in migration map" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Files processed:** $(find docs -name '*.md' ! -name 'migration_map.md' | wc -l)" >> $GITHUB_STEP_SUMMARY
