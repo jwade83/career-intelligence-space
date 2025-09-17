@@ -17,3 +17,22 @@
 - Additional batches will include case studies after sensitivity review.
 
 # UPGRADE
+
+## Batch 2 Adds (2025-09-16)
+- 05_ASSETS/case_studies/
+  - 20250830_ZeusLiving_ProjectSheet_v1.md
+  - 20250830_ZeusLiving_ProjectSheet_v1.pdf
+  - 20250830_Inspiren_ProjectSheet_v1.md
+  - 20250830_Inspiren_ProjectSheet_v1.pdf
+  - 20250830_CorporateHousingTurnoverQA_ProjectSheet_v1.md
+  - 20250830_CorporateHousingTurnoverQA_ProjectSheet_v1.pdf
+  - 20250815_IndependentContracts_MetaCaseStudy_v1.pdf
+- 02_TEMPLATES/outreach/
+  - 20250901_CoverLetter_TechIT_v1.md/pdf
+  - 20250901_CoverLetter_FacilitiesMaint_v1.md/pdf
+  - 20250901_CoverLetter_HybridATS_v1.md/pdf
+  - 20250901_InformationalInterview_Template_v1.md
+  - 20250901_ContactPipelineTracker_v1.md
+  - 20250904_ApplicationOutcomeLog_v3.md
+- 03_RESEARCH/company_dossiers/
+  - 20250901_CompanyDossier_Template_v1.md/pdf
