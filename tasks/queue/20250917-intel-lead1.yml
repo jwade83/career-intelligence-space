@@ -1,0 +1,57 @@
+# Intelligence Phase - SmartBuild Solutions Lead
+name: "Intelligence Phase - SmartBuild Senior BMT Lead"
+type: "intelligence"
+chain: "smartbuild_senior_bmt"
+phase: 3
+timestamp: "2025-09-17T19:22:00Z"
+
+# Target Configuration
+target:
+  company: "SmartBuild Solutions"
+  role: "Senior Building Automation Technician"
+  location: "Portland, OR"
+  salary_range: "$95,000-$115,000"
+  remote_policy: "Hybrid"
+  source_score: 92
+  discovery_date: "2025-09-17"
+
+# Intelligence Objectives
+objectives:
+  - "Execute final intelligence gathering and validation"
+  - "Prepare comprehensive application package"
+  - "Generate targeted outreach sequences"
+  - "Create interview strategy and technical assessments"
+  - "Finalize negotiation playbook and fallback positions"
+
+# Input Dependencies
+inputs:
+  synthesis_phase: "tasks/queue/20250917-synth-lead1.yml"
+  intel_report: "03_RESEARCH/findings/smartbuild_senior_bmt_intel.md"
+  app_strategy: "06_CASES/smartbuild_senior_bmt/application_strategy.md"
+  interview_prep: "06_CASES/smartbuild_senior_bmt/interview_prep.md"
+  network_plan: "06_CASES/smartbuild_senior_bmt/networking_plan.md"
+
+# Deliverables
+deliverables:
+  final_intel: "03_RESEARCH/findings/smartbuild_senior_bmt_intel.md"
+  app_package: "06_CASES/smartbuild_senior_bmt/application_package.md"
+  outreach_sequences: "06_CASES/smartbuild_senior_bmt/outreach_templates.md"
+  interview_guide: "06_CASES/smartbuild_senior_bmt/interview_guide.md"
+  negotiation_playbook: "06_CASES/smartbuild_senior_bmt/negotiation_playbook.md"
+
+# Final Status
+chain_completion:
+  status: "ready_for_execution"
+  next_actions:
+    - "Execute targeted outreach via LinkedIn/email"
+    - "Submit application with customized materials"
+    - "Schedule informational interviews with network contacts"
+    - "Monitor application status and prepare for interviews"
+
+# Metadata
+provenance: "Generated from Synthesis Phase smartbuild_senior_bmt chain"
+status: "queued"
+agent: "intelligence_agent"
+priority: "high"
+
+# UPGRADE
