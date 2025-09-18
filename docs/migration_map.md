@@ -4,16 +4,13 @@ This section links to both the **one-time backfill** (historical baseline) and t
 
 - **Backfill (pre-automation snapshot):**  
   [99_LOGS/migration_backfill_20250917.md](../99_LOGS/migration_backfill_20250917.md)
-
 - **Current Migration Map (auto-updated):**  
   [docs/migration_map.md](migration_map.md)
-
-- **Captain’s Logs (daily journals):**  
+- **Captain's Logs (daily journals):**  
   [99_LOGS/journal/](../99_LOGS/journal/)
 
 ---
-
-_This index ensures migration lineage is always visible — from past archives to present automation and narrative logs._
+*This index ensures migration lineage is always visible — from past archives to present automation and narrative logs.*
 
 # Migration Map
 
@@ -61,23 +58,19 @@ This document outlines the migration strategy and mapping for Career Intelligenc
 - **Dependencies**: Job postings, outcome tracking
 
 ## Migration Scripts
-
 Location: `src/migration/`
-
 - `migrate_jobs.py` - Job posting and intelligence migration
 - `migrate_profiles.py` - Career profile data migration
 - `migrate_applications.py` - Application tracking migration
 - `validate_migration.py` - Data validation and integrity checks
 
 ## Rollback Strategy
-
 1. **Database Snapshots**: Automated before each migration phase
 2. **Version Control**: All configuration changes tracked
 3. **Rollback Scripts**: Automated reversion procedures
 4. **Testing Protocol**: Comprehensive validation before production
 
 ## Timeline
-
 - **Week 1-2**: Legacy analysis and documentation
 - **Week 3-4**: Target architecture design
 - **Week 5-6**: Migration script development
@@ -85,7 +78,6 @@ Location: `src/migration/`
 - **Week 8**: Production migration
 
 ## Success Metrics
-
 - [ ] 100% data integrity maintained
 - [ ] Zero data loss during migration
 - [ ] Performance benchmarks met
@@ -93,14 +85,12 @@ Location: `src/migration/`
 - [ ] Rollback procedures tested and verified
 
 ## Notes
-
 - All migration activities logged in `99_LOGS/migration/`
 - Regular checkpoints established for validation
 - Stakeholder communication plan in place
 - Emergency contacts and procedures documented
 
 ---
-
 *Last Updated: September 2025*
 *Document Version: 1.0*
 *Responsible Team: Platform Engineering*
