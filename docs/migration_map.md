@@ -1,7 +1,16 @@
+# Migration Map
+## 📑 Index
+- **Automated Migration Map**  
+  - [`docs/migration_map.md`](./migration_map.md) — auto-updated on each commit with file adds/renames.
+- **Backfill Transcript(s)**  
+  - [`99_LOGS/migration_backfill_20250917.md`](../99_LOGS/migration_backfill_20250917.md) — one-time historical log of portfolio/asset migrations pre-automation.
+- **Captain's Logs (Daily Journals)**  
+  - [`99_LOGS/journal/`](../99_LOGS/journal/) — daily narrative logs of repo activities, automation events, and sync operations.
+---
+## Automated Migration Map (Live)
+
 # Migration Index
-
 This section links to both the **one-time backfill** (historical baseline) and the **ongoing migration map** (automation-driven).
-
 - **Backfill (pre-automation snapshot):**  
   [99_LOGS/migration_backfill_20250917.md](../99_LOGS/migration_backfill_20250917.md)
 - **Current Migration Map (auto-updated):**  
@@ -13,12 +22,10 @@ This section links to both the **one-time backfill** (historical baseline) and t
 *This index ensures migration lineage is always visible — from past archives to present automation and narrative logs.*
 
 # Migration Map
-
 ## Overview
 This document outlines the migration strategy and mapping for Career Intelligence Space platform components.
 
 ## Data Migration Strategy
-
 ### Phase 1: Legacy System Analysis
 - [ ] Identify existing data sources
 - [ ] Map current data structures
@@ -38,7 +45,6 @@ This document outlines the migration strategy and mapping for Career Intelligenc
 - [ ] Perform testing and rollback procedures
 
 ## Component Mapping
-
 ### Job Intelligence
 - **Source**: Legacy job tracking system
 - **Target**: `03_RESEARCH/job_intelligence/`
@@ -71,11 +77,11 @@ Location: `src/migration/`
 4. **Testing Protocol**: Comprehensive validation before production
 
 ## Timeline
-- **Week 1-2**: Legacy analysis and documentation
-- **Week 3-4**: Target architecture design
-- **Week 5-6**: Migration script development
-- **Week 7**: Testing and validation
-- **Week 8**: Production migration
+- Week 1-2: Legacy analysis and documentation
+- Week 3-4: Target architecture design
+- Week 5-6: Migration script development
+- Week 7: Testing and validation
+- Week 8: Production migration
 
 ## Success Metrics
 - [ ] 100% data integrity maintained
@@ -90,7 +96,6 @@ Location: `src/migration/`
 - Stakeholder communication plan in place
 - Emergency contacts and procedures documented
 
----
-*Last Updated: September 2025*
-*Document Version: 1.0*
-*Responsible Team: Platform Engineering*
+**Last Updated**: September 2025  
+**Document Version**: 1.0  
+**Responsible Team**: Platform Engineering
