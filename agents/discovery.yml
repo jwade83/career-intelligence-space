@@ -1,0 +1,310 @@
+# Discovery Agent Configuration - Career Intelligence Platform
+schema_version: "1.0"
+# Agent 5: Discovery Agent - Automated opportunity discovery and market analysis
+# Flat compatibility keys for schema bridge
+agent_id: "discovery"
+name: "Discovery Agent"
+description: "Discovery agent for automated opportunity identification and market intelligence gathering"
+type: "discovery"
+priority: "high"
+status: "scaffold"
+owner: "jwade83"
+
+# Definition of done - comprehensive discovery criteria as YAML sequence
+definition_of_done:
+  - "Structured output written to specified paths OR explicit limits documented"
+  - "Automated scanning of job boards and career platforms for relevant opportunities"
+  - "Market trend analysis and emerging role identification"
+  - "Company intelligence gathering and employer profiling"
+  - "Skills gap analysis and training opportunity identification"
+  - "Salary benchmarking and compensation trend analysis"
+  - "Network mapping and connection opportunity identification"
+  - "Industry event and conference discovery"
+  - "Certification and educational pathway recommendations"
+  - "Geographic market analysis and relocation opportunities"
+
+# Service Level Agreement requirements
+sla:
+  max_response_time: "5 minutes"
+  availability: "99.5%"
+  throughput: "50 discoveries/hour"
+
+# Domain restrictions for discovery sources
+allowed_domains: ["linkedin.com", "glassdoor.com", "indeed.com", "monster.com", "ziprecruiter.com", "stackoverflow.com", "github.com", "angel.co", "crunchbase.com", "gov", "edu"]
+disallowed_domains: ["malicious.com", "spam-jobs.net", "fake-opportunities.com"]
+
+# Nested configuration sections
+metadata:
+  created_by: "comet_assistant"
+  created_at: "2025-09-17T17:26:00Z"
+  version: "0.1.0"
+  description: "Discovery agent for automated opportunity identification and market intelligence gathering"
+  tags:
+    - "discovery"
+    - "opportunities"
+    - "market_analysis"
+    - "job_search"
+    - "career_intelligence"
+    - "automation"
+  capabilities:
+    - "Multi-platform job board scanning"
+    - "Real-time market trend analysis"
+    - "Company intelligence profiling"
+    - "Skills demand forecasting"
+    - "Salary benchmarking"
+    - "Network opportunity mapping"
+    - "Educational pathway discovery"
+    - "Geographic market analysis"
+
+configuration:
+  runtime:
+    environment: "python"
+    max_concurrent_tasks: 12
+    timeout_seconds: 300
+    memory_limit: "6GB"
+    cpu_cores: 6
+    requirements:
+      - "requests>=2.28.0"
+      - "beautifulsoup4>=4.11.0"
+      - "selenium>=4.5.0"
+      - "scrapy>=2.6.0"
+      - "pandas>=1.5.0"
+      - "numpy>=1.21.0"
+      - "scikit-learn>=1.1.0"
+      - "nltk>=3.8.0"
+      - "spacy>=3.4.0"
+  
+  discovery:
+    platforms:
+      - "linkedin"
+      - "glassdoor"
+      - "indeed"
+      - "monster"
+      - "ziprecruiter"
+      - "stackoverflow_jobs"
+      - "github_jobs"
+      - "angellist"
+      - "company_websites"
+    scan_frequency: "hourly"
+    search_radius: 50  # miles
+    experience_levels: ["entry", "mid", "senior", "executive"]
+    job_types: ["full_time", "part_time", "contract", "remote", "hybrid"]
+    
+  analysis:
+    market_trends:
+      lookback_period: 90  # days
+      prediction_horizon: 30  # days
+      trend_threshold: 0.15  # 15% change
+    company_intelligence:
+      data_sources: ["crunchbase", "glassdoor", "linkedin", "financial_reports"]
+      update_frequency: "weekly"
+      profile_completeness_threshold: 0.70
+    skills_analysis:
+      demand_tracking: true
+      emerging_skills_detection: true
+      skill_gap_analysis: true
+      certification_mapping: true
+      
+  inputs:
+    required:
+      - "search_criteria"
+      - "target_locations"
+      - "desired_roles"
+    optional:
+      - "salary_range"
+      - "company_preferences"
+      - "industry_focus"
+      - "experience_level"
+      - "work_arrangement"
+      
+  outputs:
+    primary: "opportunity_report.json"
+    market_analysis: "market_trends.md"
+    company_profiles: "company_intelligence.yml"
+    skills_report: "skills_analysis.json"
+    logs: "discovery_log.md"
+
+integration:
+  dependencies:
+    - "research_agent"
+    - "intelligence_agent"
+    - "web_scraping_service"
+    - "data_processing_pipeline"
+    - "notification_service"
+    
+  interfaces:
+    input:
+      - type: "rest_api"
+        format: "json"
+        endpoint: "/api/v1/discovery/search"
+      - type: "message_queue"
+        format: "json"
+        source: "user_preferences"
+      - type: "scheduled_task"
+        format: "cron"
+        schedule: "0 */6 * * *"  # Every 6 hours
+        
+    output:
+      - type: "database"
+        format: "structured"
+        destination: "opportunities_db"
+      - type: "file_system"
+        format: "json/yaml"
+        destination: "03_RESEARCH/opportunities/"
+      - type: "notification"
+        format: "json"
+        destination: "user_alerts"
+      - type: "webhook"
+        format: "json"
+        destination: "external_integrations"
+        
+  protocols:
+    communication: "https"
+    authentication: "api_key_bearer"
+    rate_limiting: "adaptive"
+    
+  logging:
+    level: "INFO"
+    destination: "99_LOGS/agents/discovery_log.md"
+    format: "structured"
+
+execution:
+  stages:
+    - name: "platform_scanning"
+      module: "scanner_handler"
+      timeout: 120
+    - name: "data_extraction"
+      module: "extraction_engine"
+      timeout: 90
+    - name: "opportunity_analysis"
+      module: "analysis_processor"
+      timeout: 180
+    - name: "market_intelligence"
+      module: "market_analyzer"
+      timeout: 150
+    - name: "company_profiling"
+      module: "company_profiler"
+      timeout: 120
+    - name: "skills_mapping"
+      module: "skills_analyzer"
+      timeout: 60
+    - name: "report_generation"
+      module: "report_generator"
+      timeout: 45
+      
+  error_handling:
+    retry_attempts: 3
+    fallback_mode: "cached_results"
+    escalation: "alert_maintainer"
+
+# Process workflow definition
+process:
+  workflow:
+    - step: "initialize_search"
+      description: "Set up search parameters and validate inputs"
+      inputs: ["search_criteria", "target_locations"]
+      outputs: ["validated_parameters"]
+      
+    - step: "platform_discovery"
+      description: "Scan job boards and career platforms"
+      inputs: ["validated_parameters"]
+      outputs: ["raw_opportunities"]
+      
+    - step: "data_enrichment"
+      description: "Enhance opportunity data with additional intelligence"
+      inputs: ["raw_opportunities"]
+      outputs: ["enriched_opportunities"]
+      
+    - step: "market_analysis"
+      description: "Analyze market trends and patterns"
+      inputs: ["enriched_opportunities", "historical_data"]
+      outputs: ["market_insights"]
+      
+    - step: "company_research"
+      description: "Profile companies and gather intelligence"
+      inputs: ["enriched_opportunities"]
+      outputs: ["company_profiles"]
+      
+    - step: "skills_analysis"
+      description: "Analyze skills demand and identify gaps"
+      inputs: ["enriched_opportunities"]
+      outputs: ["skills_intelligence"]
+      
+    - step: "opportunity_ranking"
+      description: "Score and rank discovered opportunities"
+      inputs: ["enriched_opportunities", "market_insights", "user_preferences"]
+      outputs: ["ranked_opportunities"]
+      
+    - step: "report_compilation"
+      description: "Generate comprehensive discovery reports"
+      inputs: ["ranked_opportunities", "market_insights", "company_profiles", "skills_intelligence"]
+      outputs: ["discovery_report"]
+
+guardrails:
+  security:
+    access_control:
+      - "rate_limiting"
+      - "api_authentication"
+      - "data_sanitization"
+    data_protection:
+      - "pii_scrubbing"
+      - "secure_storage"
+      - "encrypted_transmission"
+      - "access_logging"
+    compliance:
+      - "robots_txt_compliance"
+      - "terms_of_service_adherence"
+      - "privacy_policy_compliance"
+      
+  operational:
+    quality_control:
+      - "data_validation"
+      - "duplicate_detection"
+      - "freshness_verification"
+    resource_management:
+      - "concurrent_request_limiting"
+      - "bandwidth_throttling"
+      - "memory_usage_monitoring"
+    monitoring:
+      - "discovery_success_tracking"
+      - "platform_availability_monitoring"
+      - "data_quality_metrics"
+      
+  ethical:
+    data_collection:
+      - "respectful_scraping"
+      - "attribution_requirements"
+      - "content_licensing_compliance"
+    user_privacy:
+      - "search_anonymization"
+      - "data_minimization"
+      - "user_consent_management"
+    fair_use:
+      - "non_commercial_research"
+      - "educational_purpose_compliance"
+      - "platform_terms_adherence"
+
+validation:
+  required_fields: ["metadata", "configuration", "integration", "execution", "process"]
+  optional_fields: ["validation", "guardrails"]
+  schema_compliance: true
+  
+# Discovery performance metrics
+metrics:
+  discovery_success_rate_target: 0.95
+  data_freshness_threshold: 24  # hours
+  platform_coverage_target: 0.90
+  opportunity_relevance_score_minimum: 0.70
+  market_trend_accuracy_target: 0.80
+
+# Next steps and future enhancements
+next_steps:
+  - "Implement ML-based opportunity matching algorithms"
+  - "Add real-time notification system for high-priority opportunities"
+  - "Integrate with professional networking platforms"
+  - "Develop predictive career path modeling"
+  - "Add support for international job markets"
+  - "Implement natural language query interface"
+  - "Create mobile app integration capabilities"
+
+# UPGRADE: Implement AI-powered opportunity scoring, add real-time market alerts, integrate with professional networks APIs
