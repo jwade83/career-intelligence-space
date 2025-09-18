@@ -1,0 +1,35 @@
+---
+agent: orchestrator
+intent_text: >
+  Kick off a one-time Discovery Agent test run to scout opportunities aligned
+  to maintenance/skilled-trades in Portland/Seattle/Remote, and log results.
+
+deliver_to:
+  - "03_RESEARCH/opportunities/"
+  - "99_LOGS/journal/"
+
+params:
+  keywords: ["maintenance technician", "smart home", "skilled trades"]
+  locations: ["Portland, OR", "Seattle, WA", "Remote"]
+  filters:
+    salary_band: "60000-120000"
+    employment_type: "full-time"
+    remote_ok: true
+    exclude_agencies: true
+  frequency: "manual"   # one-time test run
+
+chain:
+  - step: "opportunity_discovery"
+    agent: "discovery"
+    outputs:
+      - "03_RESEARCH/opportunities/20250917_opps.md"
+      - "03_RESEARCH/opportunities/20250917_opps.csv"
+    metadata:
+      provenance: "Triggered via 20250917-orch-discovery-test"
+      run_timestamp: "2025-09-17T17:34:00Z"
+
+log_refs:
+  captain_log: "99_LOGS/journal/20250917_journal.md"
+  migration_index: "docs/migration_map.md"
+
+# UPGRADE
