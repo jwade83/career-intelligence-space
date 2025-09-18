@@ -1,3 +1,20 @@
+# Migration Index
+
+This section links to both the **one-time backfill** (historical baseline) and the **ongoing migration map** (automation-driven).
+
+- **Backfill (pre-automation snapshot):**  
+  [99_LOGS/migration_backfill_20250917.md](../99_LOGS/migration_backfill_20250917.md)
+
+- **Current Migration Map (auto-updated):**  
+  [docs/migration_map.md](migration_map.md)
+
+- **Captain’s Logs (daily journals):**  
+  [99_LOGS/journal/](../99_LOGS/journal/)
+
+---
+
+_This index ensures migration lineage is always visible — from past archives to present automation and narrative logs._
+
 # Migration Map
 
 ## Overview
