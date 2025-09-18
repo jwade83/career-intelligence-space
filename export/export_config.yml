@@ -1,0 +1,19 @@
+# Default export configuration
+targets:
+  published:
+    enabled: true
+    path: 05_EXPORTS/published
+  candidates:
+    enabled: true
+    path: 05_EXPORTS/candidates
+  outreach:
+    enabled: true
+    path: 05_EXPORTS/outreach
+  local:
+    enabled: false
+    path: "~/Documents/Career/Exports"
+  master_portfolio:
+    enabled: false
+    repo: ""          # optional future Git remote
+    path: ""          # optional subpath in MP
+# UPGRADE
