@@ -1,0 +1,52 @@
+name: Build Intel Index
+
+on:
+  push:
+    paths:
+      - 'intel/**'
+      - 'scripts/index/build_intel_index.py'
+  workflow_dispatch:
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+          
+      - name: Make script executable
+        run: chmod +x scripts/index/build_intel_index.py
+        
+      - name: Run intel index builder
+        run: python scripts/index/build_intel_index.py
+        
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet intel/INDEX.md; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add intel/INDEX.md
+          git commit -m "docs(intel): auto-update INDEX.md"
+          git push
