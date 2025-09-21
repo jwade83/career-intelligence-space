@@ -1,8 +1,8 @@
 ---
 title: "The CIS Chronicle — Newsletter Strategy Session"
 date: 2025-09-21
-version: v0.1
-status: forensic-draft
+version: v1.0
+status: published
 author: Embedded Chronicler
 tags: [newsletter, chronicler, communications, cis]
 sources:
