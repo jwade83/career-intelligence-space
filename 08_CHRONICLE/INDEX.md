@@ -7,3 +7,5 @@
   - **Version:** v0.1 (forensic-draft)  
   - **Status:** Published  
   - **Summary:** Establishes the Chronicler’s outward-facing track; Substack chosen; two-tier record (vault + digest); Traceability Matrix added for provenance.
+
+- Forensic Backfill Log v0.2 — [link](../99_LOGS/forensic_backfill_log_v0.2.md)
