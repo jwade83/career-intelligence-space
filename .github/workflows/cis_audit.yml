@@ -242,6 +242,10 @@ jobs:
           name: week_audit_evidence
           path: out/week_audit_evidence.md
           if-no-files-found: warn
+      - name: Push PR branch
+        if: steps.commit.outputs.committed == 'true'
+        run: |
+          git push -u origin "${PR_BRANCH}"
 
       - name: Open Pull Request
         if: steps.commit.outputs.committed == 'true'
