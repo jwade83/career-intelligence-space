@@ -4,10 +4,10 @@
 - capsules_added: 5
 - capsule_growth_rate: 5.0
 - index_missing_entries: 0
-- broken_internal_links: 19
+- broken_internal_links: 38
 - tag_entropy: 4.972
 - top5_tag_coverage_pct: 25.0
-- oov_tag_rate_pct: 97.0
+- oov_tag_rate_pct: 51.5
 - collapse_events_count: 0
 - override_count: 0
 - frustration_events: 0
