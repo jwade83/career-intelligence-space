@@ -3,16 +3,16 @@
 ## Stress Signals (last 7 days)
 - capsules_added: 5
 - capsule_growth_rate: 5.0
-- index_missing_entries: 3
-- broken_internal_links: 60
+- index_missing_entries: 0
+- broken_internal_links: 59
 - tag_entropy: 4.972
 - top5_tag_coverage_pct: 25.0
-- oov_tag_rate_pct: n/a
+- oov_tag_rate_pct: 97.0
 - collapse_events_count: 0
 - override_count: 0
 - frustration_events: 0
 - context_reprime_events: 0
-- days_since_last_checkpoint: n/a
+- days_since_last_checkpoint: 0
 
 ## Notes
 - Budget-capped & offline; advanced metrics skipped if runtime exceeds budget.
