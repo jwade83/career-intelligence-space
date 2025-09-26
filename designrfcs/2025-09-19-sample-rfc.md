@@ -3,7 +3,7 @@
 **Date**: 2025-09-19  
 **Author**: System Designer  
 **Status**: Draft  
-**Related**: [Design Lane career-compass.md](../docs/design/career-compass.md)  
+**Related**: [Design Lane career-compass.md](../docs/design/2025-09-19-career-compass.md)  
 
 ## Context
 

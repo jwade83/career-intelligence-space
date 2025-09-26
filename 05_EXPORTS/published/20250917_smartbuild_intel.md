@@ -2,7 +2,7 @@ _Provenance: promoted via export pipeline (2025-09-17)_
 
 # Session Digest — 2025-09-17 SmartBuild Intel Workflow
 
-_Provenance: Full Research → Synth → Intel workflow chain for SmartBuild Solutions (Senior Building Automation Technician, Portland). Orchestrator queue files created and executed, all artifacts CI-validated. See Captain's Log [20250917_journal.md](../journal/20250917_journal.md)._
+_Provenance: Full Research → Synth → Intel workflow chain for SmartBuild Solutions (Senior Building Automation Technician, Portland). Orchestrator queue files created and executed, all artifacts CI-validated. See Captain's Log [20250917_journal.md](../../99_LOGS/journal/20250917_journal.md)._
 
 ## Intent
 - Complete the workflow chain for SmartBuild lead (`smartbuild_senior_bmt`).
@@ -45,6 +45,6 @@ _Provenance: Full Research → Synth → Intel workflow chain for SmartBuild Sol
 - [Comp Brief](../../02_TEMPLATES/briefs/20250917_smartbuild_senior_bmt_comp_brief.md)  
 - [Intel Deliverable](../../03_RESEARCH/findings/20250917_smartbuild_senior_bmt_intel.md)  
 - [CI Run](https://github.com/jwade83/career-intelligence-space/actions)  
-- [Captain's Log](../journal/20250917_journal.md)
+- [Captain's Log](../../99_LOGS/journal/20250917_journal.md)
 
 # UPGRADE

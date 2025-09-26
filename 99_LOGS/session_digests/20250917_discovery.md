@@ -39,7 +39,7 @@
 ## Technical Implementation
 
 ### Agent Schema Development
-- **File:** [`agents/discovery.yml`](../agents/discovery.yml)
+- **File:** [`agents/discovery.yml`](../../agents/discovery.yml)
 - **Standards:** Matched CI and orchestration requirements
 - **Extensibility:** Version-controlled for future enhancement
 
@@ -123,7 +123,7 @@
 
 ### Session Files
 - **Captain's Log:** [`journal/20250917_journal.md`](../journal/20250917_journal.md) - Daily operational log
-- **Agent Schema:** [`agents/discovery.yml`](../agents/discovery.yml) - Discovery agent definition
+- **Agent Schema:** [`agents/discovery.yml`](../../agents/discovery.yml) - Discovery agent definition
 - **Queue Intake:** [`tasks/queue/20250917-orch-discovery-test.yml`](../../tasks/queue/20250917-orch-discovery-test.yml) - Orchestrator configuration
 
 ### CI/CD References

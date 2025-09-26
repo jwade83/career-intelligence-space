@@ -141,8 +141,8 @@ The Career Intelligence Space includes a structured design documentation system 
 - **Purpose**: Working design documents, architecture explorations, and draft technical specifications
 - **Governance**: Lightweight review process, version-controlled iteration
 - **Contents**: Technical deep-dives, system design proposals, interface specifications
-- **Index**: [docs/design/INDEX.md](docs/design/INDEX.md) - searchable catalog of all design documents
-- **Overview**: [docs/design/README.md](docs/design/README.md) - design lane conventions and standards
+- **Index**: [docs/design/INDEX.md](./design/INDEX.md) - searchable catalog of all design documents
+- **Overview**: [docs/design/README.md](./design/README.md) - design lane conventions and standards
 
 ### RFC Path (`/designrfcs/`)
 

@@ -3508,7 +3508,7 @@ tags: [audit, provenance, cadence]
 
 ## Scope
 Period: <start> → <end>. Artifacts reviewed: Chronicles, Digests, Action Logs, POINTERS, vault exports.
-Links reviewed: [Chronicle1](...), [Digest1](...), [Matrix1](...)
+Links reviewed: [Chronicle1](#ellipsis), [Digest1](#ellipsis), [Matrix1](#ellipsis)
 
 ## Findings
 - Coverage gaps (missing digest/log/matrix?):
@@ -3688,9 +3688,9 @@ Here's a quick confirmation and a couple of optional enhancements you might cons
     - “Metrics: 4 digests published, 100% pointer compliance, 1 audit performed, 2 improvement tickets filed.”
 - **Explicit Digest/Action Log Links (if public):**
     - List ⟶
-        - [Session Digest](link)
-        - [Action Log](link)
-        - [Traceability Matrix](link)
+        - [Session Digest](#link)
+        - [Action Log](#link)
+        - [Traceability Matrix](#link)
 - **Auto-Date and Author:**
     - E.g.,
         - Author: John Wade
@@ -3727,7 +3727,7 @@ This moment anchors our trust discipline—no more narrative drift.
 
 ---
 **Provenance (below the fold)**  
-Sources: [Chronicle](repo_link) • [Digest](digest_link) • [Matrix](matrix_link)  
+Sources: [Chronicle](#repo_link) • [Digest](#digest_link) • [Matrix](#matrix_link)  
 Vault reference (hash): `1cef4230ca5ac26d1c496c5fa362fe028b9d1183bf759b7ad96bd345db8edb2a`
 ```
 
@@ -6676,7 +6676,7 @@ Putting it all together, the reusable template looks like this:
 ---
 type: sync-compare
 topic: <short description, e.g. "Transcript export/storage protocol">
-date: [YYYY-MM-DDTHH:MM-TZ](YYYY-MM-DDTHH:MM-TZ)
+date: [YYYY-MM-DDTHH:MM-TZ](#timestamp)
 agents: [ChatGPT, Perplexity]
 status: draft  \# change to reviewed/finalized
 sessions:
@@ -7083,7 +7083,7 @@ Let me know if you need this adapted for a specific workflow, topic, or agent pa
 ---
 type: exchange-block
 topic: <short description of exchange>
-date: [YYYY-MM-DDTHH:MM-TZ](YYYY-MM-DDTHH:MM-TZ)
+date: [YYYY-MM-DDTHH:MM-TZ](#timestamp)
 from: <ChatGPT | Perplexity>
 to: <ChatGPT | Perplexity>
 status: draft  \# or synced

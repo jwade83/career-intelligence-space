@@ -50,11 +50,11 @@ Bluestone's compensation structure creates a career development bottleneck. The 
 ## References
 
 ### Primary Synthesis Files
-- [Compensation Brief](../02_TEMPLATES/briefs/20250914_bluestone_pdx_comp_brief.md)
-- [Compensation Table](../02_TEMPLATES/comp/20250914_bluestone_pdx_comp_table.md)
+- [Compensation Brief](../../02_TEMPLATES/briefs/20250914_bluestone_pdx_comp_brief.md)
+- [Compensation Table](../../02_TEMPLATES/comp/20250914_bluestone_pdx_comp_table.md)
 
 ### Research Sources
-- [Compensation & Scope Research](companies/bluestone/20250914_int2_comp_scope.md)
-- [Round 2 Debrief](companies/bluestone/20250914_int2_debrief.md)
+- [Compensation & Scope Research](/companies/bluestone/20250914_int2_comp_scope.md)
+- [Round 2 Debrief](/companies/bluestone/20250914_int2_debrief.md)
 
 #UPGRADE
