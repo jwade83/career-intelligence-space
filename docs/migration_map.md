@@ -1,6 +1,6 @@
 # Documentation Migration Map
 
-*Auto-generated on 2025-09-26 08:30:04 UTC*
+*Auto-generated on 2025-09-26 08:33:21 UTC*
 
 This file tracks the current structure and metadata of all documentation files.
 
@@ -35,7 +35,7 @@ This file tracks the current structure and metadata of all documentation files.
 
 - **Path:** `design/2025-09-19-bacnet-cert-fullspec.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 10858 bytes
+- **Size:** 10862 bytes
 - **Tags:** certification, bacnet, professional-development, building-automation, learning-path
 
 ### [Commands](docs/COMMANDS.md)
@@ -66,7 +66,7 @@ This file tracks the current structure and metadata of all documentation files.
 
 - **Path:** `design/2025-09-19-market-scout-stub.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 1186 bytes
+- **Size:** 1188 bytes
 - **Tags:** market-research, competitive-intelligence, discovery
 
 ### [Orch Runbook](docs/ORCH_RUNBOOK.md)
@@ -127,7 +127,7 @@ This file tracks the current structure and metadata of all documentation files.
 
 - **Total Files:** 19
 - **Categories:** 1
-- **Total Size:** 81,719 bytes
+- **Total Size:** 81,725 bytes
 
 ---
 
