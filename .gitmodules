@@ -1,0 +1,4 @@
+[submodule "harness"]
+	path = harness
+	url = https://github.com/jwade83/cis-harness.git
+	branch = main
