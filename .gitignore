@@ -1,0 +1,3 @@
+.github/workflows/*.bak
+cis_audit.sh
+out/
