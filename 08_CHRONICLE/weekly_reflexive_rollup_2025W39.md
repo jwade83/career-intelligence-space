@@ -5,6 +5,7 @@
 - capsule_growth_rate: 5.0
 - index_missing_entries: 0
 - broken_internal_links: 19
+- case_mismatch_links: 0
 - tag_entropy: 4.916
 - top5_tag_coverage_pct: 23.8
 - oov_tag_rate_pct: 0.0
