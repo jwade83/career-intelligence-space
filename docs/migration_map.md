@@ -1,6 +1,6 @@
 # Documentation Migration Map
 
-*Auto-generated on 2025-09-26 08:33:21 UTC*
+*Auto-generated on 2025-09-26 08:34:45 UTC*
 
 This file tracks the current structure and metadata of all documentation files.
 
