@@ -27,10 +27,7 @@ if not reg.exists():
   print("::notice::No TAGS_REGISTRY.yml found; skipping OOV check.")
   sys.exit(0)
 
-# Allowed tags (regex—no PyYAML dependency)
 allowed = set(re.findall(r"-\s*([A-Za-z0-9_\-]+)", reg.read_text(encoding="utf-8", errors="ignore")))
-
-# Frontmatter parser (tolerant of BOM/leading space; supports inline + block lists)
 FM_RE = re.compile(r"^\ufeff?\s*---\s*\n(.*?)\n---", re.DOTALL)
 
 def fm_tags(text: str):
@@ -57,7 +54,6 @@ def fm_tags(text: str):
         j+=1
       i=j-1
     i+=1
-  # dedupe
   seen=set(); out=[]
   for t in tags:
     if t and t not in seen:

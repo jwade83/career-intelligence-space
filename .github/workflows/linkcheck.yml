@@ -23,7 +23,6 @@ import re, glob, pathlib, sys
 from pathlib import Path
 
 root = Path('.').resolve()
-# ignore external, mailto, and pure anchors
 link_re = re.compile(r'!?\[[^\]]+\]\((?!https?://|mailto:|#)([^)]+)\)')
 
 broken = []
@@ -43,7 +42,6 @@ for p in glob.glob("**/*.md", recursive=True):
     if target.exists():
       continue
 
-    # Case-insensitive probe to detect case-only issues (Linux CI is case-sensitive)
     probe = root if t.startswith("/") else src.parent
     comps = Path(t.lstrip("/")).parts
     ok_ci = True
