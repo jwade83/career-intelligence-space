@@ -1,91 +1,88 @@
 # Documentation Migration Map
 
-*Auto-generated on 2025-09-26 08:34:45 UTC*
+*Auto-generated on 2025-09-26 08:37:40 UTC*
 
 This file tracks the current structure and metadata of all documentation files.
 
 ## General
 
+### [2025 09 19 Bacnet Cert Fullspec](docs/design/2025-09-19-bacnet-cert-fullspec.md)
+
+- **Path:** `design/2025-09-19-bacnet-cert-fullspec.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 89 bytes
+
+### [2025 09 19 Bacnet Intel Review](docs/review/2025-09-19-bacnet-intel-review.md)
+
+- **Path:** `review/2025-09-19-bacnet-intel-review.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 72 bytes
+
 ### [2025 09 19 Career Compass](docs/design/2025-09-19-career-compass.md)
 
 - **Path:** `design/2025-09-19-career-compass.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 4367 bytes
+- **Size:** 73 bytes
+
+### [2025 09 19 Market Scout Stub](docs/design/2025-09-19-market-scout-stub.md)
+
+- **Path:** `design/2025-09-19-market-scout-stub.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 69 bytes
 
 ### [Agents Overview](docs/AGENTS_OVERVIEW.md)
 
 - **Path:** `AGENTS_OVERVIEW.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 10262 bytes
+- **Size:** 83 bytes
 
 ### [Architecture](docs/ARCHITECTURE.md)
 
 - **Path:** `ARCHITECTURE.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 11172 bytes
-
-### [BACnet Intelligence Review](docs/review/2025-09-19-bacnet-intel-review.md)
-
-- **Path:** `review/2025-09-19-bacnet-intel-review.md`
-- **Last Modified:** 2025-09-26
-- **Size:** 5512 bytes
-- **Tags:** BACnet, certification, market_intelligence, review, building_automation
-
-### [BACnet Professional Certification - Complete Learning Path Design](docs/design/2025-09-19-bacnet-cert-fullspec.md)
-
-- **Path:** `design/2025-09-19-bacnet-cert-fullspec.md`
-- **Last Modified:** 2025-09-26
-- **Size:** 10862 bytes
-- **Tags:** certification, bacnet, professional-development, building-automation, learning-path
+- **Size:** 80 bytes
 
 ### [Commands](docs/COMMANDS.md)
 
 - **Path:** `COMMANDS.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 4631 bytes
+- **Size:** 76 bytes
 
 ### [Designnote Template](docs/design/DESIGNNOTE_TEMPLATE.md)
 
 - **Path:** `design/DESIGNNOTE_TEMPLATE.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 2298 bytes
+- **Size:** 85 bytes
 
 ### [Index](docs/design/INDEX.md)
 
 - **Path:** `design/INDEX.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 696 bytes
+- **Size:** 68 bytes
 
 ### [Intel Runbook](docs/INTEL_RUNBOOK.md)
 
 - **Path:** `INTEL_RUNBOOK.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 5459 bytes
-
-### [Market Scout - Competitive Intelligence Module](docs/design/2025-09-19-market-scout-stub.md)
-
-- **Path:** `design/2025-09-19-market-scout-stub.md`
-- **Last Modified:** 2025-09-26
-- **Size:** 1188 bytes
-- **Tags:** market-research, competitive-intelligence, discovery
+- **Size:** 80 bytes
 
 ### [Orch Runbook](docs/ORCH_RUNBOOK.md)
 
 - **Path:** `ORCH_RUNBOOK.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 1124 bytes
+- **Size:** 82 bytes
 
 ### [Portfolio To Ci Index](docs/crosswalk/portfolio_to_ci_index.md)
 
 - **Path:** `crosswalk/portfolio_to_ci_index.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 403 bytes
+- **Size:** 89 bytes
 
 ### [Readme](docs/README.md)
 
 - **Path:** `README.md`
 - **Last Modified:** 2025-09-26
-- **Size:** 227 bytes
+- **Size:** 69 bytes
 
 ### [Readme](docs/design/README.md)
 
@@ -127,7 +124,7 @@ This file tracks the current structure and metadata of all documentation files.
 
 - **Total Files:** 19
 - **Categories:** 1
-- **Total Size:** 81,725 bytes
+- **Total Size:** 24,539 bytes
 
 ---
 
