@@ -1,9 +1,9 @@
 # Reflexive Rollup — 2025W39
 
 ## Stress Signals (last 7 days)
-- capsules_added: 4
-- capsule_growth_rate: 4.0
-- index_missing_entries: 2
+- capsules_added: 5
+- capsule_growth_rate: 5.0
+- index_missing_entries: 3
 - broken_internal_links: 60
 - tag_entropy: 4.972
 - top5_tag_coverage_pct: 25.0
