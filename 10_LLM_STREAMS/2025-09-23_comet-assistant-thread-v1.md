@@ -8,7 +8,12 @@ summary: "Raw thread export capturing discussion between ChatGPT and Perplexity 
 sources:
   - "Perplexity conversation thread"
   - "ChatGPT conversation thread"
-tags: ["comet-assistant", "dual-agent", "chronicle", "protocol", "raw-export"]
+tags:
+  - comet-assistant
+  - dual-agent
+  - chronicle
+  - protocol
+  - raw-export
 slug: "comet-assistant-thread"
 redaction: "complete"
 ---

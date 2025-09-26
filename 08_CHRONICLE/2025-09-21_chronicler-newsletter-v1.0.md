@@ -4,7 +4,11 @@ date: 2025-09-21
 version: v1.0
 status: published
 author: Embedded Chronicler
-tags: [newsletter, chronicler, communications, cis]
+tags:
+  - newsletter
+  - chronicler
+  - communications
+  - cis
 sources:
   - 10_LLM_STREAMS/chatgpt/2025-09-21_chatgpt_project-newsletter-strategy.md
   - 10_LLM_STREAMS/chatgpt/2025-09-21_chatgpt_project-newsletter-strategy.actions.yaml

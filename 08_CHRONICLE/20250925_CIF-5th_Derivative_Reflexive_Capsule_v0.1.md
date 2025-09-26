@@ -4,7 +4,10 @@ type: research_note
 topic: CIF 5th-derivative reflexive capsule
 status: in-review
 owner: John Wade
-tags: [chronicle, systems, reflexivity]
+tags:
+  - chronicle
+  - systems
+  - reflexivity
 updated: 2025-09-25
 ---
 

@@ -2,7 +2,10 @@
 project: Career Intelligence Space
 type: backlog_log
 status: in-progress
-tags: [CIS, Chronicler, ForensicBackfill]
+tags:
+  - CIS
+  - Chronicler
+  - ForensicBackfill
 updated: 2025-09-24
 version: v0.1
 owner: John Wade

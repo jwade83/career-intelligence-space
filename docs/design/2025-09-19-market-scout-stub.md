@@ -4,7 +4,10 @@ author: jwade83
 type: design-note
 status: stub
 title: "Market Scout - Competitive Intelligence Module"
-tags: ["market-research", "competitive-intelligence", "discovery"]
+tags:
+  - market-research
+  - competitive-intelligence
+  - discovery
 version: 0.1.0
 ---
 

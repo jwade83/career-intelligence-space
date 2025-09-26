@@ -4,7 +4,12 @@ author: jwade83
 type: design-note
 status: fullspec
 title: "BACnet Professional Certification - Complete Learning Path Design"
-tags: ["certification", "bacnet", "professional-development", "building-automation", "learning-path"]
+tags:
+  - certification
+  - bacnet
+  - professional-development
+  - building-automation
+  - learning-path
 version: 1.0.0
 reviewed_by: ["architecture-team"]
 approved: true

@@ -3,7 +3,12 @@ title: "BACnet Certification Market Intelligence Report"
 date: 2025-09-19
 type: "market_intelligence"
 status: "live_market_analysis"
-tags: ["BACnet", "certification", "market_analysis", "building_automation", "HVAC"]
+tags:
+  - BACnet
+  - certification
+  - market_analysis
+  - building_automation
+  - HVAC
 priority: "high"
 provenance:
   original_report: "2025-09-19-bacnet-certification-scout.md"
