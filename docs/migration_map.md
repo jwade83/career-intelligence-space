@@ -1,125 +1,134 @@
-# Migration Map
+# Documentation Migration Map
 
-## 📑 Index
+*Auto-generated on 2025-09-26 07:04:15 UTC*
 
-- **Automated Migration Map**  
-  - [`docs/migration_map.md`](./migration_map.md) — auto-updated on each commit with file adds/renames.
-- **Backfill Transcript(s)**  
-  - [`99_LOGS/migration_backfill_20250917.md`](../99_LOGS/migration_backfill_20250917.md) — one-time historical log of portfolio/asset migrations pre-automation.
-- **Captain's Logs (Daily Journals)**  
-  - [`99_LOGS/journal/`](../99_LOGS/journal/) — daily narrative logs of repo activities, automation events, and sync operations.
+This file tracks the current structure and metadata of all documentation files.
+
+## General
+
+### [2025 09 19 Career Compass](docs/design/2025-09-19-career-compass.md)
+
+- **Path:** `design/2025-09-19-career-compass.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 4367 bytes
+
+### [Agents Overview](docs/AGENTS_OVERVIEW.md)
+
+- **Path:** `AGENTS_OVERVIEW.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 10262 bytes
+
+### [Architecture](docs/ARCHITECTURE.md)
+
+- **Path:** `ARCHITECTURE.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 11178 bytes
+
+### [BACnet Intelligence Review](docs/review/2025-09-19-bacnet-intel-review.md)
+
+- **Path:** `review/2025-09-19-bacnet-intel-review.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 5512 bytes
+- **Tags:** BACnet, certification, market_intelligence, review, building_automation
+
+### [BACnet Professional Certification - Complete Learning Path Design](docs/design/2025-09-19-bacnet-cert-fullspec.md)
+
+- **Path:** `design/2025-09-19-bacnet-cert-fullspec.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 10858 bytes
+- **Tags:** certification, bacnet, professional-development, building-automation, learning-path
+
+### [Commands](docs/COMMANDS.md)
+
+- **Path:** `COMMANDS.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 4631 bytes
+
+### [Designnote Template](docs/design/DESIGNNOTE_TEMPLATE.md)
+
+- **Path:** `design/DESIGNNOTE_TEMPLATE.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 2298 bytes
+
+### [Index](docs/design/INDEX.md)
+
+- **Path:** `design/INDEX.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 696 bytes
+
+### [Intel Runbook](docs/INTEL_RUNBOOK.md)
+
+- **Path:** `INTEL_RUNBOOK.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 5459 bytes
+
+### [Market Scout - Competitive Intelligence Module](docs/design/2025-09-19-market-scout-stub.md)
+
+- **Path:** `design/2025-09-19-market-scout-stub.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 1186 bytes
+- **Tags:** market-research, competitive-intelligence, discovery
+
+### [Orch Runbook](docs/ORCH_RUNBOOK.md)
+
+- **Path:** `ORCH_RUNBOOK.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 1124 bytes
+
+### [Portfolio To Ci Index](docs/crosswalk/portfolio_to_ci_index.md)
+
+- **Path:** `crosswalk/portfolio_to_ci_index.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 403 bytes
+
+### [Readme](docs/README.md)
+
+- **Path:** `README.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 227 bytes
+
+### [Readme](docs/design/README.md)
+
+- **Path:** `design/README.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 1595 bytes
+
+### [Research Runbook](docs/RESEARCH_RUNBOOK.md)
+
+- **Path:** `RESEARCH_RUNBOOK.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 10563 bytes
+
+### [Session Digest Template](docs/99_LOGS/session_digest_TEMPLATE.md)
+
+- **Path:** `99_LOGS/session_digest_TEMPLATE.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 4264 bytes
+
+### [Setup](docs/SETUP.md)
+
+- **Path:** `SETUP.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 1271 bytes
+
+### [Synth Runbook](docs/SYNTH_RUNBOOK.md)
+
+- **Path:** `SYNTH_RUNBOOK.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 2745 bytes
+
+### [Vision](docs/VISION.md)
+
+- **Path:** `VISION.md`
+- **Last Modified:** 2025-09-26
+- **Size:** 3086 bytes
+
+## Summary
+
+- **Total Files:** 19
+- **Categories:** 1
+- **Total Size:** 81,725 bytes
 
 ---
 
-## Automated Migration Map (Live)
-
-# Migration Index
-
-This section links to both the **one-time backfill** (historical baseline) and the **ongoing migration map** (automation-driven).
-
-- **Backfill (pre-automation snapshot):**  
-  [99_LOGS/migration_backfill_20250917.md](../99_LOGS/migration_backfill_20250917.md)
-- **Current Migration Map (auto-updated):**  
-  [docs/migration_map.md](migration_map.md)
-- **Captain's Logs (daily journals):**  
-  [99_LOGS/journal/](../99_LOGS/journal/)
-- **Design Lane Index →** [docs/design/INDEX.md](design/INDEX.md)
-
----
-
-*This index ensures migration lineage is always visible — from past archives to present automation and narrative logs.*
-
-# Migration Map
-
-## Overview
-
-This document outlines the migration strategy and mapping for Career Intelligence Space platform components.
-
-## Data Migration Strategy
-
-### Phase 1: Legacy System Analysis
-
-- [ ] Identify existing data sources
-- [ ] Map current data structures
-- [ ] Assess data quality and completeness
-- [ ] Document dependencies
-
-### Phase 2: Target Architecture Design
-
-- [ ] Define new data models
-- [ ] Design API interfaces
-- [ ] Plan database schema changes
-- [ ] Establish data validation rules
-
-### Phase 3: Migration Execution
-
-- [ ] Set up staging environment
-- [ ] Execute data transformation
-- [ ] Validate migrated data
-- [ ] Perform testing and rollback procedures
-
-## Component Mapping
-
-### Job Intelligence
-
-- **Source**: Legacy job tracking system
-- **Target**: `03_RESEARCH/job_intelligence/`
-- **Format**: Structured JSON with metadata
-- **Dependencies**: Company profiles, salary data
-
-### Career Profiles
-
-- **Source**: Individual profile data
-- **Target**: `05_ASSETS/profiles/`
-- **Format**: Markdown with YAML frontmatter
-- **Dependencies**: Skills taxonomy, experience validation
-
-### Application Tracking
-
-- **Source**: Spreadsheet-based tracking
-- **Target**: `99_LOGS/applications/`
-- **Format**: Structured logs with timestamps
-- **Dependencies**: Job postings, outcome tracking
-
-## Migration Scripts
-
-Location: `src/migration/`
-
-- `migrate_jobs.py` - Job posting and intelligence migration
-- `migrate_profiles.py` - Career profile data migration
-- `migrate_applications.py` - Application tracking migration
-- `validate_migration.py` - Data validation and integrity checks
-
-## Rollback Strategy
-
-1. **Database Snapshots**: Automated before each migration phase
-2. **Version Control**: All configuration changes tracked
-3. **Rollback Scripts**: Automated reversion procedures
-4. **Testing Protocol**: Comprehensive validation before production
-
-## Timeline
-
-- Week 1-2: Legacy analysis and documentation
-- Week 3-4: Target architecture design
-- Week 5-6: Migration script development
-- Week 7: Testing and validation
-- Week 8: Production migration
-
-## Success Metrics
-
-- [ ] 100% data integrity maintained
-- [ ] Zero data loss during migration
-- [ ] Performance benchmarks met
-- [ ] All dependencies mapped and validated
-- [ ] Rollback procedures tested and verified
-
-## Notes
-
-- All migration activities logged in `99_LOGS/migration/`
-- Regular checkpoints established for validation
-- Stakeholder communication plan in place
-- Emergency contacts and procedures documented
-
-**Last Updated**: September 2025  
-**Document Version**: 1.0  
-**Responsible Team**: Platform Engineering
+*This file is automatically updated by GitHub Actions when docs/ content changes.*
