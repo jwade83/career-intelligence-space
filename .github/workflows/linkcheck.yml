@@ -1,0 +1,77 @@
+name: linkcheck
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Check internal markdown links
+        run: |
+          python3 - <<'PY'
+import re, glob, pathlib, sys
+from pathlib import Path
+
+root = Path('.').resolve()
+# ignore external, mailto, and pure anchors
+link_re = re.compile(r'!?\[[^\]]+\]\((?!https?://|mailto:|#)([^)]+)\)')
+
+broken = []
+case_mismatch = []
+
+for p in glob.glob("**/*.md", recursive=True):
+  src = Path(p)
+  try:
+    txt = src.read_text(encoding="utf-8", errors="ignore")
+  except Exception:
+    continue
+  for tgt in link_re.findall(txt):
+    t = tgt.split("#")[0].strip()
+    if not t:
+      continue
+    target = (root / t.lstrip("/")) if t.startswith("/") else (src.parent / t)
+    if target.exists():
+      continue
+
+    # Case-insensitive probe to detect case-only issues (Linux CI is case-sensitive)
+    probe = root if t.startswith("/") else src.parent
+    comps = Path(t.lstrip("/")).parts
+    ok_ci = True
+    for comp in comps:
+      try:
+        names = {n.name for n in probe.iterdir()}
+      except Exception:
+        ok_ci = False; break
+      if comp in names:
+        probe = probe / comp
+      else:
+        low = comp.lower()
+        match = next((n for n in names if n.lower()==low), None)
+        if match:
+          probe = probe / match
+        else:
+          ok_ci = False; break
+
+    (case_mismatch if ok_ci else broken).append(f"{p} -> {tgt}")
+
+if case_mismatch:
+  print("⚠️ Case-mismatch links (fix filename or link casing):")
+  print("\n".join(f"- {x}" for x in case_mismatch))
+
+if broken:
+  print("❌ Broken internal links:")
+  print("\n".join(f"- {x}" for x in broken))
+  sys.exit(1)
+
+print("✅ Internal links OK")
+PY

@@ -1,0 +1,84 @@
+name: tag-drift-warn
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  warn:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: OOV tag warning (non-blocking)
+        run: |
+          python3 - <<'PY'
+import re, glob, sys
+from pathlib import Path
+
+reg = Path("docs/TAGS_REGISTRY.yml")
+if not reg.exists():
+  print("::notice::No TAGS_REGISTRY.yml found; skipping OOV check.")
+  sys.exit(0)
+
+# Allowed tags (regex—no PyYAML dependency)
+allowed = set(re.findall(r"-\s*([A-Za-z0-9_\-]+)", reg.read_text(encoding="utf-8", errors="ignore")))
+
+# Frontmatter parser (tolerant of BOM/leading space; supports inline + block lists)
+FM_RE = re.compile(r"^\ufeff?\s*---\s*\n(.*?)\n---", re.DOTALL)
+
+def fm_tags(text: str):
+  m = FM_RE.search(text)
+  if not m: return []
+  head = m.group(1).splitlines()
+  tags=[]; i=0
+  while i<len(head):
+    line=head[i]
+    if line.strip().startswith('tags:'):
+      val=line.split(':',1)[1].strip()
+      if val and not val.startswith('|'):
+        val2=val.strip('[]')
+        if val2:
+          for x in re.split(r'[,\s]+', val2):
+            x=x.strip().strip('"').strip("'")
+            if x: tags.append(x)
+      j=i+1
+      while j<len(head) and (head[j].startswith(' ') or head[j].startswith('\t')):
+        m2=re.match(r"\s*-\s*(.+)$", head[j])
+        if m2:
+          x=m2.group(1).strip().strip('"').strip("'")
+          if x: tags.append(x)
+        j+=1
+      i=j-1
+    i+=1
+  # dedupe
+  seen=set(); out=[]
+  for t in tags:
+    if t and t not in seen:
+      seen.add(t); out.append(t)
+  return out
+
+used=set()
+for p in glob.glob("**/*.md", recursive=True):
+  try:
+    txt = Path(p).read_text(encoding="utf-8", errors="ignore")
+  except Exception:
+    continue
+  for t in fm_tags(txt):
+    used.add(t)
+
+oov = sorted(t for t in used if allowed and t not in allowed)
+
+if oov:
+  print(f"::warning:: OOV tags (not in docs/TAGS_REGISTRY.yml): {', '.join(oov)}")
+  print("Note: warn-only. Add to registry or normalize tags to clear.")
+  sys.exit(0)
+
+print("✅ No OOV tags detected.")
+PY
