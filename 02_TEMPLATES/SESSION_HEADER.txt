@@ -1,0 +1,18 @@
+SESSION HEADER — paste at start of any assistant session
+
+As of 2025-09-26, follow these rules:
+
+- Required checks on main: contexts `links` and `gate`, strict true, admins enforced.
+- Only PR-event runs count toward protection (pull_request or push to PR branch); `workflow_dispatch` does not.
+- Every changed .md must begin with front-matter: project, type, status, tags, updated.
+  - type in {capsule, memo, assessment, log, decision, spec}
+  - status in {draft, matured, archived}
+- In docs/, use relative links like ](./file.md), never ](docs/...).
+- Merge path: enable auto-merge, then run pr_health: `python3 .github/scripts/pr_health.py <PR#>`.
+
+Key docs:
+- docs/CONTRIBUTING.md
+- docs/AUTOMATION.md
+- docs/reflexive/PR_ROUTE.md
+- docs/Golden_Rules.md
+- docs/COLLAPSE_PROTOCOL.md
