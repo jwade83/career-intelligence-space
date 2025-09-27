@@ -18,3 +18,4 @@ updated: 2025-09-26
 - [2025-09-26 — Docs Kit & Invariants Audit](./20250926_Docs_Kit_and_Invariants_Audit.md)
 - [2025-09-26 — Golden Rules & Collapse Protocol](./20250926_Golden_Rules_and_Collapse_Protocol.md)
 - [2025-09-26 — Field Agent Operations Log](./20250926_Field_Agent_Operations_Log.md)
+- [Weekly Reflexive Rollup — 2025-W39 (Sep 22–Sep 28, 2025)](./2025W39_Weekly_Reflexive_Rollup.md)
