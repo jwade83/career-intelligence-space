@@ -17,6 +17,7 @@ updated: 2025-09-26
 - Compared the system’s current state against the ideal artifact/automation inventory.
 
 ## Evidence/links
+- Transcript (local): ../99_LOGS/transcripts/2025-09-26_chatgpt-confirm_github_repo.md
 - 5th-Derivative Capsule: ./20250925_CIF-5th_Derivative_Reflexive_Capsule_v0.1.md
 - CIS Guidelines & Setup: ../docs/SETUP.md
 - Penne convo (mirror locally before linking): [link pending local export]
