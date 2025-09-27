@@ -1,11 +1,3 @@
----
-project: Career Intelligence Space
-type: log
-status: matured
-tags: [transcript, field, chat]
-updated: 2025-09-27
----
-
 # Confirm GitHub Repo
 
 **User:** John Wade (jwade83@gmail.com)  
