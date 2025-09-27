@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: log
+status: matured
+tags: [chronicle, index]
+updated: 2025-09-26
+---
+
 # Chronicle Index
 
 - [2025-09-21_chronicler-newsletter-v1.0.md](./2025-09-21_chronicler-newsletter-v1.0.md)
