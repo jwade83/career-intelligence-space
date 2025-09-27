@@ -1,7 +1,7 @@
 name: pr-babysitter
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review]
 permissions:
   contents: write
 jobs:
@@ -12,27 +12,26 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      - name: Wait briefly for checks to appear
-        run: sleep 25
-      - name: Check statuses for required contexts
-        id: probe
+      - name: Ensure required PR checks attach (links, gate)
         env:
           REPO: ${{ github.repository }}
           SHA:  ${{ github.event.pull_request.head.sha }}
+          BR:   ${{ github.head_ref }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          S=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN"                -H "Accept: application/vnd.github+json"                "https://api.github.com/repos/$REPO/commits/$SHA/status"                | jq -r '[.statuses[]?|select(.context=="links" or .context=="gate")|.state]|join(",")')
-          echo "states=$S" >> "$GITHUB_OUTPUT"
-      - name: No-op commit to PR branch if required contexts missing
-        if: ${{ steps.probe.outputs.states == '' || steps.probe.outputs.states == 'pending' }}
-        run: |
-          set -euo pipefail
-          mkdir -p .github/keep
-          printf '
-' >> .github/keep/pr-babysitter.keep
-          git config user.name  "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
-          git add .github/keep/pr-babysitter.keep
-          git commit -m "chore(ci): babysitter attach PR-event checks"
-          git push origin HEAD:${{ github.head_ref }}
+          sleep 25
+          states="$(gh api repos/$REPO/commits/$SHA/status                      --jq '[.statuses[]?|select(.context=="links" or .context=="gate")|.state]|join(",")'                      2>/dev/null || true)"
+          echo "states=$states"
+          if [ -z "$states" ] || echo "$states" | grep -q 'pending'; then
+            echo "babysitter: nudging PR branch $BR"
+            mkdir -p .github/keep
+            date +%s >> .github/keep/pr-babysitter.keep
+            git config user.name  "github-actions"
+            git config user.email "github-actions@users.noreply.github.com"
+            git add .github/keep/pr-babysitter.keep
+            git commit -m "chore(ci): babysitter attach PR-event checks"
+            git push origin HEAD:$BR
+          else
+            echo "babysitter: required checks already present"
+          fi
