@@ -1,0 +1,15 @@
+name: pr-update-branch
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  pull-requests: write
+jobs:
+  update:
+    if: ${{ github.event.pull_request.base.ref == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peter-evans/update-branch@v3
+        with:
+          # Only updates when mergeable_state is 'behind'
+          token: ${{ secrets.GITHUB_TOKEN }}

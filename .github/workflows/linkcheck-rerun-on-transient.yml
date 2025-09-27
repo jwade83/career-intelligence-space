@@ -1,0 +1,37 @@
+name: linkcheck-rerun-on-transient
+on:
+  workflow_run:
+    workflows: ["linkcheck"]
+    types: [completed]
+permissions:
+  actions: write
+jobs:
+  rerun-if-transient:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download logs
+        id: dl
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          curl -fsSL -H "Authorization: Bearer $GH_TOKEN" "${{ github.event.workflow_run.logs_url }}" -o logs.zip
+          unzip -p logs.zip | tail -n 2000 > logs.txt || true
+          echo "size=$(wc -c < logs.txt)" >> $GITHUB_OUTPUT
+      - name: Detect transient errors
+        id: detect
+        run: |
+          set -euo pipefail
+          if grep -Ei '(HTTP 429|502|503|504|ETIMEDOUT|ECONNRESET|temporary failure|rate limit)' logs.txt; then
+            echo "transient=true" >> $GITHUB_OUTPUT
+          else
+            echo "transient=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Re-run linkcheck once
+        if: steps.detect.outputs.transient == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          curl -fsSL -X POST -H "Authorization: Bearer $GH_TOKEN"             https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/rerun
