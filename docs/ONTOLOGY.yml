@@ -1,0 +1,13 @@
+types:
+  - capsule
+  - memo
+  - assessment
+  - log
+  - decision
+  - spec
+statuses:
+  - draft
+  - matured
+  - archived
+projects:
+  - Career Intelligence Space
