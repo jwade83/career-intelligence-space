@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: memo
+status: draft
+tags: [process, pr_route]
+updated: 2025-09-26
+---
+
 # PR route that always works
 
 1) Create PR
