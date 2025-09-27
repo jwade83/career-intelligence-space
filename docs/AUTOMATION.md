@@ -21,24 +21,24 @@ updated: 2025-09-27
 - Keep PRs boring: don’t merge until `links` and `gate` are green; auto-merge will complete on its own.
 
 ## Babysitters (installed)
-- [`../.github/workflows/pr-babysitter.yml`](../.github/workflows/pr-babysitter.yml)  
+- [`../.github/workflows/pr-babysitter.yml`](https://github.com/jwade83/career-intelligence-space/blob/main/.github/workflows/pr-babysitter.yml)  
   Auto no-op commit to PR branch if required contexts haven’t attached (starts PR-event checks).
-- [`../.github/workflows/pr-update-branch.yml`](../.github/workflows/pr-update-branch.yml)  
+- [`../.github/workflows/pr-update-branch.yml`](https://github.com/jwade83/career-intelligence-space/blob/main/.github/workflows/pr-update-branch.yml)  
   Auto “Update branch” when PR is behind `main`.
-- [`../.github/workflows/pr-auto-enable-automerge.yml`](../.github/workflows/pr-auto-enable-automerge.yml)  
+- [`../.github/workflows/pr-auto-enable-automerge.yml`](https://github.com/jwade83/career-intelligence-space/blob/main/.github/workflows/pr-auto-enable-automerge.yml)  
   Auto-enable **squash** auto-merge on PR open/reopen/ready.
-- [`../.github/workflows/linkcheck-rerun-on-transient.yml`](../.github/workflows/linkcheck-rerun-on-transient.yml)  
+- [`../.github/workflows/linkcheck-rerun-on-transient.yml`](https://github.com/jwade83/career-intelligence-space/blob/main/.github/workflows/linkcheck-rerun-on-transient.yml)  
   Auto re-run `linkcheck` once on transient web errors (429/5xx/timeouts). Real broken links still block.
-- [`../.github/workflows/update-migration-map.yml`](../.github/workflows/update-migration-map.yml)  
+- [`../.github/workflows/update-migration-map.yml`](https://github.com/jwade83/career-intelligence-space/blob/main/.github/workflows/update-migration-map.yml)  
   Generated “migration map” changes are proposed via a bot PR (no direct push to protected `main`).
 
 ## Transcripts: Upload, Index, Policy
 - Upload one-liner: `bin/cis-add-transcript "$HOME/Downloads/<export>.md"`  
   Writes `.txt` to `99_LOGS/transcripts/`, opens PR, arms auto-merge, retriggers checks.
 - Policy: raw transcripts are `.txt` to avoid linkcheck noise; narrative docs stay `.md` and must pass gates.
-- Auto-index: [`../.github/workflows/transcripts-index.yml`](../.github/workflows/transcripts-index.yml) builds `INDEX.md` on transcript PRs.  
+- Auto-index: [`../.github/workflows/transcripts-index.yml`](https://github.com/jwade83/career-intelligence-space/blob/main/.github/workflows/transcripts-index.yml) builds `INDEX.md` on transcript PRs.  
   Browse: [`../99_LOGS/transcripts/INDEX.md`](../99_LOGS/transcripts/INDEX.md)
-- Guard: [`../.github/workflows/transcripts-ban-md.yml`](../.github/workflows/transcripts-ban-md.yml) blocks `.md` under `99_LOGS/transcripts/**`.
+- Guard: [`../.github/workflows/transcripts-ban-md.yml`](https://github.com/jwade83/career-intelligence-space/blob/main/.github/workflows/transcripts-ban-md.yml) blocks `.md` under `99_LOGS/transcripts/**`.
 
 ## Front-matter & Link Gates (what they enforce)
 - Front-matter required keys for `.md`: `project`, `type`, `status`, `tags`, `updated` (ISO date).
