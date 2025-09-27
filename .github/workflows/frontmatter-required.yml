@@ -1,7 +1,6 @@
 name: frontmatter-required
 on:
   pull_request:
-  workflow_dispatch:
 permissions:
   contents: read
 jobs:
