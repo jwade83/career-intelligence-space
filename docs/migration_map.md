@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: [docs, migration]
+updated: 2025-09-26
+---
+
 # Documentation Migration Map
 
 *Auto-generated on 2025-09-27 02:22:13 UTC*
