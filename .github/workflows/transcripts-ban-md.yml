@@ -1,0 +1,20 @@
+name: ban-transcripts-md
+on:
+  pull_request:
+    paths:
+      - '99_LOGS/transcripts/**'
+jobs:
+  ban:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if any .md exists under transcripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-files '99_LOGS/transcripts/**/*.md' | grep -q .; then
+            echo "Transcripts must be .txt to avoid linkcheck noise. Found:"
+            git ls-files '99_LOGS/transcripts/**/*.md'
+            exit 1
+          fi
+          echo "OK: no transcript .md files detected."
