@@ -57,9 +57,9 @@ def main():
 
     cmds = []
     if missing:
-        cmds.append("printf '\n' >> README.md && git add README.md && git commit -m "chore(ci): retrigger PR checks" && git push")
+        cmds.append("printf '\n' >> README.md && git add README.md && git commit -m \"chore(ci): retrigger PR checks\" && git push")
     if strict and merge_state in ("BLOCKED","DIRTY"):
-        cmds.append(f"gh api -X PUT repos/{repo}/pulls/{pr}/update-branch -H "Accept: application/vnd.github+json"")
+        cmds.append(f"gh api -X PUT repos/{repo}/pulls/{pr}/update-branch -H \"Accept: application/vnd.github+json\"")
     cmds.append(f"gh pr merge {pr} --squash --auto")
 
     print("next:")
