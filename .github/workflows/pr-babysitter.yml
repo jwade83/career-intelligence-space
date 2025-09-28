@@ -29,8 +29,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .github/keep
-          printf '
-' >> .github/keep/pr-babysitter.keep
+          printf 'pr-babysitter-keep\n' >> .github/keep/pr-babysitter.keep
           git config user.name  "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add .github/keep/pr-babysitter.keep
