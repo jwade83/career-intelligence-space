@@ -8,6 +8,9 @@ jobs:
   enable:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: peter-evans/enable-pull-request-automerge@v3
         with:
           merge-method: squash
