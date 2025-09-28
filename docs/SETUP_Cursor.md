@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: setup
+status: active
+tags: [cursor, ide, setup, workflow, ci]
+updated: 2025-09-27
+---
+
 # Cursor IDE Setup
 
 ## Repo Path (Single-Clone, Dual-Interface)
@@ -50,3 +58,4 @@ docs: setup - add Cursor IDE setup notes
 
 ---
 *Updated: 2025-09-27*
+
