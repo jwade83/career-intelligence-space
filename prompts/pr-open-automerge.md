@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: [prompts, macros, pr, automation]
+updated: 2025-09-27
+---
+
 # PR: Open + Auto-Enable (Squash) + Recheck
 
 Open the current PR. 

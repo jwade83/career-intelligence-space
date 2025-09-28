@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: [prompts, macros, pr, automation, troubleshooting]
+updated: 2025-09-27
+---
+
 # PR: Stuck Checks Fixer (Gate/Links/Update)
 
 You are my repo-aware fixer. We have a PR failing 3 checks:

@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: [prompts, macros, automation]
+updated: 2025-09-27
+---
+
 # Prompt Macros Index
 A library of reusable Cursor Agent macros stored in this repo.  
 Use these by opening the file, copying the block under the dashed lines, and pasting into **Chat with Repo**.

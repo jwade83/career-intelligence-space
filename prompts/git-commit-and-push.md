@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: [prompts, macros, git, automation]
+updated: 2025-09-27
+---
+
 # Commit → Branch → Push (Template)
 
 Stage all modified files, commit with:

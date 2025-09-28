@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: [prompts, macros, chronicle, automation]
+updated: 2025-09-27
+---
+
 # New Session Chronicle — Pipeline from Downloads → 08_CHRONICLE
 
 You are operating on my local Mac with terminal access.
