@@ -2,7 +2,7 @@
 project: Career Intelligence Space
 type: spec
 status: matured
-tags: []
+tags: [synthesis, runbook, docs]
 updated: 2025-09-27
 ---
 
