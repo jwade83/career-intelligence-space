@@ -58,4 +58,3 @@ docs: setup - add Cursor IDE setup notes
 
 ---
 *Updated: 2025-09-27*
-
