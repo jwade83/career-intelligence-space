@@ -1,7 +1,7 @@
 ---
-project: career-intelligence-space
-type: docs
-status: active
+project: Career Intelligence Space
+type: spec
+status: matured
 tags: [cursor, ide, setup, workflow, ci]
 updated: 2025-09-27
 ---
