@@ -1,0 +1,177 @@
+name: PR Failure → Systems Engineer Lens
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  issues: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-failure-and-trigger-se:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_run' && 
+      github.event.workflow_run.conclusion == 'failure' &&
+      contains(github.event.workflow_run.head_branch, 'capsule/') ||
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.ref != 'main' &&
+      contains(github.event.pull_request.head.ref, 'capsule/')
+    
+    steps:
+      - name: Get PR information
+        id: pr-info
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          echo "pr_url=${{ github.event.pull_request.html_url }}" >> $GITHUB_OUTPUT
+          echo "pr_title=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+          echo "branch=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+
+      - name: Get workflow run information
+        id: workflow-info
+        if: github.event_name == 'workflow_run'
+        run: |
+          echo "workflow_url=${{ github.event.workflow_run.html_url }}" >> $GITHUB_OUTPUT
+          echo "workflow_name=${{ github.event.workflow_run.name }}" >> $GITHUB_OUTPUT
+          echo "branch=${{ github.event.workflow_run.head_branch }}" >> $GITHUB_OUTPUT
+          echo "commit_sha=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_OUTPUT
+
+      - name: Check if Systems Engineer issue already exists
+        id: check-existing
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = '${{ steps.pr-info.outputs.branch || steps.workflow-info.outputs.branch }}';
+            const searchQuery = `repo:${context.repo.owner}/${context.repo.repo} is:issue label:systems-engineer label:incident-response "${branch}"`;
+            
+            const issues = await github.rest.search.issuesAndPullRequests({
+              q: searchQuery,
+              sort: 'created',
+              order: 'desc'
+            });
+            
+            // Check if there's an open issue for this branch from the last 24 hours
+            const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            const recentIssue = issues.data.items.find(issue => 
+              issue.state === 'open' && 
+              new Date(issue.created_at) > oneDayAgo
+            );
+            
+            console.log(`Found ${issues.data.items.length} existing issues for branch ${branch}`);
+            console.log(`Recent open issue: ${recentIssue ? recentIssue.number : 'none'}`);
+            
+            return {
+              exists: !!recentIssue,
+              issue_number: recentIssue?.number || null
+            };
+
+      - name: Create Systems Engineer incident issue
+        if: steps.check-existing.outputs.exists == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = '${{ steps.pr-info.outputs.branch || steps.workflow-info.outputs.branch }}';
+            const prUrl = '${{ steps.pr-info.outputs.pr_url }}';
+            const prTitle = '${{ steps.pr-info.outputs.pr_title }}';
+            const workflowUrl = '${{ steps.workflow-info.outputs.workflow_url }}';
+            const workflowName = '${{ steps.workflow-info.outputs.workflow_name }}';
+            const commitSha = '${{ steps.workflow-info.outputs.commit_sha }}';
+            
+            const title = `Systems Engineer Analysis - ${branch} CI/CD Failure`;
+            
+            let body = `## Systems Engineer Lens - Incident Analysis
+
+            **Incident Type:** CI/CD Pipeline Failure  
+            **Branch:** \`${branch}\`  
+            **Trigger:** Automated failure detection  
+            **Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### Incident Details
+            `;
+            
+            if (prUrl) {
+              body += `- **PR:** ${prUrl}  
+              - **PR Title:** ${prTitle}  
+              `;
+            }
+            
+            if (workflowUrl) {
+              body += `- **Failed Workflow:** [${workflowName}](${workflowUrl})  
+              - **Commit:** \`${commitSha}\`  
+              `;
+            }
+            
+            body += `
+            ### Systems Engineer Lens Analysis Required
+
+            Please run the **Systems Engineer Lens** to analyze this technical incident:
+
+            \`\`\`
+            You are a **Systems Engineer** examining the *Career Intelligence Space (CIS)* project. Focus on **technical infrastructure, workflow efficiency, and system reliability**. Provide engineering-focused analysis.
+
+            Please organize your review into the following sections:
+            - **System Architecture:** How are the different components (GitHub, Cursor, automation scripts, file structures) integrated? What's the data flow?
+            - **Workflow Analysis:** Where are the technical bottlenecks in current processes? What's causing friction or failures?
+            - **Tool Integration:** How well are the various tools (GitHub, Cursor, Terminal, automation) working together? Where are there disconnects?
+            - **Automation Gaps:** What manual processes could be automated? Where is automation failing or incomplete?
+            - **Performance Issues:** What's slow, unreliable, or inefficient in the current setup?
+            - **Technical Debt:** What infrastructure decisions need revisiting? What's becoming unwieldy or fragile?
+            - **Optimization Opportunities:** What specific technical improvements would yield the highest impact?
+
+            Deliver in a technical, systems-thinking format. Focus on root causes and engineering solutions.
+            \`\`\`
+
+            ### Analysis Checklist
+            - [ ] **Systems Engineer Lens** - Technical root cause analysis
+            - [ ] **Root Cause Identification** - What caused the failure?
+            - [ ] **Impact Assessment** - How does this affect the system?
+            - [ ] **Solution Design** - What fixes are needed?
+            - [ ] **Prevention Strategy** - How to prevent recurrence?
+            - [ ] **Documentation** - Update runbooks or processes
+
+            ### Resolution Plan
+            - [ ] **Immediate Fix** - Resolve the current failure
+            - [ ] **System Improvement** - Implement permanent solution
+            - [ ] **Process Update** - Update workflows or documentation
+            - [ ] **Monitoring** - Add alerts or checks to prevent recurrence
+
+            ### Learning Capture
+            - [ ] **Root Cause Analysis** - Document the technical cause
+            - [ ] **Process Improvement** - Update procedures
+            - [ ] **System Reinforcement** - Add safeguards
+            - [ ] **Knowledge Sharing** - Update team documentation
+
+            ### Follow-up Actions
+            - [ ] **Monitor Resolution** - Ensure fix is effective
+            - [ ] **Validate Improvements** - Test prevention measures
+            - [ ] **Update Documentation** - Reflect changes in runbooks
+            - [ ] **Close Issue** - Mark incident as resolved
+
+            ---
+            *Auto-generated by PR Failure → Systems Engineer Lens automation*  
+            *This incident triggers the antifragility principle: failures become learning opportunities*`;
+
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['systems-engineer', 'incident-response', 'ci-cd', 'antifragility', 'stage-a'],
+              assignees: ['jwade83']
+            });
+
+            console.log(`Created Systems Engineer incident issue: ${issue.data.number}`);
+
+      - name: Log completion
+        run: |
+          if [ "${{ steps.check-existing.outputs.exists }}" == "true" ]; then
+            echo "Systems Engineer issue already exists for this branch"
+          else
+            echo "Systems Engineer incident issue created for branch ${{ steps.pr-info.outputs.branch || steps.workflow-info.outputs.branch }}"
+          fi
