@@ -1,0 +1,253 @@
+name: Rollback Monitoring
+
+on:
+  schedule:
+    # Run every 6 hours to monitor system health
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      check_type:
+        description: 'Type of check to perform'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - velocity
+          - pr_failure
+          - review_completion
+          - system_health
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  monitor-system-health:
+    runs-on: ubuntu-latest
+    name: Monitor System Health for Rollback Triggers
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Read rollback configuration
+        id: config
+        run: |
+          # Extract rollback thresholds from config.yml
+          VELOCITY_THRESHOLD=$(grep -A 10 "triggers:" prompts/strategic_lenses/config.yml | grep "velocity_drop_threshold:" | awk '{print $2}')
+          PR_FAILURE_THRESHOLD=$(grep -A 10 "triggers:" prompts/strategic_lenses/config.yml | grep "pr_failure_threshold:" | awk '{print $2}')
+          REVIEW_THRESHOLD=$(grep -A 10 "triggers:" prompts/strategic_lenses/config.yml | grep "review_completion_threshold:" | awk '{print $2}')
+          SYSTEM_HEALTH_THRESHOLD=$(grep -A 10 "triggers:" prompts/strategic_lenses/config.yml | grep "system_health_threshold:" | awk '{print $2}')
+          
+          echo "velocity_threshold=$VELOCITY_THRESHOLD" >> $GITHUB_OUTPUT
+          echo "pr_failure_threshold=$PR_FAILURE_THRESHOLD" >> $GITHUB_OUTPUT
+          echo "review_threshold=$REVIEW_THRESHOLD" >> $GITHUB_OUTPUT
+          echo "system_health_threshold=$SYSTEM_HEALTH_THRESHOLD" >> $GITHUB_OUTPUT
+      
+      - name: Check PR failure rate
+        if: github.event.inputs.check_type == 'full' || github.event.inputs.check_type == 'pr_failure'
+        id: pr_failure_check
+        run: |
+          # Get PRs from last 7 days
+          PRS=$(gh pr list --state all --limit 50 --json number,state,createdAt,closedAt,labels)
+          
+          # Count total PRs and failed PRs
+          TOTAL_PRS=$(echo "$PRS" | jq length)
+          FAILED_PRS=0
+          
+          # Check each PR for failure indicators
+          for i in $(seq 0 $((TOTAL_PRS-1))); do
+            PR_NUMBER=$(echo "$PRS" | jq -r ".[$i].number")
+            PR_STATE=$(echo "$PRS" | jq -r ".[$i].state")
+            
+            # Check if PR has failure-related labels or comments
+            if [ "$PR_STATE" = "CLOSED" ]; then
+              # Check if PR was closed without merge (potential failure)
+              MERGED=$(gh pr view $PR_NUMBER --json merged | jq -r '.merged')
+              if [ "$MERGED" = "false" ]; then
+                ((FAILED_PRS++))
+              fi
+            fi
+          done
+          
+          # Calculate failure rate
+          if [ "$TOTAL_PRS" -gt 0 ]; then
+            FAILURE_RATE=$((FAILED_PRS * 100 / TOTAL_PRS))
+          else
+            FAILURE_RATE=0
+          fi
+          
+          echo "total_prs=$TOTAL_PRS" >> $GITHUB_OUTPUT
+          echo "failed_prs=$FAILED_PRS" >> $GITHUB_OUTPUT
+          echo "failure_rate=$FAILURE_RATE" >> $GITHUB_OUTPUT
+          echo "threshold=${{ steps.config.outputs.pr_failure_threshold }}" >> $GITHUB_OUTPUT
+          
+          if [ "$FAILURE_RATE" -gt "${{ steps.config.outputs.pr_failure_threshold }}" ]; then
+            echo "trigger_rollback=true" >> $GITHUB_OUTPUT
+            echo "trigger_reason=PR failure rate $FAILURE_RATE% exceeds threshold ${{ steps.config.outputs.pr_failure_threshold }}%" >> $GITHUB_OUTPUT
+          else
+            echo "trigger_rollback=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Check system health (workflow failures)
+        if: github.event.inputs.check_type == 'full' || github.event.inputs.check_type == 'system_health'
+        id: system_health_check
+        run: |
+          # Get workflow runs from last 24 hours
+          WORKFLOW_RUNS=$(gh run list --limit 50 --json conclusion,createdAt,workflowName)
+          
+          # Count failures
+          TOTAL_RUNS=$(echo "$WORKFLOW_RUNS" | jq length)
+          FAILED_RUNS=0
+          
+          for i in $(seq 0 $((TOTAL_RUNS-1))); do
+            CONCLUSION=$(echo "$WORKFLOW_RUNS" | jq -r ".[$i].conclusion")
+            if [ "$CONCLUSION" = "failure" ]; then
+              ((FAILED_RUNS++))
+            fi
+          done
+          
+          echo "total_runs=$TOTAL_RUNS" >> $GITHUB_OUTPUT
+          echo "failed_runs=$FAILED_RUNS" >> $GITHUB_OUTPUT
+          echo "threshold=${{ steps.config.outputs.system_health_threshold }}" >> $GITHUB_OUTPUT
+          
+          if [ "$FAILED_RUNS" -gt "${{ steps.config.outputs.system_health_threshold }}" ]; then
+            echo "trigger_rollback=true" >> $GITHUB_OUTPUT
+            echo "trigger_reason=System health: $FAILED_RUNS failures in 24h exceeds threshold ${{ steps.config.outputs.system_health_threshold }}" >> $GITHUB_OUTPUT
+          else
+            echo "trigger_rollback=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Check review completion rate
+        if: github.event.inputs.check_type == 'full' || github.event.inputs.check_type == 'review_completion'
+        id: review_completion_check
+        run: |
+          # Check for weekly lens review issues
+          REVIEW_ISSUES=$(gh issue list --label "weekly-review" --state all --limit 20 --json number,state,createdAt,closedAt)
+          
+          TOTAL_REVIEWS=$(echo "$REVIEW_ISSUES" | jq length)
+          COMPLETED_REVIEWS=0
+          
+          for i in $(seq 0 $((TOTAL_REVIEWS-1))); do
+            STATE=$(echo "$REVIEW_ISSUES" | jq -r ".[$i].state")
+            if [ "$STATE" = "CLOSED" ]; then
+              ((COMPLETED_REVIEWS++))
+            fi
+          done
+          
+          # Calculate completion rate
+          if [ "$TOTAL_REVIEWS" -gt 0 ]; then
+            COMPLETION_RATE=$((COMPLETED_REVIEWS * 100 / TOTAL_REVIEWS))
+          else
+            COMPLETION_RATE=100  # No reviews scheduled = 100% completion
+          fi
+          
+          echo "total_reviews=$TOTAL_REVIEWS" >> $GITHUB_OUTPUT
+          echo "completed_reviews=$COMPLETED_REVIEWS" >> $GITHUB_OUTPUT
+          echo "completion_rate=$COMPLETION_RATE" >> $GITHUB_OUTPUT
+          echo "threshold=${{ steps.config.outputs.review_threshold }}" >> $GITHUB_OUTPUT
+          
+          if [ "$COMPLETION_RATE" -lt "${{ steps.config.outputs.review_threshold }}" ]; then
+            echo "trigger_rollback=true" >> $GITHUB_OUTPUT
+            echo "trigger_reason=Review completion rate $COMPLETION_RATE% below threshold ${{ steps.config.outputs.review_threshold }}%" >> $GITHUB_OUTPUT
+          else
+            echo "trigger_rollback=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create rollback trigger issue
+        if: |
+          (steps.pr_failure_check.outputs.trigger_rollback == 'true') ||
+          (steps.system_health_check.outputs.trigger_rollback == 'true') ||
+          (steps.review_completion_check.outputs.trigger_rollback == 'true')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const triggers = [];
+            const reasons = [];
+            
+            if ('${{ steps.pr_failure_check.outputs.trigger_rollback }}' === 'true') {
+              triggers.push('PR Failure Rate');
+              reasons.push('${{ steps.pr_failure_check.outputs.trigger_reason }}');
+            }
+            
+            if ('${{ steps.system_health_check.outputs.trigger_rollback }}' === 'true') {
+              triggers.push('System Health');
+              reasons.push('${{ steps.system_health_check.outputs.trigger_reason }}');
+            }
+            
+            if ('${{ steps.review_completion_check.outputs.trigger_rollback }}' === 'true') {
+              triggers.push('Review Completion');
+              reasons.push('${{ steps.review_completion_check.outputs.trigger_reason }}');
+            }
+            
+            const issueTitle = `🚨 Automated Rollback Trigger - ${triggers.join(', ')}`;
+            const issueBody = `# Automated Rollback Trigger Detected
+            
+            **Date:** ${new Date().toISOString().split('T')[0]}
+            **Time:** ${new Date().toISOString().split('T')[1].split('.')[0]}
+            **Trigger Type:** Automated Monitoring
+            **Severity:** HIGH
+            
+            ## Triggered Conditions
+            ${triggers.map((trigger, index) => `- **${trigger}:** ${reasons[index]}`).join('\n')}
+            
+            ## Current Metrics
+            - **PR Failure Rate:** ${{ steps.pr_failure_check.outputs.failure_rate }}% (threshold: ${{ steps.pr_failure_check.outputs.pr_failure_threshold }}%)
+            - **System Health:** ${{ steps.system_health_check.outputs.failed_runs }} failures in 24h (threshold: ${{ steps.system_health_check.outputs.system_health_threshold }})
+            - **Review Completion:** ${{ steps.review_completion_check.outputs.completion_rate }}% (threshold: ${{ steps.review_completion_check.outputs.review_threshold }}%)
+            
+            ## Recommended Actions
+            - [ ] Review current system state
+            - [ ] Consider gradual rollback (Level 3)
+            - [ ] Monitor for 24 hours before escalation
+            - [ ] Document decision and rationale
+            
+            ## Rollback Options
+            1. **Workflow-Level Rollback:** Disable specific problematic workflows
+            2. **Selective Bypass:** Enable bypass labels for affected PRs
+            3. **Gradual Rollback:** Reduce enforcement strictness
+            4. **Stage Reversion:** Complete rollback to Stage A
+            
+            See \`docs/runbooks/STAGE_B_ROLLBACK.md\` for detailed procedures.
+            
+            ---
+            *This issue was automatically generated by the rollback monitoring system.*`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['rollback', 'automated-trigger', 'high-priority', 'stage-b'],
+              assignees: ['jwade83']
+            });
+      
+      - name: Log monitoring results
+        run: |
+          echo "## Rollback Monitoring Results" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### PR Failure Rate" >> $GITHUB_STEP_SUMMARY
+          echo "- **Current:** ${{ steps.pr_failure_check.outputs.failure_rate }}%" >> $GITHUB_STEP_SUMMARY
+          echo "- **Threshold:** ${{ steps.pr_failure_check.outputs.pr_failure_threshold }}%" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ${{ steps.pr_failure_check.outputs.trigger_rollback == 'true' && '🚨 TRIGGERED' || '✅ OK' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### System Health" >> $GITHUB_STEP_SUMMARY
+          echo "- **Current:** ${{ steps.system_health_check.outputs.failed_runs }} failures in 24h" >> $GITHUB_STEP_SUMMARY
+          echo "- **Threshold:** ${{ steps.system_health_check.outputs.system_health_threshold }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ${{ steps.system_health_check.outputs.trigger_rollback == 'true' && '🚨 TRIGGERED' || '✅ OK' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Review Completion" >> $GITHUB_STEP_SUMMARY
+          echo "- **Current:** ${{ steps.review_completion_check.outputs.completion_rate }}%" >> $GITHUB_STEP_SUMMARY
+          echo "- **Threshold:** ${{ steps.review_completion_check.outputs.review_threshold }}%" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ${{ steps.review_completion_check.outputs.trigger_rollback == 'true' && '🚨 TRIGGERED' || '✅ OK' }}" >> $GITHUB_STEP_SUMMARY

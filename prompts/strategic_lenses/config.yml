@@ -47,7 +47,29 @@ usage_rules:
   - "Document lens usage in chronicle entries"
   - "Report issues or improvements via GitHub issues"
 
+# Stage B Rollback Configuration
+stage_b_enforcement:
+  level: strict  # strict | lenient | disabled
+  frontmatter_validation: block  # block | warn_only | disabled
+  promotion_gates: required  # required | optional | disabled
+  workflow_validation: block  # block | warn_only | disabled
+  
+  # Rollback triggers and thresholds
+  triggers:
+    velocity_drop_threshold: 50  # percentage
+    pr_failure_threshold: 30     # percentage
+    review_completion_threshold: 60  # percentage
+    system_health_threshold: 3   # failures per 24h
+    
+  # Rollback authority levels
+  authority:
+    automated: true   # Allow automated rollback triggers
+    manual: true      # Allow manual rollback decisions
+    emergency: true   # Allow emergency rollback override
+
 # Rollback Information
 rollback:
-  last_stable_version: null
-  rollback_instructions: "Set system_status to 'inactive' and update README.md"
+  last_stable_version: "stage-a-final"
+  rollback_instructions: "See docs/runbooks/STAGE_B_ROLLBACK.md for detailed procedures"
+  emergency_contact: "jwade83"
+  rollback_log: "08_CHRONICLE/incidents/"

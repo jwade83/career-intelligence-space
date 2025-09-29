@@ -20,6 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Validate Chronicle Frontmatter
     
+    # Check for bypass label before running validation
+    if: |
+      github.event_name == 'push' || 
+      (github.event_name == 'pull_request' && 
+       !contains(github.event.pull_request.labels.*.name, 'bypass-safeguard'))
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -136,3 +142,9 @@ jobs:
         if: steps.validate.outputs.validation_failed == 'false'
         run: |
           echo "✅ All chronicle files have valid frontmatter"
+      
+      - name: Bypass notification
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'bypass-safeguard')
+        run: |
+          echo "⚠️ Frontmatter validation bypassed due to 'bypass-safeguard' label"
+          echo "This bypass should be temporary and documented in the PR description"
