@@ -35,8 +35,16 @@ Each lens includes ChatGPT and Perplexity-optimized versions for consistent anal
 
 ### **Integration & Usage**
 - **USAGE_PROTOCOLS.md** — Complete guide for when and how to use each lens
+- **ENHANCED_USAGE_PROTOCOL.md** — ChatGPT stage-based framework with metrics and progression
 - **CHRONICLE_INTEGRATION.md** — Templates and workflows for integrating lens outputs with chronicle system
+- **METRICS_TRACKING.md** — Success metrics and tracking system for lens effectiveness
+- **ANTIFRAGILITY_TRIGGERS.md** — Incident-triggered lens workflows for system improvement
 - **config.yml** — System configuration and activation controls
+
+### **Stage Framework**
+- **Stage A (Current):** Internal review with consistent usage and baseline metrics
+- **Stage B (Next):** Quality gatekeeper with automated triggers and promotion gates
+- **Stage C (Future):** External dashboard with public-facing system health visibility
 
 ---
 ## Session / Chronicle
