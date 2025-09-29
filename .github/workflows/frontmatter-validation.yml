@@ -1,0 +1,138 @@
+name: Frontmatter Validation
+
+on:
+  pull_request:
+    paths:
+      - '08_CHRONICLE/**/*.md'
+      - '.github/workflows/frontmatter-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - '08_CHRONICLE/**/*.md'
+      - '.github/workflows/frontmatter-validation.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-frontmatter:
+    runs-on: ubuntu-latest
+    name: Validate Chronicle Frontmatter
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get changed chronicle files
+        id: get-files
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # For PRs, check files changed in the PR
+            FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^08_CHRONICLE/.*\.md$' || true)
+          else
+            # For pushes, check all chronicle files
+            FILES=$(find 08_CHRONICLE -name "*.md" -type f || true)
+          fi
+          
+          if [ -z "$FILES" ]; then
+            echo "files=" >> $GITHUB_OUTPUT
+            echo "has_files=false" >> $GITHUB_OUTPUT
+          else
+            echo "files<<EOF" >> $GITHUB_OUTPUT
+            echo "$FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "has_files=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Validate frontmatter
+        if: steps.get-files.outputs.has_files == 'true'
+        id: validate
+        run: |
+          set -e
+          VALIDATION_FAILED=false
+          FAILED_FILES=""
+          
+          echo "${{ steps.get-files.outputs.files }}" | while IFS= read -r file; do
+            if [ -n "$file" ] && [ -f "$file" ]; then
+              echo "Validating: $file"
+              
+              # Check if file starts with ---
+              if ! head -n1 "$file" | grep -q '^---$'; then
+                echo "❌ $file: Missing opening frontmatter delimiter"
+                VALIDATION_FAILED=true
+                FAILED_FILES="$FAILED_FILES $file"
+                continue
+              fi
+              
+              # Check if file has at least 2 --- lines (opening and closing)
+              dash_count=$(head -n15 "$file" | grep -c '^---$' || true)
+              if [ "$dash_count" -lt 2 ]; then
+                echo "❌ $file: Incomplete frontmatter (missing closing delimiter)"
+                VALIDATION_FAILED=true
+                FAILED_FILES="$FAILED_FILES $file"
+                continue
+              fi
+              
+              echo "✅ $file: Valid frontmatter"
+            fi
+          done
+          
+          if [ "$VALIDATION_FAILED" = "true" ]; then
+            echo "validation_failed=true" >> $GITHUB_OUTPUT
+            echo "failed_files=$FAILED_FILES" >> $GITHUB_OUTPUT
+          else
+            echo "validation_failed=false" >> $GITHUB_OUTPUT
+            echo "failed_files=" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.validate.outputs.validation_failed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const failedFiles = '${{ steps.validate.outputs.failed_files }}'.trim().split(' ').filter(f => f.length > 0);
+            
+            const comment = `## ❌ Frontmatter Validation Failed
+            
+            The following chronicle files are missing required YAML frontmatter:
+            
+            ${failedFiles.map(file => `- \`${file}\``).join('\n')}
+            
+            **Required Format:**
+            \`\`\`yaml
+            ---
+            project: Career Intelligence Space
+            type: [document_type]
+            status: [draft|in-review|matured|promoted]
+            tags: [relevant, tags]
+            updated: YYYY-MM-DD
+            ---
+            \`\`\`
+            
+            **Fix:** Add the frontmatter block at the beginning of each file, starting and ending with \`---\`.
+            
+            This validation ensures consistent metadata across all chronicle files.`;
+            
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Fail job if validation failed
+        if: steps.validate.outputs.validation_failed == 'true'
+        run: |
+          echo "❌ Frontmatter validation failed for the following files:"
+          echo "${{ steps.validate.outputs.failed_files }}"
+          echo ""
+          echo "Please add required YAML frontmatter to these files."
+          exit 1
+      
+      - name: Success message
+        if: steps.validate.outputs.validation_failed == 'false'
+        run: |
+          echo "✅ All chronicle files have valid frontmatter"
