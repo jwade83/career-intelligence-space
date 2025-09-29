@@ -33,6 +33,11 @@ The `strategic_lenses/` folder contains reusable prompt templates that function 
 
 Each lens includes ChatGPT and Perplexity-optimized versions for consistent analysis across different AI tools.
 
+### **Integration & Usage**
+- **USAGE_PROTOCOLS.md** — Complete guide for when and how to use each lens
+- **CHRONICLE_INTEGRATION.md** — Templates and workflows for integrating lens outputs with chronicle system
+- **config.yml** — System configuration and activation controls
+
 ---
 ## Session / Chronicle
 - new-session-chronicle.md — Pipeline chat exports from ~/Downloads → 08_CHRONICLE/ with compliant frontmatter, commit, branch, PR, and auto-merge.
