@@ -1,0 +1,53 @@
+---
+# Strategic Lenses Configuration
+# Career Intelligence Space (CIS) Consultant Lens System
+project: Career Intelligence Space
+type: configuration
+status: active
+updated: 2025-09-29
+tags: [cis, config, strategic_lenses, consultant_system]
+---
+
+# Lens System Status
+system_status: active  # active | inactive | maintenance
+activation_date: 2025-09-29
+version: 1.0.0
+
+# Individual Lens Controls
+lenses:
+  strategic_analyst:
+    status: active
+    priority: high
+    use_cases: [weekly_reviews, milestone_assessments, strategic_planning]
+  
+  project_manager:
+    status: active
+    priority: high
+    use_cases: [task_breakdown, timeline_planning, resource_allocation]
+  
+  systems_engineer:
+    status: active
+    priority: medium
+    use_cases: [technical_bottlenecks, workflow_optimization, automation_gaps]
+  
+  productivity_coach:
+    status: active
+    priority: medium
+    use_cases: [momentum_assessment, energy_management, workflow_optimization]
+  
+  venture_designer:
+    status: active
+    priority: low
+    use_cases: [opportunity_mapping, market_positioning, competitive_analysis]
+
+# Usage Guidelines
+usage_rules:
+  - "Only use lenses when system_status is 'active'"
+  - "Check individual lens status before application"
+  - "Document lens usage in chronicle entries"
+  - "Report issues or improvements via GitHub issues"
+
+# Rollback Information
+rollback:
+  last_stable_version: null
+  rollback_instructions: "Set system_status to 'inactive' and update README.md"
