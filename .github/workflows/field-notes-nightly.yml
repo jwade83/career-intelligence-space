@@ -1,0 +1,78 @@
+name: Field Notes Processor (Nightly)
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  process-field-notes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Process Field Notes
+        run: |
+          python scripts/field-notes-processor.py
+
+      - name: Check for processed files
+        id: check_files
+        run: |
+          if [ -n "$(find 08_CHRONICLE/conversations/lite -name "conv_*_field_notes*.md" -newer 08_CHRONICLE/field/FIELD_NOTES.md 2>/dev/null)" ]; then
+            echo "has_new_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_new_files=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run QA gates
+        if: steps.check_files.outputs.has_new_files == 'true'
+        run: |
+          python scripts/lint_frontmatter.py
+          python scripts/conversation-archive/pii-scanner.py --path 08_CHRONICLE/conversations/lite --mask
+
+      - name: Commit processed files
+        if: steps.check_files.outputs.has_new_files == 'true'
+        run: |
+          git config --global user.email "field-agent@career-intelligence-space"
+          git config --global user.name "Field Agent"
+          
+          git add 08_CHRONICLE/field/
+          git add 08_CHRONICLE/conversations/lite/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "feat(field-notes): process daily field notes capture
+            
+            - Processed new field notes into timestamped capture
+            - Generated lite archive with full Harness compliance
+            - Reset input area for next day
+            - Maintained persistent history
+            - Automated by Field Notes Processor (Nightly) workflow"
+            
+            git push origin ${{ github.ref_name }}
+          fi
+
+      - name: Summary
+        if: steps.check_files.outputs.has_new_files == 'true'
+        run: |
+          echo "✅ Field Notes processing complete!"
+          echo "📁 Processed captures: 08_CHRONICLE/field/processed/"
+          echo "📚 Lite archives: 08_CHRONICLE/conversations/lite/"
+          echo "🔄 Field notes reset for next day"
