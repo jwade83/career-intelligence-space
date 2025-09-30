@@ -18,7 +18,7 @@ related: []
 capture_metadata:
   original_capture_id: FIELD_NOTES
   capture_type: mobile_note
-  processed_at: '2025-09-30T09:26:58.314219'
+  processed_at: '2025-09-30T09:28:25.220073'
   source_file: 08_CHRONICLE/capture_inbox/FIELD_NOTES.md
 ---
 
@@ -33,8 +33,7 @@ capture_metadata:
 # Field Notes - Persistent Voice Input
 
 ## Add New Note
-[Use voice-to-text here - speak your thoughts and they'll appear here]
-
+Voice to text test
 ---
 
 ## Notes History
