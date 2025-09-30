@@ -18,7 +18,7 @@ related: []
 capture_metadata:
   original_capture_id: QUICK_INPUT
   capture_type: mobile_note
-  processed_at: '2025-09-30T09:21:23.010392'
+  processed_at: '2025-09-30T09:24:50.598514'
   source_file: 08_CHRONICLE/capture_inbox/QUICK_INPUT.md
 ---
 
@@ -33,7 +33,7 @@ capture_metadata:
 # Quick Input
 
 ## Content
-[Use voice-to-text here - just speak your thoughts and they'll appear here]
+Trying a quick text input here that's a test
 
 ---
 **Field Agent Quick Input - Ready for Voice-to-Text**
