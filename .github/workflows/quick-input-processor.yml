@@ -1,0 +1,103 @@
+name: Quick Input Processor
+
+on:
+  push:
+    paths:
+      - '08_CHRONICLE/capture_inbox/QUICK_INPUT.md'
+  workflow_dispatch:
+
+jobs:
+  process-quick-input:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, 'QUICK_INPUT')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+          
+      - name: Process Quick Input
+        run: |
+          # Generate timestamp for new capture
+          TIMESTAMP=$(date +%Y%m%d_%H%M)
+          
+          # Create new capture file from QUICK_INPUT
+          cat > "08_CHRONICLE/capture_inbox/raw_${TIMESTAMP}.md" << EOF
+          ---
+          project: Career Intelligence Space
+          type: mobile_capture
+          status: raw
+          tags: [mobile_capture, field_agent, quick_input]
+          captured_at: $(date +%Y-%m-%d)
+          capture_type: quick_input
+          source: github_mobile
+          timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          ---
+          
+          # Quick Input Capture
+          
+          ## Content
+          $(grep -A 1000 "## Content" 08_CHRONICLE/capture_inbox/QUICK_INPUT.md | tail -n +2 | sed '/^---$/q' | head -n -1)
+          
+          ---
+          **Field Agent Quick Input - ${TIMESTAMP}**
+          EOF
+          
+          # Reset QUICK_INPUT for next use
+          cat > "08_CHRONICLE/capture_inbox/QUICK_INPUT.md" << EOF
+          ---
+          project: Career Intelligence Space
+          type: mobile_capture
+          status: raw
+          tags: [mobile_capture, field_agent, quick_input]
+          captured_at: $(date +%Y-%m-%d)
+          capture_type: quick_input
+          source: github_mobile
+          ---
+          
+          # Quick Input
+          
+          ## Content
+          [Use voice-to-text here - just speak your thoughts and they'll appear here]
+          
+          ---
+          **Field Agent Quick Input - Ready for Voice-to-Text**
+          EOF
+          
+          echo "✅ Created capture: raw_${TIMESTAMP}.md"
+          echo "✅ Reset QUICK_INPUT.md for next use"
+          
+      - name: Process with capture processor
+        run: |
+          python scripts/capture-processor.py
+          
+      - name: Commit processed files
+        run: |
+          git config --global user.email "field-agent@career-intelligence-space"
+          git config --global user.name "Field Agent"
+          
+          git add 08_CHRONICLE/capture_inbox/
+          git add 08_CHRONICLE/conversations/lite/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "feat(quick-input): process voice-to-text capture
+            
+            - Processed QUICK_INPUT.md into timestamped capture
+            - Reset QUICK_INPUT.md for next use
+            - Generated lite archive with full Harness compliance
+            - Automated by Quick Input Processor workflow"
+            
+            git push origin ${{ github.ref_name }}
+          fi
