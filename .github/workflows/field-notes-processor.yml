@@ -1,0 +1,119 @@
+name: Field Notes Processor
+
+on:
+  push:
+    paths:
+      - '08_CHRONICLE/capture_inbox/FIELD_NOTES.md'
+  workflow_dispatch:
+
+jobs:
+  process-field-notes:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, 'FIELD_NOTES')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+          
+      - name: Process Field Notes
+        run: |
+          # Generate timestamp for new capture
+          TIMESTAMP=$(date +%Y%m%d_%H%M)
+          
+          # Extract new note content
+          NEW_NOTE=$(grep -A 1000 "## Add New Note" 08_CHRONICLE/capture_inbox/FIELD_NOTES.md | grep -A 1000 "\[Use voice-to-text here" | head -n -3 | tail -n +2)
+          
+          # Check if there's actual content (not just placeholder)
+          if echo "$NEW_NOTE" | grep -q "\[Use voice-to-text here"; then
+            echo "No new content to process"
+            exit 0
+          fi
+          
+          # Create new capture file from new note
+          cat > "08_CHRONICLE/capture_inbox/raw_${TIMESTAMP}.md" << EOF
+          ---
+          project: Career Intelligence Space
+          type: mobile_capture
+          status: raw
+          tags: [mobile_capture, field_agent, field_notes]
+          captured_at: $(date +%Y-%m-%d)
+          capture_type: field_notes
+          source: github_mobile
+          timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          ---
+          
+          # Field Notes Capture
+          
+          ## Content
+          $NEW_NOTE
+          
+          ---
+          **Field Agent Field Notes - ${TIMESTAMP}**
+          EOF
+          
+          # Update FIELD_NOTES.md - move new note to history and reset input
+          cat > "08_CHRONICLE/capture_inbox/FIELD_NOTES.md" << EOF
+          ---
+          project: Career Intelligence Space
+          type: mobile_capture
+          status: active
+          tags: [mobile_capture, field_agent, field_notes, persistent]
+          captured_at: $(date +%Y-%m-%d)
+          capture_type: field_notes
+          source: github_mobile
+          ---
+          
+          # Field Notes - Persistent Voice Input
+          
+          ## Add New Note
+          [Use voice-to-text here - speak your thoughts and they'll appear here]
+          
+          ---
+          
+          ## Notes History
+          ### ${TIMESTAMP}
+          $NEW_NOTE
+          
+          ---
+          **Field Agent Field Notes - Always Ready for Voice Input**
+          EOF
+          
+          echo "✅ Created capture: raw_${TIMESTAMP}.md"
+          echo "✅ Updated FIELD_NOTES.md with persistent history"
+          
+      - name: Process with capture processor
+        run: |
+          python scripts/capture-processor.py
+          
+      - name: Commit processed files
+        run: |
+          git config --global user.email "field-agent@career-intelligence-space"
+          git config --global user.name "Field Agent"
+          
+          git add 08_CHRONICLE/capture_inbox/
+          git add 08_CHRONICLE/conversations/lite/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "feat(field-notes): process persistent field notes capture
+            
+            - Processed new note into timestamped capture
+            - Added note to persistent history
+            - Reset input area for next voice note
+            - Generated lite archive with full Harness compliance
+            - Automated by Field Notes Processor workflow"
+            
+            git push origin ${{ github.ref_name }}
+          fi
