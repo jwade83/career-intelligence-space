@@ -6,37 +6,47 @@ tags:
 - conversation_archive
 - lite
 - field_agent
-- mobile_note
+- voice_memo
 updated: '2025-09-30'
 conversation_date: '2025-09-30'
 participants:
 - user
 - field_agent
-conversation_id: conv_2025_09_30_capture_0921
+conversation_id: conv_VOICE_NOTES
 timezone: America/Los_Angeles
 related: []
 capture_metadata:
-  original_capture_id: raw_20250930_0921
-  capture_type: mobile_note
-  processed_at: '2025-09-30T09:26:58.317172'
-  source_file: 08_CHRONICLE/capture_inbox/raw_20250930_0921.md
+  original_capture_id: VOICE_NOTES
+  capture_type: voice_memo
+  processed_at: '2025-09-30T09:26:58.325740'
+  source_file: 08_CHRONICLE/capture_inbox/VOICE_NOTES.md
 ---
 
-# Mobile Note — Lite Archive
+# Voice Memo — Lite Archive
 
 ## Summary
 - **Captured:** Unknown date
-- **Type:** Mobile Note
+- **Type:** Voice Memo
 - **Source:** Field Agent Mobile Capture
 
 ## Content
-# Quick Input Capture
+# Voice Notes & Field Notes
 
-## Content
-[Use voice-to-text here - just speak your thoughts and they'll appear here]
+## Current Session
+[Use voice-to-text here - speak your thoughts and they'll appear here]
 
 ---
-**Field Agent Quick Input - 20250930_0921**
+
+## Previous Notes
+### 20250930_0926
+
+---
+
+## Previous Notes
+[Previous notes will be archived here automatically]
+
+---
+**Field Agent Voice Notes - Persistent Input**
 
 
 ## Next Steps
@@ -48,8 +58,8 @@ capture_metadata:
 ---
 
 **Traceability**
-- conversation_id: conv_2025_09_30_capture_0921
+- conversation_id: conv_VOICE_NOTES
 - decision_log: docs/decision-log.md (search for the conversation_id)
 - chronicle_path: 08_CHRONICLE/conversations/lite/
 - schema_version: v1
-- original_capture_id: raw_20250930_0921
+- original_capture_id: VOICE_NOTES

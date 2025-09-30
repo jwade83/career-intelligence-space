@@ -12,14 +12,14 @@ conversation_date: '2025-09-30'
 participants:
 - user
 - field_agent
-conversation_id: conv_2025_09_30_capture_0921
+conversation_id: conv_FIELD_NOTES
 timezone: America/Los_Angeles
 related: []
 capture_metadata:
-  original_capture_id: raw_20250930_0921
+  original_capture_id: FIELD_NOTES
   capture_type: mobile_note
-  processed_at: '2025-09-30T09:26:58.317172'
-  source_file: 08_CHRONICLE/capture_inbox/raw_20250930_0921.md
+  processed_at: '2025-09-30T09:26:58.314219'
+  source_file: 08_CHRONICLE/capture_inbox/FIELD_NOTES.md
 ---
 
 # Mobile Note — Lite Archive
@@ -30,13 +30,18 @@ capture_metadata:
 - **Source:** Field Agent Mobile Capture
 
 ## Content
-# Quick Input Capture
+# Field Notes - Persistent Voice Input
 
-## Content
-[Use voice-to-text here - just speak your thoughts and they'll appear here]
+## Add New Note
+[Use voice-to-text here - speak your thoughts and they'll appear here]
 
 ---
-**Field Agent Quick Input - 20250930_0921**
+
+## Notes History
+[Previous notes will be automatically archived here]
+
+---
+**Field Agent Field Notes - Always Ready for Voice Input**
 
 
 ## Next Steps
@@ -48,8 +53,8 @@ capture_metadata:
 ---
 
 **Traceability**
-- conversation_id: conv_2025_09_30_capture_0921
+- conversation_id: conv_FIELD_NOTES
 - decision_log: docs/decision-log.md (search for the conversation_id)
 - chronicle_path: 08_CHRONICLE/conversations/lite/
 - schema_version: v1
-- original_capture_id: raw_20250930_0921
+- original_capture_id: FIELD_NOTES
