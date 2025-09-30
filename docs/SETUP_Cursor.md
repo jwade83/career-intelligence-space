@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 project: Career Intelligence Space
 type: spec
@@ -7,8 +6,6 @@ tags: [cursor, ide, setup, workflow, ci]
 updated: 2025-09-27
 ---
 
-=======
->>>>>>> a8148e4 (chore: ci - add automation workflows and setup docs)
 # Cursor IDE Setup
 
 ## Repo Path (Single-Clone, Dual-Interface)
@@ -61,7 +58,3 @@ docs: setup - add Cursor IDE setup notes
 
 ---
 *Updated: 2025-09-27*
-<<<<<<< HEAD
-
-=======
->>>>>>> a8148e4 (chore: ci - add automation workflows and setup docs)
