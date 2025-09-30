@@ -11,8 +11,7 @@ source: github_mobile
 # Field Notes - Persistent Voice Input
 
 ## Add New Note
-[Use voice-to-text here - speak your thoughts and they'll appear here]
-
+Voice to text test
 ---
 
 ## Notes History
