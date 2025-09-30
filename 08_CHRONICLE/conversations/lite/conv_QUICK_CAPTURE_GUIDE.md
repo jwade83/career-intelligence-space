@@ -18,7 +18,7 @@ related: []
 capture_metadata:
   original_capture_id: QUICK_CAPTURE_GUIDE
   capture_type: mobile_note
-  processed_at: '2025-09-30T09:26:58.315599'
+  processed_at: '2025-09-30T09:28:25.120871'
   source_file: 08_CHRONICLE/capture_inbox/QUICK_CAPTURE_GUIDE.md
 ---
 

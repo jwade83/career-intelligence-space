@@ -18,7 +18,7 @@ related: []
 capture_metadata:
   original_capture_id: VOICE_NOTES
   capture_type: voice_memo
-  processed_at: '2025-09-30T09:26:58.325740'
+  processed_at: '2025-09-30T09:28:25.131079'
   source_file: 08_CHRONICLE/capture_inbox/VOICE_NOTES.md
 ---
 
