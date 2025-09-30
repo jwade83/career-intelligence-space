@@ -1,0 +1,57 @@
+name: Conversation Archive Builder
+
+on:
+  workflow_dispatch:
+    inputs:
+      conversation_date:
+        description: 'Date of conversation (YYYY-MM-DD)'
+        required: true
+        type: string
+      topic:
+        description: 'Conversation topic'
+        required: true
+        type: string
+      participants:
+        description: 'Participants (comma-separated)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archive-${{ github.event.inputs.conversation_date }}-${{ github.event.inputs.topic }}
+  cancel-in-progress: true
+
+jobs:
+  build-archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml markdown
+
+      - name: Build conversation archive
+        run: |
+          python scripts/conversation-archive/conversation-archive-builder.py \
+            --date "${{ github.event.inputs.conversation_date }}" \
+            --topic "${{ github.event.inputs.topic }}" \
+            --participants "${{ github.event.inputs.participants }}" \
+            --output "08_CHRONICLE/conversations/" \
+            --id "conv_${{ github.event.inputs.conversation_date }}_${{ github.event.inputs.topic }}"
+
+      - name: Create PR
+        run: |
+          git checkout -b chore/archive-${{ github.event.inputs.conversation_date }}
+          git add 08_CHRONICLE/conversations/
+          git commit -m "chore(archive): ${{ github.event.inputs.conversation_date }} – ${{ github.event.inputs.topic }}"
+          git push -u origin HEAD
+          gh pr create --fill

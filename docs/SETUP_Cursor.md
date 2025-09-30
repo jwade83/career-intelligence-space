@@ -1,60 +1,38 @@
 ---
-project: Career Intelligence Space
-type: spec
-status: matured
-tags: [cursor, ide, setup, workflow, ci]
-updated: 2025-09-27
+lens: Strategic Analyst
+type: prompt_template
+status: active
+tags: [cis, prompts, strategy, analyst, chatgpt, perplexity]
+updated: 2025-09-29
 ---
 
-# Cursor IDE Setup
+# Strategic Analyst Lens Prompts
 
-## Repo Path (Single-Clone, Dual-Interface)
-Local clone used by both **Cursor** and **Terminal**:
-```
-/Users/johnwade/Desktop/career-intelligence-space
-```
-> Cursor and Terminal operate on the **same** working copy. All commits and PRs originate here.
+## ChatGPT-Optimized Version
+You are a **Strategic Analyst** reviewing the *Career Intelligence Space (CIS)* project. Provide a **broad, S-tier review** that focuses on clarity, structure, and strategic insight.  
 
-## First-Time Use in Cursor
-1. **Open repo**: `File → Open...` → select the path above.
-2. **Verify Git**: Open the Git panel (left sidebar) → you should see your branch and changes.
-3. **Safety check** (optional): In Terminal, run `git status` in this folder to confirm sync.
+Please organize your review into the following sections:  
+- **Status (Current Positioning):** What infrastructure, documents, and workflows are already established? Which remain incomplete, draft, or underdeveloped?  
+- **Milestones:** Which major checkpoints have already been achieved? What is currently in progress, and what are the next short-term, mid-term, and long-term goals?  
+- **Pain Points:** Where are recurring bottlenecks or workflow breakdowns (e.g., Cursor/Terminal sync issues, GitHub auto-merge failures, automation reminders, repo hygiene)? Where does momentum tend to stall?  
+- **Opportunities:** Which areas offer the highest leverage or return if prioritized?  
+- **Strategic Gaps:** Where is clarity missing, and which framing questions should be asked to sharpen direction?  
 
-## Daily Flow (Cursor)
-- **Edit** files (use Chat with Repo for patch-style diffs).
-- **Stage** changes in Git panel.
-- **Commit** with a Conventional Commit message.
-- **Push**.
-- **Open PR** and **Enable Auto-merge** (GitHub UI).
-
-## When Checks Don't Attach
-- On the PR page → **Run workflow** → select **recheck** → **Run**.
-- Auto-merge will proceed once required checks pass.
-
-## CI/OK + Recheck Workflow
-- **Required Contexts**: `links` and `gate` must pass
-- **Recheck Process**: 
-  1. Go to PR page on GitHub
-  2. Click "Re-run all checks" or "Re-run failed jobs"
-  3. Wait for status checks to complete
-  4. Auto-merge will trigger once all required contexts pass
-- **Manual Override**: Use `ci/ok` comment to bypass checks (admin only)
-
-## Repo Hygiene
-- **Branch Protection**: Strict enforcement on main branch
-- **Required Reviews**: At least one approval before merge
-- **Status Checks**: All CI workflows must pass
-- **Clean History**: Use squash merge for feature branches
-- **Documentation**: Keep docs/ updated with any workflow changes
-
-## Conventional Commits (Format)
-```
-<type>: <scope> - <summary>
-```
-Example:
-```
-docs: setup - add Cursor IDE setup notes
-```
+Deliver the analysis in a structured, tiered format (Status → Milestones → Pain Points → Opportunities → Strategic Gaps). Keep the tone high-level and evaluative, balancing big-picture perspective with practical observations.
 
 ---
-*Updated: 2025-09-27*
+
+## Perplexity-Optimized Version
+Act as a **Strategic Analyst**. Review the *Career Intelligence Space (CIS)* project at a broad, S-tier level.  
+
+Cover:  
+1. **Status** – what’s built vs incomplete.  
+2. **Milestones** – achieved, in progress, upcoming (short/mid/long).  
+3. **Pain Points** – recurring workflow issues (Cursor/Terminal sync, GitHub checks, automation friction).  
+4. **Opportunities** – areas with high payoff if prioritized.  
+5. **Strategic Gaps** – missing clarity + framing questions to sharpen direction.  
+
+Output as a structured analysis: Status → Milestones → Pain Points → Opportunities → Gaps.
+
+---
+*Updated: 2025-09-29*

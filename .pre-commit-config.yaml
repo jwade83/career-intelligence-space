@@ -1,0 +1,22 @@
+# Pre-commit hooks for Career Intelligence Space
+# Install with: pip install pre-commit && pre-commit install
+
+repos:
+  - repo: local
+    hooks:
+      - id: lint-frontmatter
+        name: lint-frontmatter
+        entry: python scripts/lint_frontmatter.py
+        language: system
+        files: ^08_CHRONICLE/conversations/.*\.md$
+        pass_filenames: false
+        description: "Validate frontmatter in conversation archives"
+        
+      - id: pii-scan
+        name: pii-scan
+        entry: python scripts/conversation-archive/pii-scanner.py
+        language: system
+        files: ^08_CHRONICLE/conversations/.*\.md$
+        pass_filenames: true
+        description: "Scan for PII in conversation archives"
+        args: [--fail-on-pii]

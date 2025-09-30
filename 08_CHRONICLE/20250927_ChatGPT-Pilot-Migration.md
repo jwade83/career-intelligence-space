@@ -1,9 +1,9 @@
 ---
 project: Career Intelligence Space
 type: log
-status: matured
+status: promoted
 tags: [chronicle, chat, migration]
-updated: 2025-09-27
+updated: 2025-11-10
 ---
 Pilot project migration
 

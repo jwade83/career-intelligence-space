@@ -1,0 +1,73 @@
+---
+# Archive Schema Configuration
+# Version: 1
+# Purpose: Define required and recommended fields for archive frontmatter
+# Usage: Referenced by lint_frontmatter.py for validation
+
+version: 1
+schema_name: "CIS Archive Schema"
+last_updated: "2025-11-10"
+
+# Common required fields for all archive types
+required_common:
+  - project
+  - type
+  - status
+  - tags
+  - updated
+
+# Required fields for conversation archives
+required_conversation_archive:
+  - conversation_date
+  - participants
+  - conversation_id
+
+# Required fields for lite conversation archives
+required_conversation_archive_lite:
+  - conversation_date
+  - participants
+  - conversation_id
+
+# Recommended fields (warnings if missing)
+recommended:
+  - timezone
+  - related
+
+# Field validation rules
+validation_rules:
+  project:
+    type: string
+    enum: ["Career Intelligence Space"]
+  type:
+    type: string
+    enum: ["conversation_archive", "conversation_archive_lite", "conversation_segment", "insights_extraction", "implementation_analysis", "archive_navigation", "archive_index"]
+  status:
+    type: string
+    enum: ["active", "draft", "archived"]
+  tags:
+    type: array
+    min_items: 1
+  updated:
+    type: string
+    pattern: "^\d{4}-\d{2}-\d{2}$"
+  conversation_date:
+    type: string
+    pattern: "^\d{4}-\d{2}-\d{2}$"
+  participants:
+    type: array
+    min_items: 1
+  conversation_id:
+    type: string
+    min_length: 1
+  timezone:
+    type: string
+    pattern: "^[A-Za-z_/]+$"
+  related:
+    type: array
+
+# Schema evolution notes
+evolution_notes:
+  v1:
+    date: "2025-11-10"
+    changes: "Initial schema definition with core archive types"
+    breaking_changes: []

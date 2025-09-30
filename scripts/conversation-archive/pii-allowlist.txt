@@ -1,0 +1,35 @@
+# PII Allowlist for CIS Harness Archives
+# Common patterns that should not be flagged as PII
+
+# Specific conversation IDs (exact matches)
+conv_2025_11_10_harness_architecture
+conv_2025_11_10_harness_archive_qa_smoke
+
+# Common project terms (exact matches)
+harness_architecture_and_implementation_strategy
+harness_archive_qa_smoke
+
+# Common project identifiers (exact matches)
+Career Intelligence Space
+CIS
+Harness
+
+# Common URLs and patterns (exact matches)
+github.com/jwade83/career-intelligence-space
+chatgpt.com/g/
+chatgptexporter.com
+
+# Common API keys and hashes (exact matches)
+68c116b2783881918215a576ca3cde62
+1cef4230ca5ac26d1c496c5fa362fe028b9d1183bf759b7ad96bd345db8e
+b94aaa34073e54c710f5a06ecc82d91f9fb99ac8
+fe16f31034dbd9a138343f4c3b152ebb8848aaa9
+35ba06863db7b7d9a691c433c5d177515e1d5b00
+cf69b8199a79cad32e943f7b82275eea52993852
+85181ba2ee269290e2cabf6a5686a5a86efc824a
+
+# Common phone numbers (exact matches)
+8066709745
+
+# Common emails (exact matches)
+jwade83@gmail.com

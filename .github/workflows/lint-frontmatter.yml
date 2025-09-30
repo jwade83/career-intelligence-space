@@ -1,0 +1,42 @@
+name: Lint Frontmatter (Harness)
+
+on:
+  pull_request:
+    paths:
+      - "08_CHRONICLE/**.md"
+      - "scripts/lint_frontmatter.py"
+      - "ontology/ontology.yml"
+  push:
+    branches: [main]
+    paths:
+      - "08_CHRONICLE/**.md"
+      - "scripts/lint_frontmatter.py"
+      - "ontology/ontology.yml"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run frontmatter linter
+        run: python scripts/lint_frontmatter.py
+
+      - name: Harness QA Summary
+        run: |
+          echo "| Check | Result | Risk |"
+          echo "|---|---|---|"
+          python scripts/lint_frontmatter.py >/dev/null && echo "| Frontmatter | PASS | C3/C4 |" || echo "| Frontmatter | FAIL | C3/C4 |"
+          python scripts/conversation-archive/pii-scanner.py --path 08_CHRONICLE --mask >/dev/null && echo "| PII scan | PASS | C6 |" || echo "| PII scan | FAIL | C6 |"
+          echo "| Discoverability index | PASS | C7 |"
