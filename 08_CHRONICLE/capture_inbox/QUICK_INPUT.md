@@ -11,7 +11,7 @@ source: github_mobile
 # Quick Input
 
 ## Content
-[Use voice-to-text here - just speak your thoughts and they'll appear here]
+Trying a quick text input here that's a test
 
 ---
 **Field Agent Quick Input - Ready for Voice-to-Text**
