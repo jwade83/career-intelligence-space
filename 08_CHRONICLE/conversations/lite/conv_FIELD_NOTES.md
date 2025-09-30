@@ -18,7 +18,7 @@ related: []
 capture_metadata:
   original_capture_id: FIELD_NOTES
   capture_type: mobile_note
-  processed_at: '2025-09-30T09:28:25.119378'
+  processed_at: '2025-09-30T09:36:09.220249'
   source_file: 08_CHRONICLE/capture_inbox/FIELD_NOTES.md
 ---
 

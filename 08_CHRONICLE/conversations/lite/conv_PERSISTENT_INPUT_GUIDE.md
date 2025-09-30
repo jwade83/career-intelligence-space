@@ -18,7 +18,7 @@ related: []
 capture_metadata:
   original_capture_id: PERSISTENT_INPUT_GUIDE
   capture_type: mobile_note
-  processed_at: '2025-09-30T09:28:25.117414'
+  processed_at: '2025-09-30T09:36:09.218552'
   source_file: 08_CHRONICLE/capture_inbox/PERSISTENT_INPUT_GUIDE.md
 ---
 
