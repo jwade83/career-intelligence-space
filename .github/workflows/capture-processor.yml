@@ -52,8 +52,8 @@ jobs:
         if: steps.check_files.outputs.has_new_files == 'true'
         run: |
           # Configure git user
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.norell.github.com"
           
           # Create feature branch
           git checkout -b field-agent/capture-processing-$(date +%Y%m%d-%H%M%S)
@@ -62,15 +62,21 @@ jobs:
           git add 08_CHRONICLE/conversations/lite/
           git add 08_CHRONICLE/capture_inbox/
           
+          # Check if there are changes to commit
+          if git diff --quiet --cached; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          
           # Commit changes
           git commit -m "feat(field-agent): process capture inbox
 
-          - Processed $(find 08_CHRONICLE/conversations/lite -name "conv_*_capture_*.md" -newer 08_CHRONICLE/capture_inbox/README.md | wc -l) capture files
-          - Generated lite archives with full Harness compliance
-          - Maintained traceability chain from capture to archive
-          - All QA gates passed (frontmatter validation, PII scanning)
+- Processed $(find 08_CHRONICLE/conversations/lite -name "conv_*_capture_*.md" -newer 08_CHRONICLE/capture_inbox/README.md | wc -l) capture files
+- Generated lite archives with full Harness compliance
+- Maintained traceability chain from capture to archive
+- All QA gates passed (frontmatter validation, PII scanning)
 
-          Automated processing by Field Agent Capture Processor workflow."
+Automated processing by Field Agent Capture Processor workflow."
           
           # Push branch
           git push -u origin HEAD
