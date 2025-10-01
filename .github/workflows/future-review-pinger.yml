@@ -1,0 +1,64 @@
+name: Future Silo Review Pinger
+
+on:
+  schedule:
+    - cron: "0 16 * * 1"   # Mondays 08:00 PT
+  workflow_dispatch:
+
+jobs:
+  scan-future:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find FUTURE specs due for review
+        id: scan
+        run: |
+          python3 - << 'PY'
+          import os, yaml, datetime, json
+          base = "11_FUTURE"
+          due = []
+          today = datetime.date.today().isoformat()
+          for root, _, files in os.walk(base):
+              for f in files:
+                  if not f.endswith(".md"): continue
+                  p = os.path.join(root, f)
+                  with open(p, 'r', encoding='utf-8') as fh:
+                      txt = fh.read()
+                  if not txt.startswith('---'): continue
+                  parts = txt.split('---', 2)
+                  if len(parts) < 2: continue
+                  fm = parts[1]
+                  try:
+                      data = yaml.safe_load(fm) or {}
+                      if data.get('type') == 'future_spec' and data.get('review_date'):
+                          if data['review_date'] <= today:
+                              due.append({"path": p, "title": os.path.basename(p), "updated": data.get("updated")})
+                  except:
+                      continue
+          print(f"::set-output name=list::{json.dumps(due)}")
+          PY
+      - name: Open or update review issue
+        if: steps.scan.outputs.list != '[]'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const list = ${{ steps.scan.outputs.list }};
+            let body = '## Future Silo Review — Items Due\n\n';
+            body += 'The following **future_spec** files are due for review:\n\n';
+            for (const item of list) {
+              body += `- **${item.title}**\n`;
+              body += `  - Path: ${item.path}\n`;
+              body += `  - Last updated: ${item.updated}\n\n`;
+            }
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Future Silo Review — Items Due',
+              body: body,
+              labels: ['future', 'review', 'harness']
+            });
+

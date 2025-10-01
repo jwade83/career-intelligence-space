@@ -1,0 +1,16 @@
+# CODEOWNERS for Career Intelligence Space
+# These owners will be requested for review when changes are made
+
+# Future Silo - Requires review for Harness doctrine changes
+/11_FUTURE/hardware_assets/** @jwade83
+
+# Harness Documentation - Core immune system specs
+/docs/HARNESS/** @jwade83
+/08_CHRONICLE/harness/** @jwade83
+
+# Configuration and Schema
+/config/** @jwade83
+
+# GitHub Workflows - Automation infrastructure
+/.github/workflows/** @jwade83
+

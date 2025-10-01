@@ -1,0 +1,90 @@
+---
+# Archive Schema for Career Intelligence Space
+# Defines valid frontmatter types and their required/optional fields
+schema_version: v1
+updated: 2025-09-30
+
+types:
+  future_spec:
+    required:
+      - project
+      - type
+      - status
+      - tags
+      - updated
+      - review_date
+      - schema_version
+    optional:
+      - id
+      - related
+      - owner
+      - summary
+  
+  capsule:
+    required:
+      - project
+      - type
+      - status
+      - tags
+      - updated
+    optional:
+      - id
+      - related
+  
+  memo:
+    required:
+      - project
+      - type
+      - status
+      - tags
+      - updated
+    optional:
+      - id
+      - related
+  
+  assessment:
+    required:
+      - project
+      - type
+      - status
+      - tags
+      - updated
+    optional:
+      - id
+      - related
+  
+  log:
+    required:
+      - project
+      - type
+      - status
+      - tags
+      - updated
+    optional:
+      - id
+      - related
+  
+  decision:
+    required:
+      - project
+      - type
+      - status
+      - tags
+      - updated
+    optional:
+      - id
+      - related
+      - decision_id
+      - rationale
+  
+  spec:
+    required:
+      - project
+      - type
+      - status
+      - tags
+      - updated
+    optional:
+      - id
+      - related
+
