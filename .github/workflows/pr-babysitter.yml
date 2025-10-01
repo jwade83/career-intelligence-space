@@ -5,11 +5,14 @@ on:
 permissions:
   contents: read
   pull-requests: write
+concurrency:
+  group: pr-babysitter-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   attach-required-checks:
     runs-on: ubuntu-latest
-    # Only run for PR events, not push events
-    if: ${{ github.event_name == 'pull_request' }}
+    # Only run for PR events, not push events, and not for bot PRs
+    if: ${{ github.event_name == 'pull_request' && github.actor != 'github-actions[bot]' }}
     steps:
       - uses: actions/checkout@v4
         with:
