@@ -356,32 +356,31 @@ cat config/archive_schema.yml | grep future_spec
 
 ## 🎯 Harness-Doctrine Alignment
 
-### Externalization: ✅ COMPLETE
-- Silo structure prevents knowledge living only in chat
-- Decision Log template ensures provenance
-- Chronicle integration for activation tracking
+**⚠️ DOCTRINAL CORRECTION:** See `ADDENDUMS/20251001_Final_Release_Adjustment.md` for accurate C1-C7 status.
 
-### C3 Vocabulary Drift: ✅ PROTECTED
-- Ontology file in CODEOWNERS
-- Frontmatter schema validation
-- Linter enforces stable terminology
+### Summary (Corrected 2025-10-01)
 
-### C4 Reference Ambiguity: ⚠️ PARTIAL
-- Stable IDs enforced in frontmatter
-- `related:` field validated
-- **Follow-up:** Link/Anchor checker for full C4 protection
+| Risk | Status | Implementation |
+|------|--------|----------------|
+| **C1 Context Saturation** | ⚠️ PENDING | Modular docs exist, no context pack generator |
+| **C2 Instruction Dilution** | ⚠️ PENDING | Role definitions exist, no scoped prompt enforcement |
+| **C3 Vocabulary Drift** | ⚠️ PARTIAL | Ontology CODEOWNED, no synonym-drift linter |
+| **C4 Reference Ambiguity** | ✅ COMPLETE | Link checker, stable IDs, `related:` validation |
+| **C5 Goal Creep** | ⚠️ PENDING | Informal boundaries, no Charter.yml enforcement |
+| **C6 Evidence Entropy** | ✅ COMPLETE | Decision Log, checkpoints, provenance chain |
+| **C7 Thread Fragmentation** | ✅ COMPLETE | Chronicle, silo externalization, PR templates |
+| **Antifragility** | ✅ COMPLETE | Monthly canary stress test (C6 focus) |
 
-### C6 Evidence Entropy: ✅ COMPLETE
-- Decision Log template with reconstruction tests
-- Checkpoint tags for rollback
-- Complete provenance chain
+### What's Production-Ready
+- ✅ **C4, C6, C7, Antifragility** - Robust and hardened
+- ⚠️ **C3** - Partially protected (structural coverage, no linter)
+- ⚠️ **C1, C2, C5** - Deferred (require explicit components)
 
-### Antifragility: ✅ COMPLETE
-- **Monthly canary stress test:** `.github/workflows/canary-stress-test.yml`
-  - Creates fake FUTURE file with too-soon review_date
-  - Verifies linter blocks it
-  - Self-documenting in GitHub Actions summary
-  - Auto-cleans up after test
+### Next Actions (Future Silo)
+1. **Context Packs (C1/C2)** - `scripts/context-pack-generator.py`
+2. **Ontology Linter (C3)** - Synonym drift detection
+3. **Charter Enforcement (C5)** - `docs/CHARTER.yml` with CI
+4. **Stress Test Expansion** - Quarterly C3/C4/C5 canaries
 
 ---
 
@@ -511,5 +510,6 @@ cat config/archive_schema.yml | grep future_spec
 
 *Production Hardening Complete - Future Silo System Ready for Production*
 *All critical footguns addressed - Silent failures prevented*
-*C4 gap closed - Antifragility proven*
+*C4, C6, C7, Antifragility: Complete | C1, C2, C5: Pending | C3: Partial*
+*Truth in implementation preserved - Doctrinal accuracy maintained*
 
