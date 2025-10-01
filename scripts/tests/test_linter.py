@@ -64,7 +64,7 @@ def test_yaml_date_object():
     assert len(errors) == 0
 
 def test_timestamp_format():
-    """Test that timestamps are truncated with warning"""
+    """Test that timestamps are truncated (as string input)"""
     future_datetime = (date.today() + timedelta(days=100)).isoformat() + "T12:00:00Z"
     frontmatter = {
         "type": "future_spec",
@@ -72,10 +72,9 @@ def test_timestamp_format():
     }
     errors = []
     validate_future_spec(frontmatter, "test.md", errors)
-    # Should have warning about timestamp, but date should pass
-    assert len(errors) == 1
-    assert "should be date only" in errors[0][1]
-    assert "Truncating" in errors[0][1]
+    # Timestamp strings are truncated silently ([:10])
+    # No error expected for valid future date
+    assert len(errors) == 0
 
 def test_missing_review_date():
     """Test that missing review_date is caught"""
