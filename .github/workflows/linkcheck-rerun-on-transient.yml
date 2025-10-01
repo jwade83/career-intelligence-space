@@ -5,12 +5,35 @@ on:
     types: [completed]
 permissions:
   actions: write
+concurrency:
+  group: linkcheck-rerun-${{ github.event.workflow_run.id }}
+  cancel-in-progress: true
 jobs:
   rerun-if-transient:
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    if: >
+      ${{
+        github.event.workflow_run.name == 'linkcheck' &&
+        github.event.workflow_run.conclusion == 'failure' &&
+        github.actor != 'github-actions[bot]'
+      }}
     runs-on: ubuntu-latest
     steps:
+      - name: Check if already retried recently (simple backoff)
+        id: backoff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Check if we already retried this workflow run
+          RERUNS=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/rerun-failed-jobs --jq '.total_count // 0' || echo 0)
+          if [ "$RERUNS" -gt 0 ]; then
+            echo "Already retried - skipping to prevent storm"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
       - name: Download logs
+        if: steps.backoff.outputs.skip == 'false'
         id: dl
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -20,6 +43,7 @@ jobs:
           unzip -p logs.zip | tail -n 2000 > logs.txt || true
           echo "size=$(wc -c < logs.txt)" >> $GITHUB_OUTPUT
       - name: Detect transient errors
+        if: steps.backoff.outputs.skip == 'false'
         id: detect
         run: |
           set -euo pipefail
@@ -29,7 +53,7 @@ jobs:
             echo "transient=false" >> $GITHUB_OUTPUT
           fi
       - name: Re-run linkcheck once
-        if: steps.detect.outputs.transient == 'true'
+        if: steps.backoff.outputs.skip == 'false' && steps.detect.outputs.transient == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
