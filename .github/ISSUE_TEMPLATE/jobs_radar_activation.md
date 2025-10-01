@@ -141,11 +141,11 @@ milestone: 'Phase 1 Implementation'
 
 ### 🔗 Related Resources
 
-- **Project Documentation:** [Jobs Radar Intelligence System Capsule](08_CHRONICLE/vision/2025-11-10_Jobs_Radar_Intelligence_System_Capsule.md)
-- **Discovery Agent:** [agents/discovery.yml](agents/discovery.yml)
-- **Company Research Template:** [docs/COMPANY_RESEARCH_TEMPLATE.md](docs/COMPANY_RESEARCH_TEMPLATE.md)
-- **Compensation Tracker:** [docs/COMPENSATION_NEGOTIATION_TRACKER.md](docs/COMPENSATION_NEGOTIATION_TRACKER.md)
-- **Strategic Lenses:** [docs/OPPORTUNITY_ASSESSMENT_LENSES.md](docs/OPPORTUNITY_ASSESSMENT_LENSES.md)
+- **Project Documentation:** Jobs Radar Intelligence System Capsule (in capsule branch)
+- **Discovery Agent:** agents/discovery.yml
+- **Company Research Template:** Available in capsule branch
+- **Compensation Tracker:** Available in capsule branch  
+- **Strategic Lenses:** Available in capsule branch
 
 ### 💬 Discussion & Updates
 
