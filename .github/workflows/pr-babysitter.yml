@@ -17,7 +17,7 @@ jobs:
     name: Attach Required Checks
     runs-on: ubuntu-latest
     # run only for real PR events and not for bot accounts
-    if: ${{ github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
+    if: ${{ github.event_name == 'pull_request' && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
 
     steps:
       - name: Resolve PR context
@@ -51,17 +51,9 @@ jobs:
           echo "states=$STATES" >> "$GITHUB_OUTPUT"
           echo "Found states: $STATES"
 
-      - name: No-op commit to PR branch if required contexts missing
+      - name: Log missing contexts (monitoring only)
         if: ${{ steps.probe.outputs.states == '' || steps.probe.outputs.states == 'pending' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
-          mkdir -p .github/keep
-          echo "." >> .github/keep/pr-babysitter.keep
-          
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/keep/pr-babysitter.keep
-          git commit -m "chore(ci): babysitter attach PR-event checks"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          echo "⚠️  Required contexts missing: ${{ steps.probe.outputs.states }}"
+          echo "ℹ️  This is expected behavior - babysitter monitors only"
+          echo "ℹ️  No automatic fixes applied to prevent commit loops"
