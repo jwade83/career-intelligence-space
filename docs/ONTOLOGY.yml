@@ -7,11 +7,18 @@ types:
   - spec
   - future_spec
   - decision_log
+  - harness_addendum
+  - bridge_note
+  - strategic_vision_capsule
+  - alert
+  - implementation_capsule
 statuses:
   - draft
   - matured
   - archived
   - active
   - deferred
+  - pending
+  - completed
 projects:
   - Career Intelligence Space
