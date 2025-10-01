@@ -67,12 +67,25 @@ jobs:
                   print(f"  - {item['title']} (silo_id: {item['silo_id']})")
           else:
               print("\n✅ No files due for review")
+          
+          # Write job summary for GitHub UI
+          import os
+          with open(os.environ.get("GITHUB_STEP_SUMMARY", "/dev/null"), "a", encoding="utf-8") as summary:
+              summary.write("### Future Silo Review Status\n\n")
+              if due:
+                  summary.write(f"**{len(due)} file(s) due for review:**\n\n")
+                  summary.write("| File | Silo ID | Last Updated |\n")
+                  summary.write("|------|---------|-------------|\n")
+                  for item in due:
+                      summary.write(f"| `{item['title']}` | `{item['silo_id']}` | {item['updated']} |\n")
+              else:
+                  summary.write("✅ No files currently due for review\n")
           PY
 
       # Prevent duplicate issues
       - name: Create/update review issue
         if: steps.scan.outputs.list != '[]'
-        uses: dacbd/create-issue-action@v2
+        uses: dacbd/create-issue-action@ba4d1c65b1e6c9051972447ac1e6cf6f2f3cd0a7 # v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "Future Silo Review — items due"
@@ -82,6 +95,10 @@ jobs:
             The following **future_spec** files are due for review:
 
             ${{ steps.scan.outputs.list }}
+            
+            ---
+            
+            **De-duplication policy:** This issue updates in-place while open. When closed, a new issue will be created for the next review cycle. This maintains clear review boundaries without spam.
           labels: future,review,harness
           update_existing: true
           search_existing: open

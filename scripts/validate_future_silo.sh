@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Minimal validation plan for Future Silo system
 # Run from repo root before merge
 
-set -e
+set -euo pipefail
 
 echo "🔍 Future Silo Validation Plan"
 echo "================================"

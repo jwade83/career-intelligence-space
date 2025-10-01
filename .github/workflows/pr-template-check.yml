@@ -9,6 +9,8 @@ on:
 jobs:
   check-template:
     runs-on: ubuntu-latest
+    # Skip for bots
+    if: github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]'
     steps:
       - uses: actions/checkout@v4
       

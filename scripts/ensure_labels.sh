@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Ensure required GitHub labels exist
 # Usage: ./scripts/ensure_labels.sh
 
-set -e
+set -euo pipefail
 
 echo "🏷️  Ensuring GitHub labels exist..."
 echo ""

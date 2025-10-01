@@ -29,7 +29,10 @@ jobs:
           python-version: '3.11'
       
       - name: Install dependencies
-        run: pip install pyyaml
+        run: pip install pyyaml pytest
+      
+      - name: Run linter unit tests
+        run: pytest -q scripts/tests/test_linter.py
       
       - name: Lint frontmatter
         run: python scripts/lint_frontmatter.py

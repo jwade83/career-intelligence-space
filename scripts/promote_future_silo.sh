@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Idempotent promotion script for Future Silo → Active Docs
 # Usage: ./scripts/promote_future_silo.sh <silo_name> [--dry-run]
 
-set -e
+set -euo pipefail
 
 SILO_NAME="${1:-hardware_assets}"
 DRY_RUN=false
@@ -142,6 +142,7 @@ Activation triggered by: [specify trigger from TODOs.md]" || echo -e "${YELLOW}�
 
     git tag -a "$TAG_NAME" -m "Checkpoint: ${SILO_NAME} activation at ${TIMESTAMP}"
     echo -e "${GREEN}✅ Checkpoint tag created: ${TAG_NAME}${NC}"
+    echo -e "${GREEN}   Strategy: Numeric versioning if collision (-v2, -v3, etc.)${NC}"
 fi
 echo ""
 

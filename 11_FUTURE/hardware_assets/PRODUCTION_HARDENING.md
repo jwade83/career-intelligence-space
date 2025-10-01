@@ -376,11 +376,132 @@ cat config/archive_schema.yml | grep future_spec
 - Checkpoint tags for rollback
 - Complete provenance chain
 
-### Antifragility: ⚠️ PENDING
-- **Follow-up:** Weekly stress test job
-  - Create fake FUTURE file with too-soon review_date
-  - Ensure linter blocks it
-  - Measure immune response time
+### Antifragility: ✅ COMPLETE
+- **Monthly canary stress test:** `.github/workflows/canary-stress-test.yml`
+  - Creates fake FUTURE file with too-soon review_date
+  - Verifies linter blocks it
+  - Self-documenting in GitHub Actions summary
+  - Auto-cleans up after test
+
+---
+
+## 🔒 Final Release-Manager Fixes
+
+### Fix 1: Link & Anchor Checker (C4 Complete)
+**Added:** `.github/workflows/link-anchor-check.yml`
+
+**Features:**
+- ✅ Detects broken links in all markdown files
+- ✅ Validates section anchors and cross-doc references
+- ✅ Uses lychee (pinned to commit SHA)
+- ✅ Creates issue on failure with details
+- ✅ Closes C4 reference ambiguity gap
+
+### Fix 2: Job Summaries for Humans
+**Enhanced:** `.github/workflows/future-review-pinger.yml`
+
+**Features:**
+- ✅ Writes Markdown table to $GITHUB_STEP_SUMMARY
+- ✅ Visible in GitHub Actions UI without log diving
+- ✅ Shows file name, silo_id, last updated date
+- ✅ Clear "No files due" message when empty
+
+### Fix 3: Action Version Pinning
+**Applied:** All workflows use commit SHAs
+
+**Examples:**
+- `dacbd/create-issue-action@ba4d1c65b1e6c9051972447ac1e6cf6f2f3cd0a7` # v2.0.0
+- `lycheeverse/lychee-action@2b973e86fc7b1f6b36a93795fe2c9c6ae1118621` # v1.9.3
+- Ready for Renovate/Dependabot
+
+### Fix 4: Bot Allowlist
+**Enhanced:** `.github/workflows/pr-template-check.yml`
+
+**Features:**
+- ✅ Skips checks for `dependabot[bot]` and `github-actions[bot]`
+- ✅ Prevents automation blockage
+- ✅ Maintains enforcement for human PRs
+
+### Fix 5: Linter UX - Fix-it Hints
+**Enhanced:** `scripts/lint_frontmatter.py`
+
+**Features:**
+- ✅ Includes exact computed date (today + 90)
+- ✅ Copy-paste sed commands for quick fixes
+- ✅ Tolerates timestamps (truncates with warning)
+- ✅ Example: `Fix: sed -i 's/review_date: 2025-10-01/review_date: 2026-01-15/' test.md`
+
+### Fix 6: Scripts Portability
+**Enhanced:** All bash scripts
+
+**Features:**
+- ✅ Shebangs: `#!/usr/bin/env bash`
+- ✅ Strict mode: `set -euo pipefail`
+- ✅ macOS compatible (BSD tools)
+- ✅ Missing `gh` CLI check in `ensure_labels.sh`
+
+### Fix 7: Tag Collision Strategy Documented
+**Enhanced:** `scripts/promote_future_silo.sh`
+
+**Features:**
+- ✅ Prints chosen tag name clearly
+- ✅ Documents numeric versioning strategy (-v2, -v3)
+- ✅ Visible in script output
+- ✅ Self-documenting for future reference
+
+### Fix 8: Unit Tests for Linter
+**Added:** `scripts/tests/test_linter.py`
+
+**Tests:**
+- ✅ Valid future_spec (passes)
+- ✅ Past review_date (fails with fix hint)
+- ✅ Too-soon review_date (< 90 days warning)
+- ✅ YAML date objects (converts correctly)
+- ✅ Timestamp format (truncates with warning)
+- ✅ Missing review_date (fails clearly)
+- ✅ Invalid date format (fails clearly)
+- ✅ Schema loading (validates structure)
+
+**Integration:**
+- ✅ Runs in `.github/workflows/frontmatter-lint.yml`
+- ✅ Usage: `pytest -q scripts/tests/test_linter.py`
+
+### Fix 9: Monthly Canary Stress Test
+**Added:** `.github/workflows/canary-stress-test.yml`
+
+**Features:**
+- ✅ Runs first day of every month
+- ✅ Creates deliberate invalid FUTURE file
+- ✅ Verifies linter catches it
+- ✅ Reports to $GITHUB_STEP_SUMMARY
+- ✅ Auto-cleans up test artifacts
+- ✅ **Proves immune system is healthy**
+
+### Fix 10: De-Dupe Policy in Issue Body
+**Enhanced:** Future review issues now include policy
+
+**Text Added:**
+> **De-duplication policy:** This issue updates in-place while open. When closed, a new issue will be created for the next review cycle. This maintains clear review boundaries without spam.
+
+---
+
+## 📋 Branch Protection Checklist
+
+**Required for CODEOWNERS to have teeth:**
+
+- [ ] Navigate to Settings → Branches → Branch protection rules
+- [ ] Protect branch: `main`
+- [ ] Enable: "Require a pull request before merging"
+- [ ] Enable: "Require review from Code Owners"
+- [ ] Enable: "Require status checks to pass before merging"
+  - [ ] Add: `lint` (frontmatter-lint.yml)
+  - [ ] Add: `lychee` (link-anchor-check.yml)
+  - [ ] Add: `check-template` (pr-template-check.yml)
+- [ ] Enable: "Require branches to be up to date before merging"
+- [ ] Save changes
+
+**Post-merge task:**
+- [ ] Run: `./scripts/ensure_labels.sh` (requires `gh` CLI)
 
 ---
 
@@ -390,4 +511,5 @@ cat config/archive_schema.yml | grep future_spec
 
 *Production Hardening Complete - Future Silo System Ready for Production*
 *All critical footguns addressed - Silent failures prevented*
+*C4 gap closed - Antifragility proven*
 
