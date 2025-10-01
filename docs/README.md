@@ -19,6 +19,6 @@ This directory contains the core documentation for Career Intelligence Space.
 - **design/** - Design notes and specifications
 
 ## Deferred Projects
-- **Hardware/Asset Roadmap Silo** → [11_FUTURE/hardware_assets/README.md](../11_FUTURE/hardware_assets/README.md)
+- **Hardware/Asset Roadmap Silo** → [11_FUTURE/hardware_assets/README.md](/11_FUTURE/hardware_assets/README.md)
   - Status: deferred; review on 2026-01-15
   - See Decision Log when activated

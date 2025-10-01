@@ -113,7 +113,7 @@ This document tracks the critical fixes applied to the Future Silo system to mak
 **Problem:** Absolute path might not work in MkDocs
 
 **Solution:**
-- ✅ Changed to relative link: `[11_FUTURE/hardware_assets/README.md](../11_FUTURE/hardware_assets/README.md)`
+- ✅ Changed to relative link: `[11_FUTURE/hardware_assets/README.md](/11_FUTURE/hardware_assets/README.md)`
 - ✅ Works in GitHub UI and future MkDocs
 - ✅ Proper markdown link format
 

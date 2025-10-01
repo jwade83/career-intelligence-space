@@ -75,13 +75,13 @@ status: draft
 ```
 
 ### **Body Auto-Generated:**
-```markdown
-## Dump
-- Voice note: transcript...
-- Photo: ![IMG_0001.jpg](assets/IMG_0001.jpg)
-- Quick note: "Toilet fill valve bypassed; recommend retrofit"
+    ```markdown
+    ## Dump
+    - Voice note: transcript...
+    - Photo: [IMG_0001.jpg] (example placeholder)
+    - Quick note: "Toilet fill valve bypassed; recommend retrofit"
 
-## Later-structure (agent can backfill)
+    ## Later-structure (agent can backfill)
 - Parts: (blank)
 - Time: (blank)
 - Outcome: (blank)

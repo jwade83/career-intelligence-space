@@ -58,7 +58,7 @@ id: FUTURE_IMPLEMENTATION_STATUS
 
 ### 4. Discoverability
 - ✅ **Index link added** - `docs/README.md`
-  - Relative link: `[11_FUTURE/hardware_assets/README.md](../11_FUTURE/hardware_assets/README.md)`
+  - Relative link: `[11_FUTURE/hardware_assets/README.md](/11_FUTURE/hardware_assets/README.md)`
   - Works in GitHub UI and future MkDocs
   - Low-noise, high-discoverability
   - Clear status and review date

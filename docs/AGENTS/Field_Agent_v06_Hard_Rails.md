@@ -78,7 +78,7 @@ status: draft
 ```markdown
 ## Dump
 - Voice note: transcript...
-- Photo: ![IMG_0001.jpg](assets/IMG_0001.jpg)
+- Photo: [IMG_0001.jpg] (example placeholder)
 - Quick note: "Toilet fill valve bypassed; recommend retrofit"
 
 ## Later-structure (agent can backfill)
@@ -89,9 +89,9 @@ status: draft
 
 ### **Image Embedding:**
 ```markdown
-![IMG_0001.jpg](assets/IMG_0001.jpg)
-![IMG_0002.jpg](assets/IMG_0002.jpg)
-![IMG_0003.jpg](assets/IMG_0003.jpg)
+[IMG_0001.jpg] (example placeholder)
+[IMG_0002.jpg] (example placeholder)
+[IMG_0003.jpg] (example placeholder)
 ```
 
 ## 🔒 EXIF/GPS Scrubbing Rules
@@ -253,9 +253,9 @@ def create_capture_file(issue_data, folder_path):
 - Client: (blank)
 """
     
-    # Add image embeds
+    # Add image embeds (example - actual implementation will save real images)
     for i, attachment in enumerate(issue_data.attachments, 1):
-        body += f"\n![IMG_{i:04d}.jpg](assets/IMG_{i:04d}.jpg)\n"
+        body += f"\n[IMG_{i:04d}.jpg] (will be saved to assets/)\n"
     
     # Write file
     capture_path = os.path.join(folder_path, "capture.md")
