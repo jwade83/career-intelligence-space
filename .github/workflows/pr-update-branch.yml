@@ -3,16 +3,33 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 permissions:
+  contents: write
   pull-requests: write
 jobs:
   update:
-    if: ${{ github.event.pull_request.base.ref == 'main' }}
+    if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           fetch-depth: 0
-      - uses: peter-evans/update-branch@v4
-        with:
-          # Only updates when mergeable_state is 'behind'
           token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Update PR branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Fetch latest main
+          git fetch origin main
+          
+          # Check if branch is behind
+          BEHIND=$(git rev-list --count HEAD..origin/main)
+          
+          if [ "$BEHIND" -gt 0 ]; then
+            echo "Branch is $BEHIND commits behind main. Updating..."
+            git merge origin/main --no-edit
+            git push origin HEAD
+          else
+            echo "Branch is up to date with main"
+          fi
