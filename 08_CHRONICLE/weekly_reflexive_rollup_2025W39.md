@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: capsule
+status: archived
+tags: [reflexive_rollup, weekly, 2025W39]
+updated: 2025-09-30
+---
+
 # Reflexive Rollup — 2025W39
 
 ## Stress Signals (last 7 days)
