@@ -51,6 +51,10 @@ jobs:
       - name: Create PR for processed captures
         if: steps.check_files.outputs.has_new_files == 'true'
         run: |
+          # Configure git user
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          
           # Create feature branch
           git checkout -b field-agent/capture-processing-$(date +%Y%m%d-%H%M%S)
           
