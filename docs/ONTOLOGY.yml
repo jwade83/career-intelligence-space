@@ -12,6 +12,7 @@ types:
   - strategic_vision_capsule
   - alert
   - implementation_capsule
+  - dashboard
 statuses:
   - draft
   - matured
