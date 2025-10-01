@@ -1,0 +1,82 @@
+name: Canary Stress Test (Monthly)
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"  # First day of every month at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  stress-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install pyyaml
+      
+      - name: Create canary FUTURE file with too-soon review_date
+        run: |
+          mkdir -p 11_FUTURE/canary_test
+          cat > 11_FUTURE/canary_test/CANARY.md << 'EOF'
+          ---
+          project: Career Intelligence Space
+          type: future_spec
+          status: deferred
+          tags: [canary, stress_test]
+          updated: $(date +%Y-%m-%d)
+          review_date: $(date -d '+30 days' +%Y-%m-%d)  # Too soon (< 90 days)
+          schema_version: v1
+          id: CANARY_STRESS_TEST
+          ---
+          
+          # Canary Stress Test
+          
+          This file is deliberately created with an invalid review_date (< 90 days) to test that CI gates are working correctly.
+          
+          **Expected Result:** CI should fail on frontmatter linter check.
+          
+          **If you see this in a merged PR:** The immune system failed. Investigate immediately.
+          EOF
+      
+      - name: Run frontmatter linter (should fail)
+        id: linter
+        continue-on-error: true
+        run: python scripts/lint_frontmatter.py
+      
+      - name: Verify linter caught the issue
+        run: |
+          if [ "${{ steps.linter.outcome }}" == "failure" ]; then
+            echo "✅ SUCCESS: Linter correctly caught too-soon review_date"
+            echo "### ✅ Canary Stress Test PASSED" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The frontmatter linter correctly rejected a future_spec file with review_date < 90 days." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Immune system is healthy.**" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          else
+            echo "❌ FAILURE: Linter did NOT catch too-soon review_date"
+            echo "### ❌ Canary Stress Test FAILED" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**CRITICAL:** The frontmatter linter failed to catch an invalid review_date." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The immune system may be compromised. Investigate linter logic immediately." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+      
+      - name: Clean up canary file
+        if: always()
+        run: rm -rf 11_FUTURE/canary_test
+      
+      - name: Report results
+        if: always()
+        run: |
+          echo "Canary stress test completed at $(date)"
+          echo "Linter outcome: ${{ steps.linter.outcome }}"
+

@@ -3,10 +3,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 permissions:
-  contents: write
+  contents: read
+  pull-requests: write
 jobs:
   attach-required-checks:
     runs-on: ubuntu-latest
+    # Only run for PR events, not push events
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v4
         with:

@@ -1,0 +1,105 @@
+name: Future Silo Review Pinger
+
+on:
+  schedule:
+    - cron: "0 12 * * *"  # Daily 12:00 UTC; simple & reliable
+  workflow_dispatch:
+
+jobs:
+  scan-future:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install pyyaml
+
+      - name: Find FUTURE specs due for review
+        id: scan
+        run: |
+          python3 - << 'PY'
+          import os, yaml, datetime, json
+          base = "11_FUTURE"
+          due = []
+          today = datetime.date.today().isoformat()
+          for root, _, files in os.walk(base):
+              for f in files:
+                  if not f.endswith(".md"): 
+                      continue
+                  p = os.path.join(root, f)
+                  with open(p, 'r', encoding='utf-8') as fh:
+                      txt = fh.read()
+                  if not txt.startswith('---'): 
+                      continue
+                  parts = txt.split('---', 2)
+                  if len(parts) < 2: 
+                      continue
+                  fm = parts[1]
+                  try:
+                      data = yaml.safe_load(fm) or {}
+                      if data.get('type') == 'future_spec' and data.get('review_date'):
+                          if data['review_date'] <= today:
+                              silo_id = data.get('id', 'unknown')
+                              due.append({
+                                  "path": p, 
+                                  "title": os.path.basename(p), 
+                                  "updated": data.get("updated"),
+                                  "silo_id": silo_id
+                              })
+                  except:
+                      continue
+          # Write to $GITHUB_OUTPUT
+          out = json.dumps(due)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as gh:
+              gh.write(f"list={out}\n")
+          # Print summary for debugging
+          if due:
+              print(f"\n📋 Found {len(due)} file(s) due for review:")
+              for item in due:
+                  print(f"  - {item['title']} (silo_id: {item['silo_id']})")
+          else:
+              print("\n✅ No files due for review")
+          
+          # Write job summary for GitHub UI
+          import os
+          with open(os.environ.get("GITHUB_STEP_SUMMARY", "/dev/null"), "a", encoding="utf-8") as summary:
+              summary.write("### Future Silo Review Status\n\n")
+              if due:
+                  summary.write(f"**{len(due)} file(s) due for review:**\n\n")
+                  summary.write("| File | Silo ID | Last Updated |\n")
+                  summary.write("|------|---------|-------------|\n")
+                  for item in due:
+                      summary.write(f"| `{item['title']}` | `{item['silo_id']}` | {item['updated']} |\n")
+              else:
+                  summary.write("✅ No files currently due for review\n")
+          PY
+
+      # Prevent duplicate issues
+      - name: Create/update review issue
+        if: steps.scan.outputs.list != '[]'
+        uses: dacbd/create-issue-action@ba4d1c65b1e6c9051972447ac1e6cf6f2f3cd0a7 # v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Future Silo Review — items due"
+          body: |
+            ## Future Silo Review — Items Due
+
+            The following **future_spec** files are due for review:
+
+            ${{ steps.scan.outputs.list }}
+            
+            ---
+            
+            **De-duplication policy:** This issue updates in-place while open. When closed, a new issue will be created for the next review cycle. This maintains clear review boundaries without spam.
+          labels: future,review,harness
+          update_existing: true
+          search_existing: open
+
