@@ -17,19 +17,24 @@ jobs:
   attach-required-checks:
     name: Attach Required Checks
     runs-on: ubuntu-latest
-    # run only for real PR events and not for bot accounts
-    if: ${{ github.event_name == 'pull_request' && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
+    # run for PR events (not bot accounts) or manual dispatch
+    if: ${{ (github.event_name == 'pull_request' && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]') || github.event_name == 'workflow_dispatch' }}
 
     steps:
       - name: Resolve PR context
         id: ctx
         run: |
-          echo "sha=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
-          echo "pr=${{ github.event.pull_request.number }}"   >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "sha=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+            echo "pr=${{ github.event.pull_request.number }}"   >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+            echo "pr=manual" >> "$GITHUB_OUTPUT"
+          fi
 
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
           fetch-depth: 0
 
       - name: Wait briefly for checks to appear
