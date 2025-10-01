@@ -51,17 +51,9 @@ jobs:
           echo "states=$STATES" >> "$GITHUB_OUTPUT"
           echo "Found states: $STATES"
 
-      - name: No-op commit to PR branch if required contexts missing
+      - name: Log missing contexts (push disabled to prevent loops)
         if: ${{ steps.probe.outputs.states == '' || steps.probe.outputs.states == 'pending' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
-          mkdir -p .github/keep
-          echo "." >> .github/keep/pr-babysitter.keep
-          
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/keep/pr-babysitter.keep
-          git commit -m "chore(ci): babysitter attach PR-event checks"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          echo "⚠️  Required contexts missing: ${{ steps.probe.outputs.states }}"
+          echo "ℹ️  Push functionality disabled to prevent commit loops"
+          echo "ℹ️  This is expected behavior - babysitter monitors only"
