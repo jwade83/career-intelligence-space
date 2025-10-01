@@ -17,7 +17,7 @@ jobs:
     name: Attach Required Checks
     runs-on: ubuntu-latest
     # run only for real PR events and not for bot accounts
-    if: ${{ github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
+    if: ${{ github.event_name == 'pull_request' && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
 
     steps:
       - name: Resolve PR context
@@ -51,9 +51,9 @@ jobs:
           echo "states=$STATES" >> "$GITHUB_OUTPUT"
           echo "Found states: $STATES"
 
-      - name: Log missing contexts (push disabled to prevent loops)
+      - name: Log missing contexts (monitoring only)
         if: ${{ steps.probe.outputs.states == '' || steps.probe.outputs.states == 'pending' }}
         run: |
           echo "⚠️  Required contexts missing: ${{ steps.probe.outputs.states }}"
-          echo "ℹ️  Push functionality disabled to prevent commit loops"
           echo "ℹ️  This is expected behavior - babysitter monitors only"
+          echo "ℹ️  No automatic fixes applied to prevent commit loops"
