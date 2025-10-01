@@ -1,44 +1,67 @@
-name: pr-babysitter
+name: PR Babysitter
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+
 permissions:
   contents: read
   pull-requests: write
+
 concurrency:
   group: pr-babysitter-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   attach-required-checks:
+    name: Attach Required Checks
     runs-on: ubuntu-latest
-    # Only run for PR events, not push events, and not for bot PRs
-    if: ${{ github.event_name == 'pull_request' && github.actor != 'github-actions[bot]' }}
+    # run only for real PR events and not for bot accounts
+    if: ${{ github.event_name == 'pull_request' && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Resolve PR context
+        id: ctx
+        run: |
+          echo "sha=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+          echo "pr=${{ github.event.pull_request.number }}"   >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+
       - name: Wait briefly for checks to appear
         run: sleep 25
+
       - name: Check statuses for required contexts
         id: probe
         env:
           REPO: ${{ github.repository }}
-          SHA:  ${{ github.event.pull_request.head.sha }}
+          SHA: ${{ steps.ctx.outputs.sha }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          S=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN"                -H "Accept: application/vnd.github+json"                "https://api.github.com/repos/$REPO/commits/$SHA/status"                | jq -r '[.statuses[]?|select(.context=="links" or .context=="gate")|.state]|join(",")')
-          echo "states=$S" >> "$GITHUB_OUTPUT"
+          STATUS_JSON=$(curl -fsSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$REPO/commits/$SHA/status")
+          
+          STATES=$(echo "$STATUS_JSON" | jq -r '[.statuses[]? | select(.context=="links" or .context=="gate") | .state] | join(",")')
+          echo "states=$STATES" >> "$GITHUB_OUTPUT"
+          echo "Found states: $STATES"
+
       - name: No-op commit to PR branch if required contexts missing
         if: ${{ steps.probe.outputs.states == '' || steps.probe.outputs.states == 'pending' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p .github/keep
-          printf '
-' >> .github/keep/pr-babysitter.keep
-          git config user.name  "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
+          printf '\n' >> .github/keep/pr-babysitter.keep
+          
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .github/keep/pr-babysitter.keep
           git commit -m "chore(ci): babysitter attach PR-event checks"
-          git push origin HEAD:${{ github.head_ref }}
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
