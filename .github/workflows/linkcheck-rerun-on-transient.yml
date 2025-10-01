@@ -1,62 +1,65 @@
 name: linkcheck-rerun-on-transient
+
 on:
   workflow_run:
-    workflows: ["linkcheck"]
+    workflows: ["linkcheck"]         # must exactly match your linkcheck workflow name
     types: [completed]
+
 permissions:
   actions: write
+  contents: read
+
+# One rerun max per commit; never dogpile on the same SHA
 concurrency:
-  group: linkcheck-rerun-${{ github.event.workflow_run.conclusion }}-${{ github.event.workflow_run.head_sha }}
+  group: linkcheck-rerun-${{ github.event.workflow_run.head_sha }}
   cancel-in-progress: true
+
 jobs:
-  rerun-if-transient:
+  rerun-once-if-transient:
+    # HARD GUARDS to prevent loops/noise
     if: >
-      ${{
-        github.event.workflow_run.name == 'linkcheck' &&
-        github.event.workflow_run.conclusion == 'failure' &&
-        github.actor != 'github-actions[bot]'
-      }}
+      github.repository_owner == 'jwade83' &&
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.run_attempt == 1 &&                 # only rerun the FIRST failed attempt
+      github.event.workflow_run.event != 'workflow_run' &&          # avoid tail-chasing reruns of reruns
+      (github.event.workflow_run.head_branch == 'main' ||           # only important branches
+       startsWith(github.event.workflow_run.head_branch, 'release/'))
     runs-on: ubuntu-latest
     steps:
-      - name: Check if already retried recently (simple backoff)
-        id: backoff
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Decide if it's a transient failure
+        id: gate
         run: |
-          set -euo pipefail
-          # Simple backoff: check if this workflow run was already retried
-          # by looking at the run name/description for retry indicators
-          RUN_DESCRIPTION=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }} --jq '.display_title // ""' || echo "")
-          if echo "$RUN_DESCRIPTION" | grep -qi "retry\|rerun"; then
-            echo "Already retried - skipping to prevent storm"
-            echo "skip=true" >> $GITHUB_OUTPUT
-          else
-            echo "skip=false" >> $GITHUB_OUTPUT
+          # Pull summary text to look for classic transient signals
+          curl -fsSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}" \
+            | jq -r '.conclusion,.name,.head_branch' >/dev/null
+
+          # Heuristic signals we consider "transient"
+          # (tune as needed; kept conservative on purpose)
+          echo "transient=false" >> "$GITHUB_OUTPUT"
+
+          # Grab jobs list & logs URLs
+          jobs_url="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/jobs"
+          jobs_json=$(curl -fsSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github+json" "$jobs_url")
+
+          # Look for network-ish failures in job conclusions or summaries
+          # You can expand this list as you see patterns (429, timeout, DNS, ECONNRESET, rate limit)
+          if echo "$jobs_json" | jq -r '.jobs[]?.steps[]?.name + " " + (.jobs[]?.steps[]?.conclusion // "")' 2>/dev/null | \
+             grep -Ei '(timeout|timed out|429|rate.?limit|econnreset|socket hang up|network|dns|temporary|transient)' >/dev/null; then
+            echo "transient=true" >> "$GITHUB_OUTPUT"
           fi
-      - name: Download logs
-        if: steps.backoff.outputs.skip == 'false'
-        id: dl
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Rerun linkcheck (ONE TIME)
+        if: steps.gate.outputs.transient == 'true'
         run: |
-          set -euo pipefail
-          curl -fsSL -H "Authorization: Bearer $GH_TOKEN" "${{ github.event.workflow_run.logs_url }}" -o logs.zip
-          unzip -p logs.zip | tail -n 2000 > logs.txt || true
-          echo "size=$(wc -c < logs.txt)" >> $GITHUB_OUTPUT
-      - name: Detect transient errors
-        if: steps.backoff.outputs.skip == 'false'
-        id: detect
+          curl -fsS -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/rerun
+      - name: Summarize action
         run: |
-          set -euo pipefail
-          if grep -Ei '(HTTP 429|502|503|504|ETIMEDOUT|ECONNRESET|temporary failure|rate limit)' logs.txt; then
-            echo "transient=true" >> $GITHUB_OUTPUT
-          else
-            echo "transient=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Re-run linkcheck once
-        if: steps.backoff.outputs.skip == 'false' && steps.detect.outputs.transient == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          curl -fsSL -X POST -H "Authorization: Bearer $GH_TOKEN"             https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/rerun
+          echo "Rerun considered for run ${{ github.event.workflow_run.id }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Branch: ${{ github.event.workflow_run.head_branch }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Head SHA: ${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- First attempt: ${{ github.event.workflow_run.run_attempt == 1 }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Transient: ${{ steps.gate.outputs.transient }}" >> "$GITHUB_STEP_SUMMARY"
