@@ -7,9 +7,16 @@ on:
 permissions:
   contents: read
 
+# Prevent multiple linkcheck runs on the same ref
+concurrency:
+  group: linkcheck-${{ github.ref || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   links:
     runs-on: ubuntu-latest
+    # Only run in the main repository, not forks
+    if: github.repository_owner == 'jwade83'
     steps:
       - uses: actions/checkout@v4
         with:
