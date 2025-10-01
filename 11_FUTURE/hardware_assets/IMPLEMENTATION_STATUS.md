@@ -30,23 +30,36 @@ id: FUTURE_IMPLEMENTATION_STATUS
 
 ### 2. CI Automation
 - ✅ **Future Review Pinger** - `.github/workflows/future-review-pinger.yml`
-  - Runs every Monday at 08:00 PT
+  - Runs daily at 12:00 UTC (simple & reliable)
+  - Uses `actions/setup-python@v5` with PyYAML installed
+  - Writes to `$GITHUB_OUTPUT` (not deprecated `::set-output`)
+  - Uses `dacbd/create-issue-action@v2` with de-duplication
   - Scans `11_FUTURE/` for files past `review_date`
-  - Opens GitHub Issues for items due for review
+  - Updates existing issue (prevents spam)
+  - Includes silo_id in issue body for searchability
   - Labels: `future`, `review`, `harness`
+- ✅ **Frontmatter Linter** - `.github/workflows/frontmatter-lint.yml`
+  - Validates all frontmatter in Chronicle, Future, and docs
+  - Enforces `review_date` ≥ 90 days ahead for `future_spec`
+  - Validates ISO YYYY-MM-DD format
+  - Blocks PRs with invalid frontmatter
 
 ### 3. Governance Hooks
 - ✅ **CODEOWNERS** - `.github/CODEOWNERS`
   - Requires review for changes to `/11_FUTURE/hardware_assets/`
   - Protects Harness doctrine from drift
+  - Located in `.github/CODEOWNERS` (GitHub-standard path)
 - ✅ **PR Template** - `.github/PULL_REQUEST_TEMPLATE.md`
   - Includes "Future Silo Impact" section
-  - Validates frontmatter and review_date
+  - Enforces `review_date` **≥ 90 days** ahead
+  - Validates `related:` IDs present
+  - Requires CODEOWNERS reviewers (@jwade83)
   - Links Decision or Chronicle for activation
 
 ### 4. Discoverability
 - ✅ **Index link added** - `docs/README.md`
-  - Single reference to Future Silo
+  - Relative link: `[11_FUTURE/hardware_assets/README.md](../11_FUTURE/hardware_assets/README.md)`
+  - Works in GitHub UI and future MkDocs
   - Low-noise, high-discoverability
   - Clear status and review date
 
@@ -65,6 +78,24 @@ id: FUTURE_IMPLEMENTATION_STATUS
   - `FUTURE_ADDENDUM_ANTIBODIES`
   - `FUTURE_ADDENDUM_PHASED_DEPLOYMENT`
   - `FUTURE_HARDWARE_ASSETS_TODOS`
+
+### 7. Nice-to-Haves Implemented
+- ✅ **Idempotent Promotion Script** - `scripts/promote_future_silo.sh`
+  - One CLI command: `./scripts/promote_future_silo.sh hardware_assets`
+  - Copies from `/11_FUTURE/hardware_assets/` → `/docs/architecture/harness/hardware/`
+  - Updates frontmatter: `deferred` → `active`
+  - Creates Decision Log entry
+  - Creates checkpoint tag for rollback
+  - Opens promotion branch with PR template
+- ✅ **Label Management Script** - `scripts/ensure_labels.sh`
+  - Pre-creates required labels: `future`, `review`, `harness`, `promotion`, `automation`
+  - Uses GitHub CLI for safety
+  - Idempotent (skips existing labels)
+- ✅ **Frontmatter Linter** - `scripts/lint_frontmatter.py`
+  - Validates `review_date` ≥ 90 days ahead
+  - Enforces ISO YYYY-MM-DD format
+  - Checks required fields per schema
+  - Returns detailed error messages
 
 ---
 

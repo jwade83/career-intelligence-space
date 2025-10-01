@@ -2,7 +2,7 @@ name: Future Silo Review Pinger
 
 on:
   schedule:
-    - cron: "0 16 * * 1"   # Mondays 08:00 PT
+    - cron: "0 12 * * *"  # Daily 12:00 UTC; simple & reliable
   workflow_dispatch:
 
 jobs:
@@ -13,6 +13,14 @@ jobs:
       issues: write
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install pyyaml
+
       - name: Find FUTURE specs due for review
         id: scan
         run: |
@@ -23,42 +31,50 @@ jobs:
           today = datetime.date.today().isoformat()
           for root, _, files in os.walk(base):
               for f in files:
-                  if not f.endswith(".md"): continue
+                  if not f.endswith(".md"): 
+                      continue
                   p = os.path.join(root, f)
                   with open(p, 'r', encoding='utf-8') as fh:
                       txt = fh.read()
-                  if not txt.startswith('---'): continue
+                  if not txt.startswith('---'): 
+                      continue
                   parts = txt.split('---', 2)
-                  if len(parts) < 2: continue
+                  if len(parts) < 2: 
+                      continue
                   fm = parts[1]
                   try:
                       data = yaml.safe_load(fm) or {}
                       if data.get('type') == 'future_spec' and data.get('review_date'):
                           if data['review_date'] <= today:
-                              due.append({"path": p, "title": os.path.basename(p), "updated": data.get("updated")})
+                              silo_id = data.get('id', 'unknown')
+                              due.append({
+                                  "path": p, 
+                                  "title": os.path.basename(p), 
+                                  "updated": data.get("updated"),
+                                  "silo_id": silo_id
+                              })
                   except:
                       continue
-          print(f"::set-output name=list::{json.dumps(due)}")
+          # Write to $GITHUB_OUTPUT
+          out = json.dumps(due)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as gh:
+              gh.write(f"list={out}\n")
           PY
-      - name: Open or update review issue
+
+      # Prevent duplicate issues
+      - name: Create/update review issue
         if: steps.scan.outputs.list != '[]'
-        uses: actions/github-script@v7
+        uses: dacbd/create-issue-action@v2
         with:
-          script: |
-            const list = ${{ steps.scan.outputs.list }};
-            let body = '## Future Silo Review — Items Due\n\n';
-            body += 'The following **future_spec** files are due for review:\n\n';
-            for (const item of list) {
-              body += `- **${item.title}**\n`;
-              body += `  - Path: ${item.path}\n`;
-              body += `  - Last updated: ${item.updated}\n\n`;
-            }
-            
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Future Silo Review — Items Due',
-              body: body,
-              labels: ['future', 'review', 'harness']
-            });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Future Silo Review — items due"
+          body: |
+            ## Future Silo Review — Items Due
+
+            The following **future_spec** files are due for review:
+
+            ${{ steps.scan.outputs.list }}
+          labels: future,review,harness
+          update_existing: true
+          search_existing: open
 

@@ -1,20 +1,29 @@
-### Frontmatter Compliance
-- [ ] All new `.md` files have frontmatter at the very top (no code fences)
-- [ ] Required keys: `project`, `type`, `status`, `tags`, `updated`
-- [ ] `type`/`status` values match `docs/ONTOLOGY.yml` enums
-- [ ] `tags` is a non-empty list (e.g., `[tag1, tag2, tag3]`)
-- [ ] `updated` is in YYYY-MM-DD format
-- [ ] **Quick fix**: `python3 .github/scripts/add_frontmatter.py <file1> <file2> ...`
+## Description
+<!-- Brief description of changes -->
 
-### Link Compliance  
-- [ ] `docs/` links are relative (./path), no `](docs/...)` inside docs/
-- [ ] All internal links exist and are case-sensitive
+## Type of Change
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Future Silo update
 
-### Pre-commit Checks
-- [ ] Ran `python3 .github/scripts/pre_commit_frontmatter.py` locally
-- [ ] Ran `python3 .github/scripts/pr_health.py <PR#>` and addressed any issues
+## Testing
+<!-- How has this been tested? -->
 
-### Templates Available
-- **Chronicle files**: See `.github/templates/frontmatter_templates.md`
-- **Documentation**: Use `type: spec`, `status: matured`
-- **Assessments**: Use `type: assessment`, `status: draft`
+## Checklist
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] Any dependent changes have been merged and published
+
+## Future Silo Impact
+- [ ] N/A
+- [ ] Updates `/11_FUTURE` content
+  - [ ] Frontmatter valid (`type: future_spec`)
+  - [ ] `review_date` set **≥ 90 days** ahead
+  - [ ] Linked `related:` IDs present
+  - [ ] CODEOWNERS reviewers requested (@jwade83)
+  - [ ] Linked Decision or Chronicle if activation/promote
