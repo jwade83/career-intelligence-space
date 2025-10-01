@@ -5,9 +5,13 @@ types:
   - log
   - decision
   - spec
+  - future_spec
+  - decision_log
 statuses:
   - draft
   - matured
   - archived
+  - active
+  - deferred
 projects:
   - Career Intelligence Space
