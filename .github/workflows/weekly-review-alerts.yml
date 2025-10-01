@@ -1,0 +1,47 @@
+name: Weekly Review Alerts
+
+on:
+  schedule:
+    - cron: '0 8 * * 5'  # Every Friday at 8 AM UTC
+  workflow_dispatch:
+    inputs:
+      force_run:
+        description: "Force run even if no alerts"
+        required: false
+        default: "false"
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  weekly-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml requests
+
+      - name: Run Weekly Review
+        run: |
+          python scripts/weekly_review_trigger.py
+
+      - name: Create GitHub Issues for Alerts
+        run: |
+          python scripts/create_github_alerts.py
+
+      - name: Update Alerts Dashboard
+        run: |
+          python scripts/update_alerts_dashboard.py
