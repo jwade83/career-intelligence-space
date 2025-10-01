@@ -14,14 +14,20 @@ def load_schema():
     """Load archive schema configuration"""
     schema_file = Path("config/archive_schema.yml")
     if not schema_file.exists():
-        return {}
+        print(f"❌ FATAL: Schema file not found: {schema_file}")
+        print("   The frontmatter linter requires config/archive_schema.yml to function.")
+        sys.exit(1)
     
     try:
         with open(schema_file, 'r', encoding='utf-8') as f:
-            return yaml.safe_load(f) or {}
+            schema = yaml.safe_load(f) or {}
+            if not schema:
+                print(f"❌ FATAL: Schema file is empty: {schema_file}")
+                sys.exit(1)
+            return schema
     except Exception as e:
-        print(f"Warning: Could not load schema: {e}")
-        return {}
+        print(f"❌ FATAL: Could not load schema: {e}")
+        sys.exit(1)
 
 def validate_future_spec(frontmatter, path, errors):
     """Validate future_spec type frontmatter"""
@@ -34,22 +40,28 @@ def validate_future_spec(frontmatter, path, errors):
         errors.append((path, "future_spec.review_date is required"))
         return
     
+    # YAML can parse dates as date objects - convert to string
+    if hasattr(rd, 'isoformat'):
+        rd = rd.isoformat()
+    
     # Check ISO format YYYY-MM-DD
     if not isinstance(rd, str) or len(rd) != 10 or rd[4] != '-' or rd[7] != '-':
-        errors.append((path, "future_spec.review_date must be ISO YYYY-MM-DD format"))
+        errors.append((path, f"future_spec.review_date must be ISO YYYY-MM-DD format (got: {type(rd).__name__})"))
         return
     
     # Check date is in the future (at least 90 days)
     try:
         review_date = date.fromisoformat(rd)
-        min_future_date = date.today() + timedelta(days=90)
+        today = date.today()
+        min_future_date = today + timedelta(days=90)
         
-        if review_date < date.today():
-            errors.append((path, f"future_spec.review_date ({rd}) must be in the future"))
+        if review_date < today:
+            errors.append((path, f"future_spec.review_date ({rd}) must be in the future. Set review_date ≥ {min_future_date.isoformat()} (today + 90 days)"))
         elif review_date < min_future_date:
-            errors.append((path, f"future_spec.review_date ({rd}) should be ≥ 90 days ahead (recommended: {min_future_date.isoformat()})"))
+            errors.append((path, f"future_spec.review_date ({rd}) should be ≥ 90 days ahead. Recommended: {min_future_date.isoformat()} or later"))
     except ValueError:
-        errors.append((path, f"future_spec.review_date ({rd}) is not a valid date"))
+        min_future_date = date.today() + timedelta(days=90)
+        errors.append((path, f"future_spec.review_date ({rd}) is not a valid date. Use ISO format YYYY-MM-DD (e.g., {min_future_date.isoformat()})"))
 
 def validate_frontmatter(file_path, schema):
     """Validate frontmatter in a single file"""
@@ -64,9 +76,14 @@ def validate_frontmatter(file_path, schema):
     
     # Check if file starts with frontmatter
     if not content.startswith('---'):
-        # Only check markdown files in certain directories
-        if any(d in str(file_path) for d in ['08_CHRONICLE', '11_FUTURE', 'docs']):
-            errors.append((file_path, "Missing frontmatter"))
+        # Skip template files and READMEs in design/review directories
+        filename = os.path.basename(file_path)
+        skip_patterns = ['TEMPLATE', 'INDEX', 'README.md', 'portfolio_to_ci_index']
+        
+        # Only require frontmatter for specific directories, excluding templates
+        if any(d in str(file_path) for d in ['08_CHRONICLE', '11_FUTURE']):
+            if not any(pattern in filename for pattern in skip_patterns):
+                errors.append((file_path, "Missing frontmatter"))
         return errors
     
     # Extract frontmatter

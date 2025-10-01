@@ -1,0 +1,112 @@
+name: PR Template Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    paths:
+      - '11_FUTURE/**'
+
+jobs:
+  check-template:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check PR body for Future Silo Impact section
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            
+            // Check if PR touches /11_FUTURE
+            const files = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number
+            });
+            
+            const touchesFuture = files.data.some(f => f.filename.startsWith('11_FUTURE/'));
+            
+            if (!touchesFuture) {
+              console.log('✅ PR does not touch /11_FUTURE - skipping check');
+              return;
+            }
+            
+            // Check for Future Silo Impact section
+            if (!body.includes('Future Silo Impact')) {
+              core.setFailed('❌ PR touches /11_FUTURE but missing "Future Silo Impact" section. Please use PR template.');
+              return;
+            }
+            
+            // Check that at least one checkbox is marked
+            const futureSectionMatch = body.match(/## Future Silo Impact[\s\S]*?(?=##|$)/);
+            if (!futureSectionMatch) {
+              core.setFailed('❌ Future Silo Impact section malformed');
+              return;
+            }
+            
+            const futureSection = futureSectionMatch[0];
+            
+            // Check if "Updates /11_FUTURE content" is checked
+            const updatesChecked = /- \[x\] Updates `\/11_FUTURE` content/i.test(futureSection);
+            const naChecked = /- \[x\] N\/A/i.test(futureSection);
+            
+            if (!updatesChecked && !naChecked) {
+              core.setFailed('❌ Please check either "N/A" or "Updates /11_FUTURE content" in Future Silo Impact section');
+              return;
+            }
+            
+            if (updatesChecked) {
+              // Validate sub-checks
+              const requiredChecks = [
+                'Frontmatter valid',
+                'review_date set',
+                'Linked `related:` IDs present',
+                'CODEOWNERS reviewers requested'
+              ];
+              
+              let missingChecks = [];
+              for (const check of requiredChecks) {
+                const regex = new RegExp(`- \\[x\\].*${check.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i');
+                if (!regex.test(futureSection)) {
+                  missingChecks.push(check);
+                }
+              }
+              
+              if (missingChecks.length > 0) {
+                core.setFailed(`❌ Future Silo Impact checks incomplete. Missing:\n${missingChecks.map(c => '  - ' + c).join('\n')}`);
+                return;
+              }
+            }
+            
+            console.log('✅ PR template Future Silo Impact section complete');
+      
+      - name: Validate frontmatter in changed files
+        if: success()
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        if: success()
+        run: pip install pyyaml
+      
+      - name: Run frontmatter linter on changed files
+        if: success()
+        run: |
+          # Get list of changed markdown files in /11_FUTURE
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD | grep '^11_FUTURE/.*\.md$' || true)
+          
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "✅ No markdown files changed in /11_FUTURE"
+            exit 0
+          fi
+          
+          echo "📋 Checking frontmatter in changed files:"
+          echo "$CHANGED_FILES"
+          
+          # Run linter on changed files
+          python scripts/lint_frontmatter.py
+

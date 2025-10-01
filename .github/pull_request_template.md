@@ -19,7 +19,7 @@
 - [ ] My changes generate no new warnings
 - [ ] Any dependent changes have been merged and published
 
-## Future Silo Impact
+## Future Silo Impact (required if touching /11_FUTURE)
 - [ ] N/A
 - [ ] Updates `/11_FUTURE` content
   - [ ] Frontmatter valid (`type: future_spec`)
@@ -27,3 +27,5 @@
   - [ ] Linked `related:` IDs present
   - [ ] CODEOWNERS reviewers requested (@jwade83)
   - [ ] Linked Decision or Chronicle if activation/promote
+
+**Note:** CI will enforce these checks for `/11_FUTURE` changes.

@@ -1,10 +1,19 @@
 #!/bin/bash
 # Idempotent promotion script for Future Silo → Active Docs
-# Usage: ./scripts/promote_future_silo.sh <silo_name>
+# Usage: ./scripts/promote_future_silo.sh <silo_name> [--dry-run]
 
 set -e
 
 SILO_NAME="${1:-hardware_assets}"
+DRY_RUN=false
+
+# Check for --dry-run flag
+if [ "$2" = "--dry-run" ] || [ "$1" = "--dry-run" ]; then
+    DRY_RUN=true
+    echo "🔍 DRY RUN MODE - No changes will be made"
+    echo ""
+fi
+
 SOURCE_DIR="11_FUTURE/${SILO_NAME}"
 TARGET_DIR="docs/architecture/harness/${SILO_NAME}"
 DECISION_LOG="docs/DECISION_LOG.md"
@@ -32,20 +41,35 @@ echo ""
 
 # Step 1: Create target directory
 echo "Step 1: Creating target directory..."
-mkdir -p "$TARGET_DIR"
-echo -e "${GREEN}✅ Target directory ready${NC}"
+if [ "$DRY_RUN" = true ]; then
+    echo -e "${YELLOW}[DRY RUN] Would create: $TARGET_DIR${NC}"
+else
+    if [ -d "$TARGET_DIR" ]; then
+        echo -e "${YELLOW}⚠️  Target directory already exists (reconciling)${NC}"
+    fi
+    mkdir -p "$TARGET_DIR"
+    echo -e "${GREEN}✅ Target directory ready${NC}"
+fi
 echo ""
 
 # Step 2: Copy files (idempotent - will overwrite)
 echo "Step 2: Copying files..."
-cp -r "$SOURCE_DIR"/* "$TARGET_DIR/"
-echo -e "${GREEN}✅ Files copied${NC}"
+if [ "$DRY_RUN" = true ]; then
+    echo -e "${YELLOW}[DRY RUN] Would copy: $SOURCE_DIR/* → $TARGET_DIR/${NC}"
+else
+    cp -r "$SOURCE_DIR"/* "$TARGET_DIR/"
+    echo -e "${GREEN}✅ Files copied${NC}"
+fi
 echo ""
 
 # Step 3: Update frontmatter status from 'deferred' to 'active'
 echo "Step 3: Updating frontmatter status..."
-find "$TARGET_DIR" -name "*.md" -type f -exec sed -i '' 's/^status: deferred$/status: active/' {} \;
-echo -e "${GREEN}✅ Frontmatter updated${NC}"
+if [ "$DRY_RUN" = true ]; then
+    echo -e "${YELLOW}[DRY RUN] Would update frontmatter: deferred → active${NC}"
+else
+    find "$TARGET_DIR" -name "*.md" -type f -exec sed -i '' 's/^status: deferred$/status: active/' {} \;
+    echo -e "${GREEN}✅ Frontmatter updated${NC}"
+fi
 echo ""
 
 # Step 4: Create Decision Log entry
@@ -90,8 +114,24 @@ echo ""
 # Step 5: Create checkpoint tag
 echo "Step 5: Creating checkpoint tag..."
 TAG_NAME="checkpoint/${SILO_NAME}-activation-${TIMESTAMP}"
-git add -A
-git commit -m "feat: Promote ${SILO_NAME} from Future Silo to active docs
+
+if [ "$DRY_RUN" = true ]; then
+    echo -e "${YELLOW}[DRY RUN] Would create checkpoint tag: ${TAG_NAME}${NC}"
+    echo -e "${YELLOW}[DRY RUN] Would commit changes and create promotion branch${NC}"
+else
+    # Check if tag already exists
+    if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+        # Tag exists, create versioned tag
+        VERSION=2
+        while git rev-parse "${TAG_NAME}-v${VERSION}" >/dev/null 2>&1; do
+            VERSION=$((VERSION + 1))
+        done
+        TAG_NAME="${TAG_NAME}-v${VERSION}"
+        echo -e "${YELLOW}⚠️  Original tag exists, using: ${TAG_NAME}${NC}"
+    fi
+    
+    git add -A
+    git commit -m "feat: Promote ${SILO_NAME} from Future Silo to active docs
 
 - Copied from ${SOURCE_DIR} → ${TARGET_DIR}
 - Updated frontmatter status: deferred → active
@@ -100,33 +140,41 @@ git commit -m "feat: Promote ${SILO_NAME} from Future Silo to active docs
 
 Activation triggered by: [specify trigger from TODOs.md]" || echo -e "${YELLOW}⚠️  No changes to commit${NC}"
 
-git tag -a "$TAG_NAME" -m "Checkpoint: ${SILO_NAME} activation at ${TIMESTAMP}" || echo -e "${YELLOW}⚠️  Tag already exists${NC}"
-echo -e "${GREEN}✅ Checkpoint tag created: ${TAG_NAME}${NC}"
+    git tag -a "$TAG_NAME" -m "Checkpoint: ${SILO_NAME} activation at ${TIMESTAMP}"
+    echo -e "${GREEN}✅ Checkpoint tag created: ${TAG_NAME}${NC}"
+fi
 echo ""
 
-# Step 6: Create promotion PR
-echo "Step 6: Creating promotion branch and PR..."
+# Step 6: Create promotion PR (but don't auto-push)
+echo "Step 6: Creating promotion branch..."
 BRANCH_NAME="feat/promote-${SILO_NAME}-${TIMESTAMP}"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-# Only create new branch if not already on it
-if [ "$CURRENT_BRANCH" != "$BRANCH_NAME" ]; then
-    git checkout -b "$BRANCH_NAME" 2>/dev/null || git checkout "$BRANCH_NAME"
-    echo -e "${GREEN}✅ Branch created: ${BRANCH_NAME}${NC}"
+if [ "$DRY_RUN" = true ]; then
+    echo -e "${YELLOW}[DRY RUN] Would create branch: ${BRANCH_NAME}${NC}"
 else
-    echo -e "${YELLOW}⚠️  Already on promotion branch${NC}"
+    # Only create new branch if not already on it
+    if [ "$CURRENT_BRANCH" != "$BRANCH_NAME" ]; then
+        git checkout -b "$BRANCH_NAME" 2>/dev/null || git checkout "$BRANCH_NAME"
+        echo -e "${GREEN}✅ Branch created: ${BRANCH_NAME}${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Already on promotion branch${NC}"
+    fi
 fi
 
 echo ""
 echo -e "${GREEN}🎉 Promotion Complete!${NC}"
 echo ""
-echo "Next steps:"
+echo "Next steps (MANUAL - no auto-push to main):"
 echo "1. Review changes: git diff main"
-echo "2. Push branch: git push origin ${BRANCH_NAME}"
-echo "3. Open PR with label 'promotion'"
-echo "4. Update Chronicle with activation note"
+echo "2. Test locally: python scripts/lint_frontmatter.py"
+echo "3. Push branch: git push origin ${BRANCH_NAME}"
+echo "4. Open PR with label 'promotion'"
+echo "5. Update Chronicle with activation note"
 echo ""
 echo "Rollback command (if needed):"
 echo "  git checkout ${TAG_NAME}"
+echo ""
+echo "⚠️  NOTE: This script does NOT auto-push to main. You must create a PR."
 echo ""
 

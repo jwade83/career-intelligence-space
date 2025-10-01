@@ -51,6 +51,13 @@ This document tracks the critical fixes applied to the Future Silo system to mak
 - ✅ Added `search_existing: open`
 - ✅ One issue updated in-place, not duplicated
 
+**De-Duplication Policy:**
+- Searches for existing **open** issues with title "Future Silo Review — items due"
+- If found: Updates existing issue body with current due files
+- If not found: Creates new issue
+- **Closed issues are NOT reopened** - new issue created for next review cycle
+- This prevents noise while maintaining clear review boundaries
+
 **Files Changed:**
 - `.github/workflows/future-review-pinger.yml`
 
@@ -122,15 +129,28 @@ This document tracks the critical fixes applied to the Future Silo system to mak
 
 **Features:**
 - ✅ One CLI command: `./scripts/promote_future_silo.sh hardware_assets`
-- ✅ Copies files to target location
+- ✅ Dry-run mode: `./scripts/promote_future_silo.sh hardware_assets --dry-run`
+- ✅ Copies files to target location (reconciles if exists)
 - ✅ Updates frontmatter: `deferred` → `active`
 - ✅ Creates Decision Log entry (checks for duplicates)
-- ✅ Creates checkpoint tag for rollback
+- ✅ Creates checkpoint tag for rollback (versioned if exists: `-v2`, `-v3`)
 - ✅ Opens promotion branch with proper naming
+- ✅ **Does NOT auto-push to main** - requires manual PR creation
 - ✅ Fully idempotent (safe to re-run)
+
+**Edge Cases Handled:**
+- **Destination exists:** Reconciles (overwrites) instead of failing
+- **Decision Log duplicate:** Skips entry if already exists (checks via grep)
+- **Checkpoint tag exists:** Creates versioned tag (`-v2`, `-v3`, etc.)
+- **No changes:** Exits gracefully with warning
+- **Security:** Local-only, no auto-push, requires manual PR
 
 **Usage:**
 ```bash
+# Dry run (no changes)
+./scripts/promote_future_silo.sh hardware_assets --dry-run
+
+# Actual promotion
 ./scripts/promote_future_silo.sh hardware_assets
 ```
 
@@ -145,8 +165,14 @@ This document tracks the critical fixes applied to the Future Silo system to mak
 - ✅ Idempotent (skips existing labels)
 - ✅ Prevents action failures from missing labels
 
+**Operational Note:**
+- **Local ops only** - requires `gh` CLI installed
+- **Not in CI** - labels should be created once, manually
+- Run after repo setup or before first pinger execution
+
 **Usage:**
 ```bash
+# Requires: brew install gh (or equivalent)
 ./scripts/ensure_labels.sh
 ```
 
@@ -160,12 +186,19 @@ This document tracks the critical fixes applied to the Future Silo system to mak
 - ✅ Enforces `review_date` ≥ 90 days ahead for `future_spec`
 - ✅ Validates ISO YYYY-MM-DD format
 - ✅ Checks required fields per schema
-- ✅ Returns detailed error messages
-- ✅ Runs in CI on every PR
+- ✅ **Human-readable remediation** in error messages (e.g., "Set review_date ≥ 2026-01-15")
+- ✅ **Fails fast** if schema missing or invalid
+- ✅ Runs in CI on every PR (`.github/workflows/frontmatter-lint.yml`)
 
 **Usage:**
 ```bash
+# Lint all files
 python scripts/lint_frontmatter.py
+
+# CI will automatically lint on PRs touching:
+# - 08_CHRONICLE/**/*.md
+# - 11_FUTURE/**/*.md
+# - docs/**/*.md
 ```
 
 ---
@@ -229,5 +262,132 @@ All critical fixes applied. System is:
 
 ---
 
+## 🔒 Additional Hardening (Beyond Top 7)
+
+### PR Template Enforcement
+**Added:** `.github/workflows/pr-template-check.yml`
+
+**Features:**
+- ✅ CI enforces PR template checklist for `/11_FUTURE` changes
+- ✅ Blocks PRs touching `/11_FUTURE` without proper checkboxes
+- ✅ Validates all sub-checks (frontmatter, review_date, related IDs, CODEOWNERS)
+- ✅ Runs frontmatter linter on changed files only
+
+**Result:** Templates are no longer suggestions - they're enforced by CI
+
+---
+
+### CODEOWNERS Scope Expansion
+**Updated:** `.github/CODEOWNERS`
+
+**Protected Paths:**
+- `/11_FUTURE/**` - All Future Silo content
+- `/docs/HARNESS/**` - Harness immune system specs
+- `/08_CHRONICLE/harness/**` - Harness documentation
+- `/docs/DECISION_LOG.md` - Provenance chain
+- `/docs/ONTOLOGY.yml` - Keystone antibody (vocabulary stability)
+- `/config/**` - Configuration and schema
+- `/.github/workflows/**` - Automation infrastructure
+
+**Result:** Complete Harness doctrine protection
+
+---
+
+### Workflow Health Improvements
+**Updated:** `.github/workflows/future-review-pinger.yml`
+
+**Enhancements:**
+- ✅ Added `pull-requests: read` permission
+- ✅ Added summary step for debugging (prints due files)
+- ✅ Uses `actions/setup-python@v5` (latest)
+- ✅ Fallback ready (documented alternative: `peter-evans/create-issue-from-file`)
+
+**Result:** Robust, debuggable, maintainable workflow
+
+---
+
+### Security Posture
+**Promotion Script:**
+- ✅ Local-only execution (no CI secrets)
+- ✅ No auto-push to main (requires manual PR)
+- ✅ Dry-run mode for testing
+- ✅ Token management: Future OIDC or short-lived PAT if needed
+
+**Label Script:**
+- ✅ Local `gh` CLI only (not in CI)
+- ✅ Manual one-time execution
+
+**Result:** No PAT baking, no auto-merge footguns
+
+---
+
+## 📋 Post-Deployment Validation
+
+### Manual Steps (One-Time Setup)
+```bash
+# 1. Create labels
+./scripts/ensure_labels.sh
+
+# 2. Test linter locally
+python scripts/lint_frontmatter.py
+
+# 3. Test promotion dry-run
+./scripts/promote_future_silo.sh hardware_assets --dry-run
+
+# 4. Verify schema exists and is valid
+cat config/archive_schema.yml | grep future_spec
+```
+
+### CI Validation (After Merge)
+- [ ] Open test PR touching `/11_FUTURE/hardware_assets/README.md`
+- [ ] Verify CODEOWNERS requests reviewer (@jwade83)
+- [ ] Verify PR template appears with Future Silo section
+- [ ] Verify PR template check workflow runs and passes
+- [ ] Verify frontmatter linter runs and passes
+- [ ] Close test PR
+
+### Monitoring (Ongoing)
+- [ ] Wait for first daily cron run (12:00 UTC)
+- [ ] Verify no duplicate issues created
+- [ ] Verify issue body includes silo_id
+- [ ] Verify workflow summary shows due files count
+
+---
+
+## 🎯 Harness-Doctrine Alignment
+
+### Externalization: ✅ COMPLETE
+- Silo structure prevents knowledge living only in chat
+- Decision Log template ensures provenance
+- Chronicle integration for activation tracking
+
+### C3 Vocabulary Drift: ✅ PROTECTED
+- Ontology file in CODEOWNERS
+- Frontmatter schema validation
+- Linter enforces stable terminology
+
+### C4 Reference Ambiguity: ⚠️ PARTIAL
+- Stable IDs enforced in frontmatter
+- `related:` field validated
+- **Follow-up:** Link/Anchor checker for full C4 protection
+
+### C6 Evidence Entropy: ✅ COMPLETE
+- Decision Log template with reconstruction tests
+- Checkpoint tags for rollback
+- Complete provenance chain
+
+### Antifragility: ⚠️ PENDING
+- **Follow-up:** Weekly stress test job
+  - Create fake FUTURE file with too-soon review_date
+  - Ensure linter blocks it
+  - Measure immune response time
+
+---
+
+**Next Step:** Merge to `main` and monitor first daily cron run.
+
+---
+
 *Production Hardening Complete - Future Silo System Ready for Production*
+*All critical footguns addressed - Silent failures prevented*
 
