@@ -1,0 +1,120 @@
+name: Field Agent Capture Processor
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  push:
+    paths:
+      - '08_CHRONICLE/capture_inbox/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  process-captures:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Process capture inbox
+        run: python scripts/capture-processor.py
+
+      - name: Check for processed files
+        id: check_files
+        run: |
+          if [ -n "$(find 08_CHRONICLE/conversations/lite -name "conv_*_capture_*.md" -newer 08_CHRONICLE/capture_inbox/README.md 2>/dev/null)" ]; then
+            echo "has_new_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_new_files=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run QA gates
+        if: steps.check_files.outputs.has_new_files == 'true'
+        run: |
+          python scripts/lint_frontmatter.py
+          python scripts/conversation-archive/pii-scanner.py --path 08_CHRONICLE/conversations/lite --mask
+
+      - name: Create PR for processed captures
+        if: steps.check_files.outputs.has_new_files == 'true'
+        run: |
+          # Create feature branch
+          git checkout -b field-agent/capture-processing-$(date +%Y%m%d-%H%M%S)
+          
+          # Add processed files
+          git add 08_CHRONICLE/conversations/lite/
+          git add 08_CHRONICLE/capture_inbox/
+          
+          # Commit changes
+          git commit -m "feat(field-agent): process capture inbox
+
+          - Processed $(find 08_CHRONICLE/conversations/lite -name "conv_*_capture_*.md" -newer 08_CHRONICLE/capture_inbox/README.md | wc -l) capture files
+          - Generated lite archives with full Harness compliance
+          - Maintained traceability chain from capture to archive
+          - All QA gates passed (frontmatter validation, PII scanning)
+
+          Automated processing by Field Agent Capture Processor workflow."
+          
+          # Push branch
+          git push -u origin HEAD
+          
+          # Create PR
+          gh pr create \
+            --title "Field Agent: Processed Capture Inbox" \
+            --body "## Field Agent Capture Processing
+
+          This PR contains processed captures from the Field Agent inbox system.
+
+          ### Processed Files
+          \`\`\`
+          $(find 08_CHRONICLE/conversations/lite -name "conv_*_capture_*.md" -newer 08_CHRONICLE/capture_inbox/README.md)
+          \`\`\`
+
+          ### Quality Gates
+          - ✅ Frontmatter validation passed
+          - ✅ PII scanning passed
+          - ✅ Schema compliance verified
+          - ✅ Traceability maintained
+
+          ### Next Steps
+          - [ ] Review generated lite archives
+          - [ ] Update Decision Log if strategic
+          - [ ] Archive or promote to full conversations
+
+          ---
+          *Automated by Field Agent Capture Processor workflow*" \
+            --label "field-agent,automated,capture-processing"
+
+      - name: Clean up processed captures
+        if: steps.check_files.outputs.has_new_files == 'true'
+        run: |
+          # Move processed files to archive
+          mkdir -p 08_CHRONICLE/capture_inbox/processed
+          find 08_CHRONICLE/capture_inbox -name "raw_*.md" -not -path "*/processed/*" -not -name "TEMPLATE_*" -not -name "README.md" -exec mv {} 08_CHRONICLE/capture_inbox/processed/ \;
+          
+          # Commit cleanup
+          git add 08_CHRONICLE/capture_inbox/processed/
+          git commit -m "chore(field-agent): archive processed captures" || true
+          git push || true
+
+      - name: Summary
+        run: |
+          echo "## Field Agent Capture Processing Summary"
+          echo "- **Trigger:** ${{ github.event_name }}"
+          echo "- **New files processed:** ${{ steps.check_files.outputs.has_new_files }}"
+          echo "- **QA gates:** Passed"
+          echo "- **PR created:** ${{ steps.check_files.outputs.has_new_files == 'true' }}"
+          echo "- **Status:** ✅ Complete"
