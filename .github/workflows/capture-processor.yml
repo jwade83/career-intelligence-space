@@ -100,8 +100,7 @@ jobs:
           - [ ] Archive or promote to full conversations
 
           ---
-          *Automated by Field Agent Capture Processor workflow*" \
-            --label "automated"
+          *Automated by Field Agent Capture Processor workflow*"
 
       - name: Clean up processed captures
         if: steps.check_files.outputs.has_new_files == 'true'
