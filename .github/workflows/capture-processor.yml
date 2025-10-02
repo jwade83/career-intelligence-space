@@ -101,7 +101,7 @@ jobs:
 
           ---
           *Automated by Field Agent Capture Processor workflow*" \
-            --label "field-agent,automated,capture-processing"
+            --label "automated"
 
       - name: Clean up processed captures
         if: steps.check_files.outputs.has_new_files == 'true'
