@@ -50,6 +50,8 @@ jobs:
 
       - name: Create PR for processed captures
         if: steps.check_files.outputs.has_new_files == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Configure git user
           git config user.name "github-actions[bot]"
