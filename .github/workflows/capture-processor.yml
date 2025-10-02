@@ -69,14 +69,15 @@ jobs:
           fi
           
           # Commit changes
-          git commit -m "feat(field-agent): process capture inbox
-
-- Processed $(find 08_CHRONICLE/conversations/lite -name "conv_*_capture_*.md" -newer 08_CHRONICLE/capture_inbox/README.md | wc -l) capture files
-- Generated lite archives with full Harness compliance
-- Maintained traceability chain from capture to archive
-- All QA gates passed (frontmatter validation, PII scanning)
-
-Automated processing by Field Agent Capture Processor workflow."
+          git commit -m |
+            feat(field-agent): process capture inbox
+            
+            - Processed $(find 08_CHRONICLE/conversations/lite -name "conv_*_capture_*.md" -newer 08_CHRONICLE/capture_inbox/README.md | wc -l) capture files
+            - Generated lite archives with full Harness compliance
+            - Maintained traceability chain from capture to archive
+            - All QA gates passed (frontmatter validation, PII scanning)
+            
+            Automated processing by Field Agent Capture Processor workflow.
           
           # Push branch
           git push -u origin HEAD
