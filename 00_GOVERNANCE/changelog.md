@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # Changelog
 
 All notable changes to the career-intelligence-space project will be documented in this file.

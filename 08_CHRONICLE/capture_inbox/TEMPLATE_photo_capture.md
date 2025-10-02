@@ -1,7 +1,9 @@
 ---
-capture_id: raw_YYYYMMDD_HHMM_photo
-capture_type: photo_capture
-capture_date: YYYY-MM-DD
+project: Career Intelligence Space
+type: log
+status: matured
+tags: ['chronicle', 'template']
+updated: 2025-10-02
 ---
 
 # Photo Capture

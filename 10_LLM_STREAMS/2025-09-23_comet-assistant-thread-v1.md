@@ -1,21 +1,9 @@
 ---
-id: comet-assistant-thread-20250923-v1
-title: "Comet Assistant Thread - Dual-Agent Protocol Discussion"
-period: "2025-09-23"
-version: "v1"
-status: "draft"
-summary: "Raw thread export capturing discussion between ChatGPT and Perplexity about CIS Chronicle system design, dual-agent protocols, and implementation guidelines"
-sources:
-  - "Perplexity conversation thread"
-  - "ChatGPT conversation thread"
-tags:
-  - comet-assistant
-  - dual-agent
-  - chronicle
-  - protocol
-  - raw-export
-slug: "comet-assistant-thread"
-redaction: "complete"
+project: Career Intelligence Space
+type: log
+status: matured
+tags: ['llm', 'streams']
+updated: 2025-10-02
 ---
 
 # Comet Assistant Thread - Dual-Agent Protocol Discussion

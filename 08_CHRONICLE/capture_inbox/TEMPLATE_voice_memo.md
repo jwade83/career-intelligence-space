@@ -1,7 +1,9 @@
 ---
-capture_id: raw_YYYYMMDD_HHMM_voice
-capture_type: voice_memo
-capture_date: YYYY-MM-DD
+project: Career Intelligence Space
+type: log
+status: matured
+tags: ['chronicle', 'template']
+updated: 2025-10-02
 ---
 
 # Voice Memo Capture

@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 [Okay , so you may have noticed in some of the disc.md](https://github.com/user-attachments/files/22503757/Okay.so.you.may.have.noticed.in.some.of.the.disc.md)
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
 

@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'template']
+updated: 2025-10-02
+---
+
 # SYNC-COMPARE Analysis Template
 
 ## Metadata

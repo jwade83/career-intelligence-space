@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # Session Digest — 2025-09-17 SmartBuild Intel Workflow
 
 _Provenance: Full Research → Synth → Intel workflow chain for SmartBuild Solutions (Senior Building Automation Technician, Portland). Orchestrator queue files created and executed, all artifacts CI-validated. See Captain's Log [20250917_journal.md](../journal/20250917_journal.md)._

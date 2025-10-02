@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'template']
+updated: 2025-10-02
+---
+
 # Informational Interview Template v1
 Created: 2025-09-01
 

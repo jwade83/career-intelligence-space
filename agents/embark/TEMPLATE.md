@@ -1,21 +1,9 @@
 ---
-title: "Embark Agent Template"
-type: "template"
-version: "1.0.0"
-created: "2025-09-19"
-modified: "2025-09-19"
-author: "jwade83"
-description: "Template for creating embark agent configurations and workflows"
-tags:
-  - template
-  - embark
-  - agent
-  - workflow
-status: "active"
-metadata:
-  purpose: "standardized embark agent structure"
-  usage: "copy and customize for specific embark implementations"
-  validation: "required"
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: ['agents', 'spec', 'template']
+updated: 2025-10-02
 ---
 
 # Embark Agent Template

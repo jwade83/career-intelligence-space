@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 Sources: [../../03_RESEARCH/leads/smartbuild_senior_bmt_comp_scope.md]
 
 | Band   | Hourly    | Annualized | Notes              |

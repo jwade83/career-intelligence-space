@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 Links:  
 - [Comp Table](../comp/20250917_smartbuild_senior_bmt_comp_table.md)  
 - [Research Scope](../../03_RESEARCH/leads/smartbuild_senior_bmt_comp_scope.md)

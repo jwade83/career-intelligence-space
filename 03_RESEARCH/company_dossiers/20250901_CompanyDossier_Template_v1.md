@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'template']
+updated: 2025-10-02
+---
+
 # Company Dossier v1 — Template
 Created: 2025-09-01
 

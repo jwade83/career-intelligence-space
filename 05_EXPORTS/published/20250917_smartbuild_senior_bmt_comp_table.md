@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 _Provenance: promoted via export pipeline (2025-09-17)_
 
 Sources: [../../03_RESEARCH/leads/smartbuild_senior_bmt_comp_scope.md]

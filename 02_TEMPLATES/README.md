@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'index']
+updated: 2025-10-02
+---
+
 # 02_TEMPLATES
 
 ## Document and Code Templates

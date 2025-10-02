@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # Migration Backfill — one-time historical capture
 
 Scope: portfolio/asset migrations already pushed before the migration-map automation was installed.

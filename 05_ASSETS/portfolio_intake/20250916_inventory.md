@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # MP → CI Intake Inventory (2025-09-16)
 
 **Purpose:** Read-only discovery of deliverables to stage into Career Intelligence (CI) without modifying the Master Portfolio & Career Framework (MP/CF).  

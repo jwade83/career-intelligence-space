@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'index']
+updated: 2025-10-02
+---
+
 # 06_CASES
 
 Real-world career case studies, success stories, and practical examples demonstrating platform capabilities.

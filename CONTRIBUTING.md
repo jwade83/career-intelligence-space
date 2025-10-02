@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # Contributing
 
 👉 Start here: `docs/reflexive/D5_HUMAN_MACHINE_HANDSHAKE.md` (why linkcheck & structure matter).

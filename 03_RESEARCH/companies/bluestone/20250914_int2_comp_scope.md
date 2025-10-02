@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # Portland Building Maintenance Technician - Compensation & Scope Research
 
 **Research Date:** September 15, 2025  

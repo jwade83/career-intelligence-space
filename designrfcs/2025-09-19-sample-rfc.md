@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # RFC: Career Compass Integration Enhancement
 
 **Date**: 2025-09-19  

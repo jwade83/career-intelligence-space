@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: ['docs']
+updated: 2025-10-02
+---
+
 # D5 — Human↔Machine Handshake (Why linkcheck matters)
 
 **Intent:** Make every human contribution produce a *machine-verifiable state change*.
