@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'index']
+updated: 2025-10-02
+---
+
 # career-intelligence-space
 Comprehensive career intelligence platform with AI-powered insights for job seekers and career professionals
 

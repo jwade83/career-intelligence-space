@@ -1,7 +1,9 @@
 ---
-capture_id: raw_YYYYMMDD_HHMM_meeting
-capture_type: meeting_notes
-capture_date: YYYY-MM-DD
+project: Career Intelligence Space
+type: log
+status: matured
+tags: ['chronicle', 'template']
+updated: 2025-10-02
 ---
 
 # Meeting Notes Capture

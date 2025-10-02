@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'index']
+updated: 2025-10-02
+---
+
 # Design RFCs
 
 This directory contains Request for Comments (RFC) documents for significant design decisions and architectural changes within the Career Intelligence Space platform.

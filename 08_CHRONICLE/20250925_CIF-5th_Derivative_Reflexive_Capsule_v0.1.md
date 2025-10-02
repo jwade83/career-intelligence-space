@@ -1,14 +1,9 @@
 ---
 project: Career Intelligence Space
-type: research_note
-topic: CIF 5th-derivative reflexive capsule
-status: in-review
-owner: John Wade
-tags:
-  - chronicle
-  - systems
-  - reflexivity
-updated: 2025-09-25
+type: log
+status: matured
+tags: ['chronicle', 'capsule']
+updated: 2025-10-02
 ---
 
 # CIF — 5th Derivative Capsule: Reflexive / Trans-Systemic Layer — v0.1 • 20250925

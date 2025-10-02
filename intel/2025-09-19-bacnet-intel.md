@@ -1,21 +1,9 @@
 ---
-title: "BACnet Certification Market Intelligence Report"
-date: 2025-09-19
-type: "market_intelligence"
-status: "live_market_analysis"
-tags:
-  - BACnet
-  - certification
-  - market_analysis
-  - building_automation
-  - HVAC
-priority: "high"
-provenance:
-  original_report: "2025-09-19-bacnet-certification-scout.md"
-  upgraded_by: "live_market_intelligence_agent"
-  sources: ["BACnet.org", "job_market_data", "certification_providers"]
-  last_updated: "2025-09-19T17:17:00-07:00"
-  audit_chain: "maintained"
+project: Career Intelligence Space
+type: log
+status: matured
+tags: ['intel', 'research', 'bacnet']
+updated: 2025-10-02
 ---
 
 # BACnet Certification Market Intelligence Report

@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: matured
+tags: ['docs', 'template']
+updated: 2025-10-02
+---
+
 # Session Digest Template
 
 ## Session Overview

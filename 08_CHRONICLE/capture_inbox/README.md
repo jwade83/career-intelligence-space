@@ -1,10 +1,9 @@
 ---
 project: Career Intelligence Space
-type: capture_instructions
-status: active
-tags: [capture_inbox, field_agent, mobile_capture, instructions]
-updated: 2025-11-10
-timezone: "America/Los_Angeles"
+type: log
+status: matured
+tags: ['chronicle']
+updated: 2025-10-02
 ---
 
 # Field Agent Capture Inbox

@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # HelloTech Training Skills — v1
 **Date:** 20250829  
 **Owner:** John Wade  

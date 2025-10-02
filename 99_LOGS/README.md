@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc', 'index']
+updated: 2025-10-02
+---
+
 # 99_LOGS
 
 System logs, usage analytics, and operational tracking for the career intelligence platform.

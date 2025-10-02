@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 - session_id: 2025-09-21_chatgpt_project-newsletter-strategy
   started_at: 2025-09-21T15:23-07:00
   ended_at:   2025-09-21T15:23-07:00

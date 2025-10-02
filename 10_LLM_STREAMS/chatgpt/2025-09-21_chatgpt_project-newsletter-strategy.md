@@ -1,22 +1,9 @@
 ---
-session_id: 2025-09-21_chatgpt_project-newsletter-strategy
-source: chatgpt
-period: 2025-09-21T15:23–15:23 PT
-started_at: 2025-09-21T15:23-07:00
-ended_at: 2025-09-21T15:23-07:00
-sha256: 1cef4230ca5ac26d1c496c5fa362fe028b9d1183bf759b7ad96bd345db8edb2a
-vault_ref: vault://chatgpt/ChatGPT-Project newsletter strategy.md
-tags:
-  - newsletter
-  - chronicler
-  - cis
-status: digest
-redaction: complete   # no emails/phones/private links/surnames present
-summary: >
-  Designed the CIS “Chronicled Newsletter” track: deliverables, platform choice,
-  and a lossless provenance pipeline from LLM exports to public narrative.
-sources:
-  - vault://chatgpt/ChatGPT-Project newsletter strategy.md
+project: Career Intelligence Space
+type: log
+status: matured
+tags: ['llm', 'streams', 'newsletter']
+updated: 2025-10-02
 ---
 
 ## Highlights

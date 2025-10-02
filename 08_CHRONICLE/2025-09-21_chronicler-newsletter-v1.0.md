@@ -1,21 +1,9 @@
 ---
-title: "The CIS Chronicle — Newsletter Strategy Session"
-date: 2025-09-21
-version: v1.0
-status: published
-author: Embedded Chronicler
-tags:
-  - newsletter
-  - chronicler
-  - communications
-  - cis
-sources:
-  - 10_LLM_STREAMS/chatgpt/2025-09-21_chatgpt_project-newsletter-strategy.md
-  - 10_LLM_STREAMS/chatgpt/2025-09-21_chatgpt_project-newsletter-strategy.actions.yaml
-  - 10_LLM_STREAMS/chatgpt/2025-09-21_chatgpt_project-newsletter-strategy.matrix.md
-summary: >
-  Foundational discussion for the CIS communications layer: transforming LLM session
-  exports into a polished, auditable newsletter format.
+project: Career Intelligence Space
+type: log
+status: matured
+tags: [newsletter, chronicler, communications, cis]
+updated: 2025-09-21
 ---
 
 ## Opening Note

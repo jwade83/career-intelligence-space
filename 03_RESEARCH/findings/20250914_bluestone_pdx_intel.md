@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # Bluestone Property Management - Intelligence Analysis
 
 **Analysis Date:** September 15, 2025  

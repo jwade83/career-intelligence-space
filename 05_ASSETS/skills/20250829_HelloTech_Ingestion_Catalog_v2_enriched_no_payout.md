@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # HelloTech Training Ingestion Catalog — Enriched (No Payouts)
 
 | File | Category | Sections | Skills/Procedures | Tools/Parts | Customer Workflow | Proposed Title | Cross-Ref Source | Integration Notes |

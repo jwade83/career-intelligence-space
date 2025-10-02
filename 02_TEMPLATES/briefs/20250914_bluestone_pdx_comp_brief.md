@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # Portland Building Maintenance Technician - Compensation Brief
 **Research Source:** [03_RESEARCH/companies/bluestone/20250914_int2_comp_scope.md](../../03_RESEARCH/companies/bluestone/20250914_int2_comp_scope.md)
   

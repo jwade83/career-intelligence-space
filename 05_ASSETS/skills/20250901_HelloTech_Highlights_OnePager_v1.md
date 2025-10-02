@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 # HelloTech Highlights One-Pager
 **Version:** 20250901  
 **Status:** Recruiter-Facing Document  

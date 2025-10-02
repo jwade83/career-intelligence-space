@@ -1,3 +1,11 @@
+---
+project: Career Intelligence Space
+type: spec
+status: draft
+tags: ['misc']
+updated: 2025-10-02
+---
+
 ## Traceability Matrix
 | claim_id | Theme/Claim                     | Digest Quote                                           | Vault Hash                                                       | Anchor |
 |---------:|---------------------------------|--------------------------------------------------------|------------------------------------------------------------------|--------|

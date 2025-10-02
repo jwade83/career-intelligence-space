@@ -1,17 +1,9 @@
 ---
-title: "Dual-Prompt Protocol v1 - Perplexity Thread Export"
-date: 2025-09-23
-author: jwade83
-tags:
-  - llm
-  - ai
-  - prompting
-  - protocol
-  - perplexity
-  - dual-prompt
-description: "Full export of Perplexity thread discussing dual-prompt protocol methodology for enhanced LLM interactions"
-thread_type: "perplexity_export"
-export_date: 2025-09-23
+project: Career Intelligence Space
+type: log
+status: matured
+tags: ['llm', 'streams']
+updated: 2025-10-02
 ---
 
 # Dual-Prompt Protocol v1 - Perplexity Thread Export
