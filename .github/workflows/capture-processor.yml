@@ -53,7 +53,7 @@ jobs:
         run: |
           # Configure git user
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.norell.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
           # Create feature branch
           git checkout -b field-agent/capture-processing-$(date +%Y%m%d-%H%M%S)
