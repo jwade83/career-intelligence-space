@@ -39,6 +39,11 @@ types:
   - planning
   - systems
   - chronicle_capsule
+  - design_philosophy
+  - design_experiment
+  - meta_insight_tracking
+  - requirement_template
+  - vision_capsule
 statuses:
   - draft
   - matured
