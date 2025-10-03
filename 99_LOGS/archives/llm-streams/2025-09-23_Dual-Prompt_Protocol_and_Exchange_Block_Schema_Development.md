@@ -895,7 +895,7 @@ Provenance section (end of Chronicle)
 Draft badge
 > **Forensic Draft v0.2 — dates pending verification.**
 Index line
-- [2025-09-21_pilot.md](2025-09-21_pilot.md)  
+- [2025-09-21_pilot.md](../../../10_LLM_STREAMS/2025-09-21_pilot.md)
   *Version: v1.0 (published)* — Introduces CIS Chronicle & LLM-first provenance.
 
 
@@ -1905,7 +1905,7 @@ schema: v1
 - LLM Sessions: chatgpt/2025-09-21_chatgpt_chronicler-sync-01.*, perplexity/2025-09-21_perplexity_sync-01.*
 - Commits/PRs: PR #42 (reverted), PR #47 (merged)
 And add this to 08_CHRONICLE/INDEX.md:
-- [2025-09-21_pilot.md](2025-09-21_pilot.md)  
+- [2025-09-21_pilot.md](../../../10_LLM_STREAMS/2025-09-21_pilot.md)
   *Version: v0.1 (forensic-draft)* — Introduces CIS Chronicle & LLM-first provenance.
 
 6) Substack issue template (clean, reader-first)
