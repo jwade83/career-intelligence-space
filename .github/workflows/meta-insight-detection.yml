@@ -1,0 +1,184 @@
+name: Meta-Insight Detection
+
+on:
+  schedule:
+    # Run daily at 9 AM UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    inputs:
+      check_type:
+        description: 'Type of check to run'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+        - full
+        - phase-mismatch
+        - collapse-risk
+        - prompts
+
+jobs:
+  meta-insight-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyyaml
+    
+    - name: Run Meta-Insight Detection
+      id: meta-insight
+      run: |
+        python scripts/meta_insight_detector.py --repo-path . --output meta_insight_results.json
+    
+    - name: Check for Phase Mismatches
+      if: steps.meta-insight.outcome == 'success'
+      run: |
+        PHASE_MISMATCHES=$(jq '.phase_mismatch_count' meta_insight_results.json)
+        if [ "$PHASE_MISMATCHES" -gt 0 ]; then
+          echo "⚠️ Found $PHASE_MISMATCHES phase mismatches"
+          echo "phase_mismatches=true" >> $GITHUB_OUTPUT
+        else
+          echo "✅ No phase mismatches found"
+          echo "phase_mismatches=false" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Check for Collapse Risks
+      if: steps.meta-insight.outcome == 'success'
+      run: |
+        COLLAPSE_RISKS=$(jq '.collapse_risk_count' meta_insight_results.json)
+        if [ "$COLLAPSE_RISKS" -gt 0 ]; then
+          echo "🚨 Found $COLLAPSE_RISKS collapse risks"
+          echo "collapse_risks=true" >> $GITHUB_OUTPUT
+        else
+          echo "✅ No collapse risks found"
+          echo "collapse_risks=false" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Upload Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: meta-insight-results
+        path: meta_insight_results.json
+    
+    - name: Create Issue for Phase Mismatches
+      if: steps.meta-insight.outcome == 'success' && steps.check-for-phase-mismatches.outputs.phase_mismatches == 'true'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const results = JSON.parse(fs.readFileSync('meta_insight_results.json', 'utf8'));
+          
+          const phaseMismatches = results.phase_mismatches;
+          let issueBody = '## Phase Mismatches Detected\n\n';
+          issueBody += `**Analysis Date**: ${results.summary.analysis_timestamp}\n`;
+          issueBody += `**Total Files Analyzed**: ${results.summary.total_files_analyzed}\n`;
+          issueBody += `**Files with Issues**: ${results.summary.files_with_issues}\n\n`;
+          
+          issueBody += '### Files with Phase Mismatches:\n\n';
+          phaseMismatches.forEach(item => {
+            issueBody += `**📄 ${item.file}**\n`;
+            item.issues.forEach(issue => {
+              issueBody += `- ${issue}\n`;
+            });
+            issueBody += '\n';
+          });
+          
+          issueBody += '### Recommended Actions:\n';
+          issueBody += '1. Review each file for phase-appropriate documentation type\n';
+          issueBody += '2. Update frontmatter to match actual content phase\n';
+          issueBody += '3. Consider using divergent tools during sandboxing phase\n';
+          issueBody += '4. Consider using convergent tools during design phase\n\n';
+          issueBody += '### Meta-Cognitive Review Prompts:\n';
+          issueBody += '- Are you using the right documentation type for your current phase?\n';
+          issueBody += '- Are you preserving ambiguity during exploration?\n';
+          issueBody += '- Are you making clear decisions during design?\n';
+          
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: `Meta-Insight Detection: ${phaseMismatches.length} Phase Mismatches Found`,
+            body: issueBody,
+            labels: ['meta-insight', 'phase-mismatch', 'documentation']
+          });
+    
+    - name: Create Issue for Collapse Risks
+      if: steps.meta-insight.outcome == 'success' && steps.check-for-collapse-risks.outputs.collapse_risks == 'true'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const results = JSON.parse(fs.readFileSync('meta_insight_results.json', 'utf8'));
+          
+          const collapseRisks = results.collapse_risks;
+          let issueBody = '## Collapse Risks Detected\n\n';
+          issueBody += `**Analysis Date**: ${results.summary.analysis_timestamp}\n`;
+          issueBody += `**Total Files Analyzed**: ${results.summary.total_files_analyzed}\n`;
+          issueBody += `**Files with Issues**: ${results.summary.files_with_issues}\n\n`;
+          
+          issueBody += '### Files with Collapse Risks:\n\n';
+          collapseRisks.forEach(item => {
+            issueBody += `**📄 ${item.file}**\n`;
+            item.issues.forEach(issue => {
+              issueBody += `- ${issue}\n`;
+            });
+            issueBody += '\n';
+          });
+          
+          issueBody += '### Recommended Actions:\n';
+          issueBody += '1. Add missing context indicators (why now, what triggered)\n';
+          issueBody += '2. Preserve emotional and process context\n';
+          issueBody += '3. Maintain fragile insights through phases\n';
+          issueBody += '4. Review for systematic context loss patterns\n\n';
+          issueBody += '### Context Preservation Checklist:\n';
+          issueBody += '- [ ] Why now? What triggered this work?\n';
+          issueBody += '- [ ] What emotional context is important?\n';
+          issueBody += '- [ ] What fragile insights need preservation?\n';
+          issueBody += '- [ ] What process details are critical?\n';
+          
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: `Meta-Insight Detection: ${collapseRisks.length} Collapse Risks Found`,
+            body: issueBody,
+            labels: ['meta-insight', 'collapse-risk', 'context-preservation']
+          });
+    
+    - name: Summary
+      if: always()
+      run: |
+        echo "## Meta-Insight Detection Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Analysis completed at**: $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ -f meta_insight_results.json ]; then
+          PHASE_MISMATCHES=$(jq '.phase_mismatch_count' meta_insight_results.json)
+          COLLAPSE_RISKS=$(jq '.collapse_risk_count' meta_insight_results.json)
+          TOTAL_FILES=$(jq '.total_files_analyzed' meta_insight_results.json)
+          
+          echo "**Files Analyzed**: $TOTAL_FILES" >> $GITHUB_STEP_SUMMARY
+          echo "**Phase Mismatches**: $PHASE_MISMATCHES" >> $GITHUB_STEP_SUMMARY
+          echo "**Collapse Risks**: $COLLAPSE_RISKS" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "$PHASE_MISMATCHES" -gt 0 ] || [ "$COLLAPSE_RISKS" -gt 0 ]; then
+            echo "⚠️ Issues detected - check the generated issues for details" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues detected - repository is in good shape!" >> $GITHUB_STEP_SUMMARY
+          fi
+        else
+          echo "❌ Analysis failed - check logs for details" >> $GITHUB_STEP_SUMMARY
+        fi
