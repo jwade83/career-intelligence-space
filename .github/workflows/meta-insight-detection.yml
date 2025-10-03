@@ -1,0 +1,76 @@
+---
+name: Meta-Insight Detection
+on:
+  schedule:
+    - cron: "0 9 * * *"  # Run daily at 9 AM
+  workflow_dispatch:
+  push:
+    paths:
+      - '00_SANDBOX/**'
+      - '08_CHRONICLE/**'
+      - 'docs/**'
+
+jobs:
+  meta-insight-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Run Meta-Insight Detection
+        run: |
+          python3 00_SANDBOX/templates/automation/TEMPLATE_meta_insight_detector.py
+
+      - name: Check for issues
+        id: check_issues
+        run: |
+          if [ -f "00_SANDBOX/reports/meta_insight_report.md" ]; then
+            if grep -q "⚠️" "00_SANDBOX/reports/meta_insight_report.md"; then
+              echo "issues_found=true" >> $GITHUB_OUTPUT
+            else
+              echo "issues_found=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "issues_found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Issue if Problems Found
+        if: steps.check_issues.outputs.issues_found == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('00_SANDBOX/reports/meta_insight_report.md', 'utf8');
+            
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Meta-Insight Detection: Issues Found - ${new Date().toISOString().split('T')[0]}`,
+              body: `## Meta-Insight Detection Report\n\n${report}\n\n---\n\n*This issue was automatically created by the Meta-Insight Detection workflow.*`,
+              labels: ['meta-insight', 'documentation', 'phase-mismatch']
+            });
+            
+            console.log(`Created issue #${issue.data.number}`);
+
+      - name: Commit Report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          if [ -f "00_SANDBOX/reports/meta_insight_report.md" ]; then
+            git add 00_SANDBOX/reports/meta_insight_report.md
+            git commit -m "chore(meta-insight): update detection report" || echo "No changes to commit"
+            git push || echo "Nothing to push"
+          fi
