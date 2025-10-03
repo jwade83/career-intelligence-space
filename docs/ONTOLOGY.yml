@@ -1,4 +1,5 @@
 types:
+  # Production/Implementation Types (Convergent Thinking)
   - capsule
   - memo
   - assessment
@@ -16,6 +17,28 @@ types:
   - conversation_archive_lite
   - backlog_log
   - backfill_log
+  
+  # Sandboxing/Exploration Types (Divergent Thinking)
+  - exploration_log
+  - hypothesis_tracking
+  - process_capture
+  - context_maintenance
+  - interrelatedness_map
+  - constraint_analysis
+  - timing_exploration
+  - design_experiment
+  - creative_session
+  - sandbox_overview
+  - prerequisite_template
+  - template
+  - design_thesis
+  - overview
+  - summary
+  - case_study
+  - experiment
+  - planning
+  - systems
+  - chronicle_capsule
 statuses:
   - draft
   - matured
