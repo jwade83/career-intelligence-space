@@ -1,0 +1,125 @@
+name: Weekly Barometer Review
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9 AM
+  workflow_dispatch:
+    inputs:
+      trigger_type:
+        description: 'Type of review trigger'
+        required: true
+        default: 'scheduled'
+        type: choice
+        options:
+        - scheduled
+        - milestone
+        - scope_concern
+        - manual
+      session_focus:
+        description: 'Focus area for the review'
+        required: false
+        default: 'general_review'
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  create-barometer-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up variables
+        id: vars
+        run: |
+          echo "trigger_type=${{ github.event.inputs.trigger_type || 'scheduled' }}" >> $GITHUB_OUTPUT
+          echo "session_focus=${{ github.event.inputs.session_focus || 'general_review' }}" >> $GITHUB_OUTPUT
+          echo "current_date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+
+      - name: Create barometer review file
+        run: |
+          # Create output directory
+          mkdir -p 08_CHRONICLE/barometer
+          
+          # Generate filename
+          FILENAME="${{ steps.vars.outputs.current_date }}_System_Barometer_Review_${{ steps.vars.outputs.trigger_type }}.md"
+          OUTPUT_FILE="08_CHRONICLE/barometer/$FILENAME"
+          
+          # Copy template and replace placeholders
+          cp 00_SANDBOX/templates/barometer/TEMPLATE_barometer_review.md "$OUTPUT_FILE"
+          
+          # Replace placeholders
+          sed -i "s/\[date\]/${{ steps.vars.outputs.current_date }}/g" "$OUTPUT_FILE"
+          sed -i "s/\[current_phase\]/sandboxing/g" "$OUTPUT_FILE"
+          sed -i "s/\[Manual\/Automatic - specific trigger\]/${{ steps.vars.outputs.trigger_type }}/g" "$OUTPUT_FILE"
+          sed -i "s/\[Date range or session focus\]/${{ steps.vars.outputs.session_focus }}/g" "$OUTPUT_FILE"
+          
+          echo "Barometer review file created: $OUTPUT_FILE"
+
+      - name: Analyze recent changes
+        id: analyze
+        run: |
+          # Get recent commits for context
+          echo "## Recent Changes Analysis" >> analysis.md
+          echo "" >> analysis.md
+          echo "**Commits in last 7 days:**" >> analysis.md
+          git log --since="7 days ago" --oneline --pretty=format:"- %s (%h)" >> analysis.md
+          echo "" >> analysis.md
+          
+          # Get recent file changes
+          echo "**Files modified in last 7 days:**" >> analysis.md
+          git diff --name-only HEAD~7 HEAD >> analysis.md
+          echo "" >> analysis.md
+          
+          # Count commits by type
+          echo "**Commit analysis:**" >> analysis.md
+          echo "- Total commits: $(git rev-list --count HEAD~7..HEAD)" >> analysis.md
+          echo "- Files changed: $(git diff --name-only HEAD~7 HEAD | wc -l)" >> analysis.md
+          echo "" >> analysis.md
+
+      - name: Create GitHub issue for review
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const analysis = fs.readFileSync('analysis.md', 'utf8');
+            
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `System Barometer Review - ${{ steps.vars.outputs.current_date }}`,
+              body: `## Weekly Barometer Review Generated
+              
+              **Trigger**: ${{ steps.vars.outputs.trigger_type }}
+              **Focus**: ${{ steps.vars.outputs.session_focus }}
+              **Date**: ${{ steps.vars.outputs.current_date }}
+              
+              ### Recent Changes Analysis
+              ${analysis}
+              
+              ### Next Steps
+              1. Review the generated barometer review file
+              2. Conduct meta-cognitive analysis
+              3. Fill in key insights and recommendations
+              4. Prompt for user response and capture
+              
+              **File Location**: \`08_CHRONICLE/barometer/${{ steps.vars.outputs.current_date }}_System_Barometer_Review_${{ steps.vars.outputs.trigger_type }}.md\`
+              
+              **Labels**: barometer-review, meta-assessment, scope-validation`,
+              labels: ['barometer-review', 'meta-assessment', 'scope-validation']
+            });
+            
+            console.log(`Created issue #${issue.data.number}`);
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add 08_CHRONICLE/barometer/
+          git commit -m "feat: create weekly barometer review - ${{ steps.vars.outputs.current_date }}" || exit 0
+          git push

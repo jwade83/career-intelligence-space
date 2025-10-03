@@ -44,6 +44,10 @@ types:
   - meta_insight_tracking
   - requirement_template
   - vision_capsule
+  - project_capsule
+  - index
+  - barometer_review
+  - workflow_capsule
 statuses:
   - draft
   - matured

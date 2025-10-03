@@ -5,9 +5,19 @@ REQ_KEYS = ["project","type","status","tags","updated"]
 SKIP_PATTERNS = [re.compile(r"^README\.md$"), re.compile(r"^LICENSE"), re.compile(r"^\.github/")]
 
 def load_list(yaml_text, key):
-    m = re.search(rf"(?m)^{key}:\s*\n((?:\s*-\s*[A-Za-z0-9_\-]+\s*\n)+)", yaml_text)
+    # Look for the key and capture everything until the next top-level key
+    m = re.search(rf"(?m)^{key}:\s*\n((?:[^\n]*\n)*?)(?=\n[A-Za-z_]+:|$)", yaml_text)
     if not m: return []
-    return re.findall(r"-\s*([A-Za-z0-9_\-]+)", m.group(1))
+    # Extract all lines that start with '  - ' (two spaces and dash)
+    lines = m.group(1).split('\n')
+    items = []
+    for line in lines:
+        if re.match(r'^\s*-\s+', line):
+            # Extract everything after '  - ' (allowing spaces in values)
+            match = re.search(r'^\s*-\s+(.+)', line)
+            if match:
+                items.append(match.group(1).strip())
+    return items
 
 def load_ontology():
     p = Path("docs/ONTOLOGY.yml")
@@ -39,7 +49,7 @@ def parse_fm_block(text):
     data["project"] = grab("project", r"^\s*project:\s*(.+)$")
     data["type"]    = grab("type",    r"^\s*type:\s*([A-Za-z0-9_\-]+)")
     data["status"]  = grab("status",  r"^\s*status:\s*([A-Za-z0-9_\-]+)")
-    data["updated"] = grab("updated", r"^\s*updated:\s*([0-9]{4}-[0-9]{2}-[0-9]{2})")
+    data["updated"] = grab("updated", r"^\s*updated:\s*['\"]?([0-9]{4}-[0-9]{2}-[0-9]{2})['\"]?")
     tags=[]
     m_inline = re.search(r"^\s*tags:\s*\[(.*?)\]", head, re.M)
     if m_inline:
