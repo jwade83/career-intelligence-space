@@ -21,6 +21,33 @@ Comprehensive career intelligence platform with AI-powered insights for job seek
 - **Mobile Workflow**: [End-to-End Mobile Guide](./docs/MOBILE_UI/mobile_workflow_complete.md)
 - **First-Time Users**: [Mobile Onboarding Guide](./docs/MOBILE_UI/mobile_user_onboarding.md) 🆕 **NEW USERS START HERE**
 
+### 📝 Mobile Commit Templates
+For mobile users who need quick commit message templates:
+
+**Basic Mobile Capture:**
+```
+feat(mobile-copilot): add [description]
+
+Source-Provenance: Mobile GitHub Copilot
+Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=basic_field_capture
+```
+
+**Technical Analysis:**
+```
+feat(mobile-copilot): add technical analysis of [topic]
+
+Source-Provenance: Mobile GitHub Copilot
+Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=technical_analysis
+```
+
+**Meta Insight:**
+```
+feat(mobile-copilot): add meta insight on [topic]
+
+Source-Provenance: Mobile GitHub Copilot
+Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=meta_insight
+```
+
 ## 🤖 Deckard Protocol Agent
 - **Deckard Instructions**: [docs/DECKARD_INSTRUCTIONS.md](./docs/DECKARD_INSTRUCTIONS.md) ⭐ **QUICK START**
 - **Activation Shortcuts**: 
