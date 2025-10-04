@@ -40,6 +40,9 @@ This sandbox contains the **design and development** of sophisticated AI-human c
 - **[Mobile Copilot Field Capture Integration Plan](systems/2025-10-03_Mobile_Copilot_Field_Capture_Integration_Plan.md)** - Field agent integration strategy
 - **[System Barometer Review Process](systems/2025-10-03_System_Barometer_Review_Process.md)** - Review and assessment mechanisms
 
+### **6. Breakthrough Innovation Systems** 🚀 **HIGH PRIORITY**
+- **[Dynamic Frontmatter Tagging System](systems/2025-11-07_Dynamic_Frontmatter_Tagging_System_Design.md)** - Autonomous, self-updating metadata that reflects system state and behavioral patterns
+
 ## Design Philosophy
 
 ### **Core Principles**

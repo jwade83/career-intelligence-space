@@ -12,6 +12,7 @@ updated: 2025-11-07
 ## Active Tasks
 
 ### High Priority
+- **20251107-dynamic-frontmatter-tagging-system.yml** - 🚀 **BREAKTHROUGH INNOVATION** - Dynamic Frontmatter Tagging System Implementation
 - **20251107-external-market-intelligence-daily-review.yml** - Daily 6pm reminder for external market intelligence review
 - **20251107-pragmatic-field-actions-daily-review.yml** - Daily 6pm reminder for pragmatic field actions review
 - **20251107-comm-director-strategy.yml** - Communications Director role definition and strategy
