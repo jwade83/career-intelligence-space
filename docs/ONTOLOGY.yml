@@ -48,6 +48,9 @@ types:
   - index
   - barometer_review
   - workflow_capsule
+  - mobile_copilot_field_capture
+  - mobile_copilot_technical_analysis
+  - mobile_copilot_meta_insight
 statuses:
   - draft
   - matured
