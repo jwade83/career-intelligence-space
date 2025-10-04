@@ -4,22 +4,69 @@ about: Quick field intelligence capture using mobile GitHub interface
 title: "[MOBILE] Field Capture - [Date]"
 labels: ["mobile_copilot", "field_capture", "urgent"]
 assignees: ["@jwade83"]
----
-
-## Field Data
-**Location**: [Location]
-**Time**: [Time]
-**Device**: [Device Type]
-
-## Capture Content
-[Your field data here]
-
-## Key Points
-- [ ] Point 1
-- [ ] Point 2
-- [ ] Point 3
-
-## Next Steps
-- [ ] Review content
-- [ ] Process through workflow
-- [ ] Archive if complete
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Field Data
+        Please provide the following information:
+        
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Where was this field capture taken?
+      placeholder: "e.g., Office, Client Site, Remote"
+    validations:
+      required: true
+      
+  - type: input
+    id: time
+    attributes:
+      label: Time
+      description: When was this capture taken?
+      placeholder: "e.g., 2025-10-04 14:30"
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device Type
+      description: What device was used for this capture?
+      options:
+        - iPhone
+        - Android
+        - iPad
+        - Other
+    validations:
+      required: true
+      
+  - type: textarea
+    id: content
+    attributes:
+      label: Capture Content
+      description: Describe your field capture here
+      placeholder: "Enter your field data, observations, or insights..."
+    validations:
+      required: true
+      
+  - type: checkboxes
+    id: key_points
+    attributes:
+      label: Key Points
+      description: Select the key points from your capture
+      options:
+        - label: "Point 1"
+        - label: "Point 2"
+        - label: "Point 3"
+        
+  - type: checkboxes
+    id: next_steps
+    attributes:
+      label: Next Steps
+      description: What should happen next?
+      options:
+        - label: "Review content"
+        - label: "Process through workflow"
+        - label: "Archive if complete"
