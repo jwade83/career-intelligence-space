@@ -1,0 +1,353 @@
+---
+project: Career Intelligence Space
+type: enforcement_spec
+status: active
+tags: [enforcement, ci_cd, constitutional_law, collapse_prevention]
+updated: 2025-01-10
+schema_version: v1
+enforcement_level: blocking
+---
+
+# Enforcement Rules: Constitutional Law Implementation
+
+## 🎯 Purpose
+
+This document defines the **blocking enforcement rules** that implement constitutional law in the Career Intelligence Space. These rules prevent collapse risks (C1-C7) through automated checks that **fail builds** when constitutional requirements are violated.
+
+## 🚨 Blocking Enforcement Rules
+
+### **C3 Vocabulary Drift Prevention (KEYSTONE)**
+```yaml
+vocabulary_enforcement:
+  blocking: true
+  check_on: [commit, pr, merge]
+  rules:
+    - exact_terms_required: true
+    - synonyms_forbidden: true
+    - abbreviations_defined: true
+    - vague_references_forbidden: true
+  linter_config:
+    ontology_file: "docs/GOVERNANCE/ontology.yml"
+    blocking_level: "error"
+    fail_on_drift: true
+  examples:
+    forbidden: ["career repo", "portfolio", "learning sprint"]
+    required: ["Career Intelligence Space (CIS)", "Master Portfolio (MP)", "Career Sprint"]
+```
+
+### **C6 Evidence Entropy Prevention**
+```yaml
+decision_logging:
+  blocking: true
+  check_on: [commit, pr, merge]
+  rules:
+    - decision_log_required: true
+    - provenance_mandatory: true
+    - rationale_required: true
+    - immutable_storage: true
+  schema_validation:
+    required_fields:
+      - decision_id: string
+      - rationale: string
+      - evidence_sources: array
+      - human_approval: boolean
+      - timestamp: string
+      - provenance: object
+  examples:
+    required: "Every decision must have a decision log entry"
+    forbidden: "Decisions without provenance or rationale"
+```
+
+### **C7 Thread Fragmentation Prevention**
+```yaml
+checkpoint_support:
+  blocking: true
+  check_on: [commit, pr, merge]
+  rules:
+    - checkpoint_tags_required: true
+    - rollback_support: true
+    - recovery_metadata: true
+    - continuity_verification: true
+  checkpoint_validation:
+    required_fields:
+      - checkpoint_id: string
+      - rollback_plan: string
+      - recovery_metadata: object
+      - continuity_verified: boolean
+  examples:
+    required: "All major changes must have checkpoint tags"
+    forbidden: "Changes without rollback support"
+```
+
+### **C5 Goal Creep Prevention**
+```yaml
+human_gates:
+  blocking: true
+  check_on: [commit, pr, merge]
+  rules:
+    - human_approval_required: true
+    - external_actions_gated: true
+    - approval_rationale: true
+    - decision_log_entry: true
+  human_gate_validation:
+    external_actions:
+      - outreach.send_message
+      - application.submit
+      - connection.request
+      - public.posting
+    approval_required: true
+    rationale_required: true
+  examples:
+    required: "External actions must have human approval"
+    forbidden: "Automated external actions without approval"
+```
+
+## 🔧 CI/CD Integration
+
+### **GitHub Actions Workflow**
+```yaml
+name: Constitutional Enforcement
+on: [push, pull_request]
+jobs:
+  constitutional_compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Vocabulary Enforcement
+        run: |
+          python scripts/ontology_linter.py
+          if [ $? -ne 0 ]; then
+            echo "C3 Vocabulary drift detected - blocking commit"
+            exit 1
+          fi
+      
+      - name: Decision Log Validation
+        run: |
+          python scripts/decision_log_validator.py
+          if [ $? -ne 0 ]; then
+            echo "C6 Evidence entropy detected - blocking commit"
+            exit 1
+          fi
+      
+      - name: Checkpoint Validation
+        run: |
+          python scripts/checkpoint_validator.py
+          if [ $? -ne 0 ]; then
+            echo "C7 Thread fragmentation detected - blocking commit"
+            exit 1
+          fi
+      
+      - name: Human Gate Validation
+        run: |
+          python scripts/human_gate_validator.py
+          if [ $? -ne 0 ]; then
+            echo "C5 Goal creep detected - blocking commit"
+            exit 1
+          fi
+```
+
+### **Pre-commit Hooks**
+```yaml
+pre_commit_hooks:
+  - id: ontology_linter
+    name: C3 Vocabulary Enforcement
+    entry: python scripts/ontology_linter.py
+    language: python
+    stages: [commit]
+    blocking: true
+  
+  - id: decision_log_validator
+    name: C6 Evidence Entropy Prevention
+    entry: python scripts/decision_log_validator.py
+    language: python
+    stages: [commit]
+    blocking: true
+  
+  - id: checkpoint_validator
+    name: C7 Thread Fragmentation Prevention
+    entry: python scripts/checkpoint_validator.py
+    language: python
+    stages: [commit]
+    blocking: true
+  
+  - id: human_gate_validator
+    name: C5 Goal Creep Prevention
+    entry: python scripts/human_gate_validator.py
+    language: python
+    stages: [commit]
+    blocking: true
+```
+
+## 📋 Validation Scripts
+
+### **Ontology Linter (C3 Protection)**
+```python
+# scripts/ontology_linter.py
+import yaml
+import re
+from pathlib import Path
+
+def validate_vocabulary():
+    """Block commits that violate vocabulary constraints"""
+    ontology = yaml.safe_load(open('docs/GOVERNANCE/ontology.yml'))
+    forbidden_terms = ontology['forbidden_synonyms']
+    
+    for file_path in Path('.').rglob('*.md'):
+        content = file_path.read_text()
+        for forbidden, required in forbidden_terms.items():
+            if forbidden in content:
+                print(f"C3 VIOLATION: {file_path} contains '{forbidden}'")
+                print(f"REQUIRED: Use '{required}' instead")
+                return False
+    return True
+
+if __name__ == "__main__":
+    if not validate_vocabulary():
+        exit(1)
+```
+
+### **Decision Log Validator (C6 Protection)**
+```python
+# scripts/decision_log_validator.py
+import yaml
+from pathlib import Path
+
+def validate_decision_logs():
+    """Block commits without proper decision logging"""
+    required_fields = ['decision_id', 'rationale', 'evidence_sources', 'human_approval']
+    
+    for file_path in Path('.').rglob('*.md'):
+        if 'decision' in file_path.name.lower():
+            content = file_path.read_text()
+            if '---' in content:
+                frontmatter = content.split('---')[1]
+                try:
+                    data = yaml.safe_load(frontmatter)
+                    for field in required_fields:
+                        if field not in data:
+                            print(f"C6 VIOLATION: {file_path} missing {field}")
+                            return False
+                except yaml.YAMLError:
+                    print(f"C6 VIOLATION: {file_path} invalid YAML")
+                    return False
+    return True
+
+if __name__ == "__main__":
+    if not validate_decision_logs():
+        exit(1)
+```
+
+### **Checkpoint Validator (C7 Protection)**
+```python
+# scripts/checkpoint_validator.py
+import re
+from pathlib import Path
+
+def validate_checkpoints():
+    """Block commits without checkpoint support"""
+    checkpoint_pattern = r'checkpoint_id:\s*[a-zA-Z0-9_-]+'
+    
+    for file_path in Path('.').rglob('*.md'):
+        if 'checkpoint' in file_path.name.lower():
+            content = file_path.read_text()
+            if not re.search(checkpoint_pattern, content):
+                print(f"C7 VIOLATION: {file_path} missing checkpoint_id")
+                return False
+    return True
+
+if __name__ == "__main__":
+    if not validate_checkpoints():
+        exit(1)
+```
+
+### **Human Gate Validator (C5 Protection)**
+```python
+# scripts/human_gate_validator.py
+import re
+from pathlib import Path
+
+def validate_human_gates():
+    """Block commits with unauthorized external actions"""
+    external_actions = ['send_message', 'submit_application', 'request_connection']
+    
+    for file_path in Path('.').rglob('*.md'):
+        content = file_path.read_text()
+        for action in external_actions:
+            if action in content and 'human_approval: true' not in content:
+                print(f"C5 VIOLATION: {file_path} contains {action} without human approval")
+                return False
+    return True
+
+if __name__ == "__main__":
+    if not validate_human_gates():
+        exit(1)
+```
+
+## 🚨 Failure Modes and Responses
+
+### **C3 Vocabulary Drift Detected**
+```yaml
+response:
+  action: "block_commit"
+  message: "C3 Vocabulary drift detected - use exact terms from ontology.yml"
+  remediation: "Update vocabulary to match canonical terms"
+  examples: "Use 'Career Intelligence Space (CIS)' not 'career repo'"
+```
+
+### **C6 Evidence Entropy Detected**
+```yaml
+response:
+  action: "block_commit"
+  message: "C6 Evidence entropy detected - decision log required"
+  remediation: "Add decision log entry with full provenance"
+  examples: "Include decision_id, rationale, evidence_sources, human_approval"
+```
+
+### **C7 Thread Fragmentation Detected**
+```yaml
+response:
+  action: "block_commit"
+  message: "C7 Thread fragmentation detected - checkpoint required"
+  remediation: "Add checkpoint tag with rollback support"
+  examples: "Include checkpoint_id, rollback_plan, recovery_metadata"
+```
+
+### **C5 Goal Creep Detected**
+```yaml
+response:
+  action: "block_commit"
+  message: "C5 Goal creep detected - human approval required"
+  remediation: "Add human approval for external actions"
+  examples: "Include human_approval: true and decision log entry"
+```
+
+## 📊 Compliance Monitoring
+
+### **Enforcement Metrics**
+```yaml
+metrics:
+  vocabulary_drift_attempts: "count of blocked commits"
+  decision_log_completeness: "percentage of decisions with full provenance"
+  checkpoint_coverage: "percentage of changes with checkpoint support"
+  human_approval_rate: "percentage of external actions with human approval"
+  constitutional_compliance: "overall compliance score"
+```
+
+### **Reporting**
+```yaml
+reporting:
+  frequency: "daily"
+  format: "markdown"
+  location: "docs/metrics/constitutional_compliance.md"
+  alerts:
+    - vocabulary_drift_spike
+    - decision_log_gaps
+    - checkpoint_missing
+    - human_approval_bypass
+```
+
+---
+
+**Constitutional law is enforced through blocking checks. Every violation is prevented.** 🛡️

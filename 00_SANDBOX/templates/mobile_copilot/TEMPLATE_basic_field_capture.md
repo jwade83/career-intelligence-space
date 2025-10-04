@@ -69,6 +69,42 @@ captured_at: '2025-10-03'
 - Review generated content
 - Submit for processing
 
+## 📱 Mobile Default Values Guide
+
+### **Standard Mobile Provenance Fields**
+```yaml
+# Mobile Default Values (use these for consistency)
+initiated_by: mobile_user
+mobile_device: [device_type]  # e.g., "iPhone", "Android", "iPad"
+prompt_template: basic_field_capture
+capture_method: mobile_copilot_chat
+connectivity: [connection_type]  # e.g., "wifi", "cellular", "offline_sync"
+```
+
+### **Device-Specific Defaults**
+```yaml
+# iPhone/iPad defaults
+mobile_device: "iOS"
+browser: "Safari"
+capture_quality: "mobile_optimized"
+
+# Android defaults  
+mobile_device: "Android"
+browser: "Chrome"
+capture_quality: "mobile_optimized"
+
+# Common mobile tags
+tags: [mobile_copilot, field_capture, mobile_optimized, [specific_tags]]
+```
+
+### **Mobile-Specific Metadata**
+```yaml
+# Optional mobile enhancement fields
+location_context: [if_relevant]  # e.g., "office", "field", "remote"
+time_sensitivity: [urgency]  # e.g., "immediate", "standard", "batch"
+capture_confidence: [quality]  # e.g., "high", "medium", "preliminary"
+```
+
 ## 📊 Quality Checklist
 
 ### **Frontmatter Validation**
