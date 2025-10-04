@@ -1,0 +1,38 @@
+---
+task_id: pragmatic-field-actions-daily-review
+title: "Pragmatic Field Actions Daily Review"
+description: "Daily 6pm reminder to review pragmatic field actions and career value validation progress"
+priority: high
+status: active
+created: 2025-11-07
+due_date: 2025-11-07
+recurring: daily
+reminder_time: "18:00"
+reminder_type: "push_notification"
+tags: ['field-actions', 'career-value', 'daily-review', 'pragmatic-implementation']
+category: 'field_operations'
+assignee: 'johnwade'
+---
+
+## Task Details
+
+**Objective**: Daily review of pragmatic field actions to ensure career value focus and prevent scope drift
+
+**Reference Documents**:
+- `08_CHRONICLE/analysis/2025-11-07_Pragmatic_Field_Actions_Critical_Analysis.md`
+- `08_CHRONICLE/analysis/2025-11-07_External_Market_Intelligence_Analysis.md`
+
+**Daily Actions**:
+1. **Review field action progress** against weekly goals
+2. **Validate career value** of new developments
+3. **Check scope drift** indicators and corrective measures
+4. **Assess implementation balance** (50/50 exploration vs career focus)
+5. **Document daily insights** and course corrections
+
+**Success Criteria**:
+- Consistent career value focus
+- Prevention of scope drift
+- Progress on field action implementation
+- Balanced exploration vs implementation
+
+**Reminder Message**: "Time for daily pragmatic field actions review - validate career value and check scope drift"
