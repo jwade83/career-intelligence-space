@@ -28,7 +28,7 @@ This sandbox contains the **design and development** of sophisticated AI-human c
 
 ### **3. Metacognitive Awareness Systems**
 - **[Metacognitive Awareness System Implementation](systems/2025-10-03_Metacognitive_Awareness_System_Implementation.md)** - Prevents phase mismatches in thinking modes
-- **[Meta Insight Detection Case Study](case_studies/2025-10-02_Meta_Insight_Detection_Case_Study.md)** - Human-triggered meta-insight discovery process
+- **Meta Insight Detection Case Study** - Human-triggered meta-insight discovery process (file archived)
 - **[Developmental Pattern Recognition](meta_insights/2025-10-03_Developmental_Pattern_Recognition.md)** - How North Star vision relates to developmental path
 
 ### **4. Autopoietic System Evolution**
@@ -68,7 +68,7 @@ This sandbox contains the **design and development** of sophisticated AI-human c
 - **[Implementation Methodology Guide](systems/2025-11-07_Implementation_Methodology_Guide.md)** - Systematic approach to implementation and quality assurance
 
 ### **Case Studies**
-- **[Meta Insight Detection Case Study](case_studies/2025-10-02_Meta_Insight_Detection_Case_Study.md)** - Documented meta-insight discovery process
+- **Meta Insight Detection Case Study** - Documented meta-insight discovery process (file archived)
 
 ## Templates & Workflows
 
@@ -91,7 +91,7 @@ This sandbox contains the **design and development** of sophisticated AI-human c
 ### **Phase C Integration** ⭐ **ACTIVE DEVELOPMENT**
 - **Vision Index**: [Vision Index](vision/INDEX.md) - Central navigation for vision documents
 - **Systems Index**: [Systems Index](systems/INDEX.md) - Central navigation for system architecture
-- **Chronicle Integration**: [Phase C Development Chronicle](../../08_CHRONICLE/phase_c/2025-11-07_Phase_C_Development_Chronicle.md) - Development history tracking
+- **Chronicle Integration**: [Phase C Development Chronicle](../08_CHRONICLE/phase_c/2025-11-07_Phase_C_Development_Chronicle.md) - Development history tracking
 
 ### **Harness Architecture**
 - Links to `docs/HARNESS/README.md` for collapse prevention (C1-C7)

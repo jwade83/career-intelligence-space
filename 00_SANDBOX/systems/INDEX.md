@@ -36,7 +36,7 @@ updated: 2025-11-07
 
 ## Cross-References
 - **Vision Index**: [Vision Index](../vision/INDEX.md)
-- **Design Philosophy**: [Design Philosophy Index](../design_philosophy/INDEX.md)
+- **Design Philosophy**: [Design Philosophy Index](../design_philosophy/)
 - **Main Sandbox Index**: [Sandbox Index](../INDEX.md)
 
 ---

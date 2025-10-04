@@ -36,8 +36,8 @@ updated: 2025-11-07
 ## 📚 Full Documentation
 
 - **[Complete Instructions](DECKARD_INSTRUCTIONS.md)** - Detailed user guide
-- **[Full Protocol](00_SANDBOX/design_sandbox/2025-11-07_Autopoietic_Behavioral_Symbiosis_Protocol_Agent.md)** - Complete protocol documentation
-- **[Agent Roles](00_SANDBOX/design_sandbox/2025-11-07_Agent_Role_Definitions.md)** - All agent roles and responsibilities
+- **[Full Protocol](../00_SANDBOX/design_sandbox/2025-11-07_Autopoietic_Behavioral_Symbiosis_Protocol_Agent.md)** - Complete protocol documentation
+- **[Agent Roles](../00_SANDBOX/design_sandbox/2025-11-07_Agent_Role_Definitions.md)** - All agent roles and responsibilities
 
 ## 🎭 Literary Inspiration
 

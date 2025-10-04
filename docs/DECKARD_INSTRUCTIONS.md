@@ -133,14 +133,14 @@ Deckard continuously verifies:
 ## 📚 Related Documentation
 
 ### **Full Protocol Documentation**
-- **[Complete Deckard Protocol](00_SANDBOX/design_sandbox/2025-11-07_Autopoietic_Behavioral_Symbiosis_Protocol_Agent.md)** - Full protocol with detailed instructions
-- **[Deckard Quick Reference](00_SANDBOX/design_sandbox/2025-11-07_ABS_Protocol_Agent_Quick_Reference.md)** - Quick reference guide
-- **[Agent Role Definitions](00_SANDBOX/design_sandbox/2025-11-07_Agent_Role_Definitions.md)** - All agent roles and responsibilities
+- **[Complete Deckard Protocol](../00_SANDBOX/design_sandbox/2025-11-07_Autopoietic_Behavioral_Symbiosis_Protocol_Agent.md)** - Full protocol with detailed instructions
+- **[Deckard Quick Reference](../00_SANDBOX/design_sandbox/2025-11-07_ABS_Protocol_Agent_Quick_Reference.md)** - Quick reference guide
+- **[Agent Role Definitions](../00_SANDBOX/design_sandbox/2025-11-07_Agent_Role_Definitions.md)** - All agent roles and responsibilities
 
 ### **System Architecture**
-- **[Behavioral Symbiosis Vision](00_SANDBOX/vision/2025-11-07_Behavioral_Symbiosis_Vision_Capsule.md)** - Core vision and principles
-- **[Phase C Architecture](00_SANDBOX/systems/2025-11-07_Phase_C_Behavioral_Symbiosis_Architecture.md)** - Technical specifications
-- **[Integration Plan](00_SANDBOX/design_sandbox/2025-11-07_Autopoietic_Behavioral_Symbiosis_Integration_Plan.md)** - Implementation strategy
+- **[Behavioral Symbiosis Vision](../00_SANDBOX/vision/2025-11-07_Behavioral_Symbiosis_Vision_Capsule.md)** - Core vision and principles
+- **[Phase C Architecture](../00_SANDBOX/systems/2025-11-07_Phase_C_Behavioral_Symbiosis_Architecture.md)** - Technical specifications
+- **[Integration Plan](../00_SANDBOX/design_sandbox/2025-11-07_Autopoietic_Behavioral_Symbiosis_Integration_Plan.md)** - Implementation strategy
 
 ## 🎯 Getting Started
 
