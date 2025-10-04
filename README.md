@@ -15,6 +15,7 @@ Comprehensive career intelligence platform with AI-powered insights for job seek
 - **Prompt Macros**: [/prompts/README.md](./prompts/README.md)
 
 ## 📱 Mobile Quick Start
+- **⚡ Fast Field Capture**: [Mobile Fast Capture Guide](./docs/MOBILE_UI/mobile_fast_capture.md) 🚀 **FASTEST WAY TO CAPTURE**
 - **Mobile Field Capture**: [Mobile Copilot Guide](./docs/MOBILE_UI/mobile_copilot_field_capture_guide.md) ⭐ **MOBILE USERS START HERE**
 - **Quick Templates**: [Mobile Templates](./00_SANDBOX/templates/mobile_copilot/)
 - **Compliance Check**: [Frontmatter Requirements](./docs/Golden_Rules.md)

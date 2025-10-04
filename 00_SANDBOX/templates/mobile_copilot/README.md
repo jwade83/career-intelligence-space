@@ -16,6 +16,13 @@ This directory contains standardized templates for mobile GitHub Copilot Chat As
 
 ### **🚀 Start Here - Basic Templates**
 
+#### **⚡ Fast Field Capture** 🚀 **FASTEST OPTION**
+- **File**: [TEMPLATE_fast_capture.md](./TEMPLATE_fast_capture.md)
+- **Use For**: Quick field captures, observations, urgent notes
+- **Directory**: `00_SANDBOX/agent_inbox/`
+- **Best For**: Speed and simplicity (2-3 minutes total)
+- **Time**: ⚡ **2-3 minutes total process**
+
 #### **1. Basic Field Capture**
 - **File**: [TEMPLATE_basic_field_capture.md](./TEMPLATE_basic_field_capture.md)
 - **Use For**: General field intelligence, observations, quick captures
