@@ -1,6 +1,6 @@
 ---
 project: Career Intelligence Space
-type: field_capture_test
+type: mobile_copilot_field_capture
 status: active
 tags: [mobile_copilot, test, basic]
 source: mobile_github_copilot

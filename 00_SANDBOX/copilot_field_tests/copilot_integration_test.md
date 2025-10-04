@@ -1,17 +1,14 @@
 ---
-title: "Copilot Integration Test"
-date: "2025-10-04T03:05:41Z"
-author: "jwade83"
-type: "field_test"
-status: "draft"
-tags: ["copilot", "integration", "test", "automation"]
+project: Career Intelligence Space
+type: mobile_copilot_field_capture
+status: active
+tags: [mobile_copilot, integration, test, automation]
+source: mobile_github_copilot
+captured_at: '2025-10-04'
 provenance:
   initiated_by: "GitHub Copilot Chat Assistant"
   rationale: "Test to verify file submission and protocol compliance from Copilot Chat interface."
   timestamp_utc: "2025-10-04T03:05:41Z"
-ontology:
-  category: "integration"
-  related_protocols: ["repo submission", "frontmatter validation"]
 ---
 
 # Copilot Integration Test
