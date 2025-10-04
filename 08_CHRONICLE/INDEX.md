@@ -3,7 +3,7 @@ project: Career Intelligence Space
 type: log
 status: matured
 tags: [chronicle, index]
-updated: 2025-09-26
+updated: 2025-11-07
 ---
 
 # Chronicle Index
@@ -19,4 +19,8 @@ updated: 2025-09-26
 - [2025-09-26 — Golden Rules & Collapse Protocol](./20250926_Golden_Rules_and_Collapse_Protocol.md)
 - [2025-09-26 — Field Agent Operations Log](./20250926_Field_Agent_Operations_Log.md)
 - [Weekly Reflexive Rollup — 2025-W39 (Sep 22–Sep 28, 2025)](./2025W39_Weekly_Reflexive_Rollup.md)
-- [2025-09-27 — Project 360° Sign-off Chronicle](./20250927_Project-360-Signoff.md) ⭐ **LATEST SESSION SUMMARY**
+- [2025-09-27 — Project 360° Sign-off Chronicle](./20250927_Project-360-Signoff.md)
+- [2025-10-10 — Chronicle 360° Bi-Weekly Assessment v1](./2025-10-10_Chronicle_360_Bi-Weekly_Assessment_v1.md)
+- [2025-10-24 — Chronicle 360° Bi-Weekly Assessment v2](./2025-10-24_Chronicle_360_Bi-Weekly_Assessment_v2.md)
+- [2025-11-07 — Chronicle 360° Bi-Weekly Assessment v3](./2025-11-07_Chronicle_360_Bi-Weekly_Assessment_v3.md)
+- [2025-11-07 — Communications Director Readiness Assessment Capsule](./2025-11-07_Communications_Director_Readiness_Assessment_Capsule.md) ⭐ **LATEST SESSION SUMMARY**
