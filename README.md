@@ -14,6 +14,15 @@ Comprehensive career intelligence platform with AI-powered insights for job seek
 - **Chronicle Index**: [08_CHRONICLE/INDEX.md](./08_CHRONICLE/INDEX.md)
 - **Prompt Macros**: [/prompts/README.md](./prompts/README.md)
 
+## 🤖 Deckard Protocol Agent
+- **Deckard Instructions**: [docs/DECKARD_INSTRUCTIONS.md](./docs/DECKARD_INSTRUCTIONS.md) ⭐ **QUICK START**
+- **Activation Shortcuts**: 
+  - `Deckard:` - General questions
+  - `Deckard Design:` - Design discussions
+  - `Deckard Evolution:` - System evolution
+  - `Deckard Nuance:` - Nuance preservation
+- **Create Issue**: Use the "Deckard Protocol Agent Activation" template
+
 
 
 

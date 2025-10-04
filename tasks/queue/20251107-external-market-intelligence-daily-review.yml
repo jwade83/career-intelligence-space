@@ -1,0 +1,38 @@
+---
+task_id: external-market-intelligence-daily-review
+title: "External Market Intelligence Daily Review"
+description: "Daily 6pm reminder to review external market intelligence analysis and competitive landscape opportunities"
+priority: high
+status: active
+created: 2025-11-07
+due_date: 2025-11-07
+recurring: daily
+reminder_time: "18:00"
+reminder_type: "push_notification"
+tags: ['external-intelligence', 'market-analysis', 'daily-review', 'competitive-landscape']
+category: 'market_research'
+assignee: 'johnwade'
+---
+
+## Task Details
+
+**Objective**: Daily review of external market intelligence analysis to maintain competitive awareness and identify new opportunities
+
+**Reference Documents**:
+- `08_CHRONICLE/analysis/2025-11-07_External_Market_Intelligence_Analysis.md`
+- `08_CHRONICLE/analysis/2025-11-07_Pragmatic_Field_Actions_Critical_Analysis.md`
+
+**Daily Actions**:
+1. **Review market gaps** identified in external analysis
+2. **Check competitive landscape** for new developments
+3. **Validate market opportunities** against current capabilities
+4. **Update market intelligence** with new findings
+5. **Document insights** for weekly synthesis
+
+**Success Criteria**:
+- Consistent daily market awareness
+- Identification of new opportunities
+- Validation of competitive advantages
+- Updated market intelligence records
+
+**Reminder Message**: "Time for daily external market intelligence review - check competitive landscape and validate opportunities"

@@ -1,0 +1,63 @@
+---
+name: Deckard Protocol Agent Activation
+description: Activate Deckard for sophisticated design discussions and system guidance
+title: "[DECKARD] "
+labels: ["deckard", "protocol-agent", "design-discussion"]
+assignees: []
+---
+
+## Deckard Activation Request
+
+**Activation Type**: 
+- [ ] General Discussion (`Deckard:`)
+- [ ] Design Discussion (`Deckard Design:`)
+- [ ] System Evolution (`Deckard Evolution:`)
+- [ ] Nuance Preservation (`Deckard Nuance:`)
+
+## Question or Topic
+
+**Please describe your question or topic for Deckard:**
+
+<!-- Replace this with your specific question or topic -->
+
+## Context
+
+**Provide any relevant context:**
+- Current phase of work
+- Specific system components involved
+- Previous discussions or decisions
+- Any constraints or requirements
+
+## Expected Outcome
+
+**What are you hoping to achieve with this Deckard interaction?**
+- [ ] Design guidance
+- [ ] Implementation strategy
+- [ ] System architecture discussion
+- [ ] Nuance preservation guidance
+- [ ] Other (please specify)
+
+## Additional Information
+
+**Any other information that might be helpful for Deckard:**
+
+---
+
+## Quick Reference
+
+### Activation Shortcuts
+- **`Deckard:`** - General questions about the system
+- **`Deckard Design:`** - Design and implementation questions  
+- **`Deckard Evolution:`** - System evolution and adaptation questions
+- **`Deckard Nuance:`** - Questions requiring nuance preservation
+
+### Core Principles
+- **Nuance Preservation First** - Never sacrifice subtlety for efficiency
+- **Human Agency** - Human control and decision-making preserved
+- **System Interpretability** - All decisions traceable and explainable
+- **Collapse Prevention** - Integrated mechanisms prevent system degradation
+
+### Related Documentation
+- [Deckard Instructions](docs/DECKARD_INSTRUCTIONS.md)
+- [Complete Protocol](00_SANDBOX/design_sandbox/2025-11-07_Autopoietic_Behavioral_Symbiosis_Protocol_Agent.md)
+- [Quick Reference](00_SANDBOX/design_sandbox/2025-11-07_ABS_Protocol_Agent_Quick_Reference.md)
