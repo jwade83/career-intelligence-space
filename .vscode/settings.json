@@ -1,0 +1,57 @@
+{
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Use conventional commit format: type(scope): description"
+    },
+    {
+      "text": "Include a 'Source-Provenance:' footer that details the source of the entry"
+    },
+    {
+      "text": "Keep the subject line under 50 characters"
+    },
+    {
+      "text": "For mobile captures, include 'Mobile-Context: device=[device_type], method=[capture_method], template=[template_used]'"
+    },
+    {
+      "text": "Use Career Intelligence Space specific prefixes: feat, fix, docs, refactor, perf, test, chore, mobile, template, workflow"
+    },
+    {
+      "text": "Scope should be lowercase with hyphens: mobile-ui, templates, docs, mobile-copilot, field-capture, compliance"
+    },
+    {
+      "text": "Description should start with lowercase verb, be descriptive but concise, use present tense"
+    },
+    {
+      "text": "For mobile field captures, use 'mobile' or 'mobile-copilot' scope and include Mobile-Context field"
+    },
+    {
+      "text": "For template updates, use 'template' type with 'mobile' scope and include template name"
+    },
+    {
+      "text": "For mobile workflow changes, use 'workflow' type with 'mobile-ui' scope"
+    }
+  ],
+  "github.copilot.chat.commitMessageGeneration.enabled": true,
+  "github.copilot.chat.commitMessageGeneration.includeDiff": true,
+  "github.copilot.chat.commitMessageGeneration.includeStagedFiles": true,
+  "github.copilot.chat.commitMessageGeneration.includeUnstagedFiles": false,
+  "github.copilot.chat.commitMessageGeneration.includeUntrackedFiles": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitHistory": false,
+  "github.copilot.chat.commitMessageGeneration.includeBranchName": false,
+  "github.copilot.chat.commitMessageGeneration.includeRemoteUrl": false,
+  "github.copilot.chat.commitMessageGeneration.includeAuthor": false,
+  "github.copilot.chat.commitMessageGeneration.includeDate": false,
+  "github.copilot.chat.commitMessageGeneration.includeTime": false,
+  "github.copilot.chat.commitMessageGeneration.includeTimezone": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitHash": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitMessage": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitDescription": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitBody": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitFooter": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitTrailers": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitNotes": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitSignatures": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitGpgSignatures": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitSshSignatures": false,
+  "github.copilot.chat.commitMessageGeneration.includeCommitX509Signatures": false
+}

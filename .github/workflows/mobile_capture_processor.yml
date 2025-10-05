@@ -1,0 +1,151 @@
+name: Mobile Field Capture Processor
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  process-mobile-capture:
+    if: contains(github.event.issue.labels.*.name, 'mobile_copilot')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+          fetch-depth: 0
+      
+      - name: Extract Issue Content
+        id: extract
+        run: |
+          echo "title=${{ github.event.issue.title }}" >> $GITHUB_OUTPUT
+          echo "body=${{ github.event.issue.body }}" >> $GITHUB_OUTPUT
+          echo "labels=${{ github.event.issue.labels }}" >> $GITHUB_OUTPUT
+      
+      - name: Generate Filename
+        id: filename
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          TITLE="${{ github.event.issue.title }}"
+          CLEAN_TITLE=$(echo "$TITLE" | sed 's/[^a-zA-Z0-9_-]/_/g' | tr '[:upper:]' '[:lower:]')
+          FILENAME="${DATE}_${CLEAN_TITLE}.md"
+          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
+      
+      - name: Validate Issue Content
+        id: validate
+        run: |
+          if [ -z "${{ github.event.issue.title }}" ]; then
+            echo "error=Title is required" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          if [ -z "${{ github.event.issue.body }}" ]; then
+            echo "error=Body is required" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          echo "valid=true" >> $GITHUB_OUTPUT
+          
+      - name: Create Mobile Capture File
+        if: steps.validate.outputs.valid == 'true'
+        run: |
+          mkdir -p 00_SANDBOX/agent_inbox
+          
+          cat > "00_SANDBOX/agent_inbox/${{ steps.filename.outputs.filename }}" << EOF
+          ---
+          project: Career Intelligence Space
+          type: mobile_copilot_field_capture
+          status: active
+          tags: [mobile_copilot, field_capture, github_issue]
+          source: mobile_github_copilot
+          captured_at: '$(date +%Y-%m-%d)'
+          initiated_by: mobile_user
+          mobile_device: github_issue
+          issue_number: ${{ github.event.issue.number }}
+          ---
+          
+          # ${{ github.event.issue.title }}
+          
+          ## Field Data
+          ${{ github.event.issue.body }}
+          
+          ## Processing Status
+          - [ ] Issue created: ${{ github.event.issue.number }}
+          - [ ] File generated: ${{ steps.filename.outputs.filename }}
+          - [ ] Ready for review
+          - [ ] Process through workflow
+          
+          ## Next Steps
+          - [ ] Review content
+          - [ ] Validate frontmatter
+          - [ ] Process through workflow
+          - [ ] Archive if complete
+          EOF
+      
+      - name: Commit Mobile Capture
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add 00_SANDBOX/agent_inbox/${{ steps.filename.outputs.filename }}
+          git commit -m "feat(mobile-copilot): add mobile field capture from issue ${{ github.event.issue.number }}
+          
+          - Extract content from GitHub issue
+          - Generate compliant markdown file
+          - Add mobile capture frontmatter
+          - Include issue reference for traceability
+          
+          Source-Provenance: GitHub Issue
+          Mobile-Context: device=github_issue, method=issue_template, template=mobile_field_capture"
+      
+      - name: Push Changes
+        run: |
+          git push origin ${{ github.head_ref }}
+      
+      - name: Create Processing PR
+        run: |
+          gh pr create \
+            --title "Mobile Field Capture: ${{ github.event.issue.title }}" \
+            --body "Automated processing of mobile field capture from issue #${{ github.event.issue.number }}
+          
+          ## Capture Details
+          - **Issue**: #${{ github.event.issue.number }}
+          - **File**: ${{ steps.filename.outputs.filename }}
+          - **Type**: Mobile Field Capture
+          - **Status**: Ready for review
+          
+          ## Next Steps
+          - [ ] Review captured content
+          - [ ] Validate frontmatter compliance
+          - [ ] Process through workflow
+          - [ ] Archive if complete" \
+            --label "mobile_copilot,field_capture,automated" \
+            --assignee "@jwade83"
+      
+      - name: Comment on Issue
+        if: success()
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "✅ **Mobile Field Capture Processed**
+          
+          Your mobile field capture has been automatically processed:
+          
+          - **File Created**: \`00_SANDBOX/agent_inbox/${{ steps.filename.outputs.filename }}\`
+          - **PR Created**: Processing PR for review
+          - **Status**: Ready for workflow processing
+          
+          The capture will be processed through the standard workflow and integrated into the repository."
+          
+      - name: Comment on Issue (Error)
+        if: failure()
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "❌ **Mobile Field Capture Failed**
+          
+          There was an error processing your mobile field capture:
+          
+          - **Error**: ${{ steps.validate.outputs.error || 'Unknown error' }}
+          - **Status**: Please try again or contact support
+          
+          The issue has been logged for investigation."

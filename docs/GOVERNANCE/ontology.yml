@@ -1,0 +1,127 @@
+---
+project: Career Intelligence Space
+type: ontology_spec
+status: active
+tags: [ontology, vocabulary_enforcement, c3_protection, keystone]
+updated: 2025-01-10
+schema_version: v1
+enforcement_level: blocking
+
+# Ontology: Vocabulary Enforcement Schema
+
+## 🎯 Purpose
+
+C3 Vocabulary Drift is the keystone collapse risk. Without stable vocabulary, all other protections fail. This ontology defines the canonical terms and their meanings, enforced by blocking linter.
+
+## 🚨 Enforcement Rules
+
+- **Blocking linter prevents vocabulary drift at commit**
+- **No synonyms allowed** - use exact terms or add to ontology
+- **No paraphrasing** - use canonical definitions
+- **No abbreviation drift** - use full terms or defined abbreviations
+
+## 📚 Core Vocabulary
+
+### **System Architecture Terms**
+
+| Term | Definition | Usage Context | Forbidden Synonyms |
+|------|------------|---------------|-------------------|
+| **Harness** | The immune system that prevents LLM project collapse | System architecture | "framework", "scaffolding", "toolkit" |
+| **Constitutional Layer** | Non-negotiable governance principles | Architecture | "governance layer", "policy layer" |
+| **Mechanical Layer** | Tool implementation and execution | Architecture | "implementation layer", "tool layer" |
+| **Antibody** | Specific protection against collapse risk | Harness | "protection", "safeguard", "control" |
+| **Collapse Risk** | Systemic failure mode (C1-C7) | Risk management | "failure mode", "risk", "vulnerability" |
+
+### **Career Intelligence Terms**
+
+| Term | Definition | Usage Context | Forbidden Synonyms |
+|------|------------|---------------|-------------------|
+| **Career Intelligence Space (CIS)** | GitHub-based R&D sandbox | Project scope | "career repo", "work space", "project" |
+| **Master Portfolio (MP)** | Local-only curated assets | Project scope | "portfolio", "assets", "outputs" |
+| **Career Sprint** | 2-4 week focused skill development | Planning | "learning sprint", "skill sprint", "development cycle" |
+| **Evidence Ledger** | Verifiable record of career activities | Documentation | "activity log", "progress log", "tracking" |
+| **Opportunity Log** | Record of job opportunities and applications | Documentation | "job log", "application log", "opportunities" |
+
+### **Technical Implementation Terms**
+
+| Term | Definition | Usage Context | Forbidden Synonyms |
+|------|------------|---------------|-------------------|
+| **MCP (Model Context Protocol)** | Tool server for deterministic I/O | Technical | "tool protocol", "API layer", "interface" |
+| **Spec Block** | Machine-readable plan output | LangChain | "plan", "specification", "blueprint" |
+| **DRY-RUN** | Side-effect-free preview of changes | MCP | "preview", "simulation", "test run" |
+| **Provenance** | Source and lineage information | Documentation | "source", "origin", "derivation" |
+| **Checkpoint** | Recovery anchor with rollback capability | System | "snapshot", "backup", "save point" |
+
+### **Governance Terms**
+
+| Term | Definition | Usage Context | Forbidden Synonyms |
+|------|------------|---------------|-------------------|
+| **Decision Log** | Immutable record of rationale | Governance | "decision record", "rationale log", "audit log" |
+| **Human Gate** | Required human approval for critical actions | Governance | "approval gate", "human check", "manual review" |
+| **Externalization** | Moving decisions from chat to persistent storage | Governance | "persistence", "storage", "saving" |
+| **Constitutional Law** | Non-negotiable system requirements | Governance | "rules", "policies", "requirements" |
+
+## 🔧 Technical Terms
+
+### **Collapse Risks (C1-C7)**
+
+| Risk | Full Name | Definition | Forbidden Terms |
+|------|-----------|------------|------------------|
+| **C1** | Context Saturation | Prompts exceed practical window | "token limits", "context overflow" |
+| **C2** | Instruction Dilution | Outputs miss spirit of requirements | "prompt drift", "instruction decay" |
+| **C3** | Vocabulary Drift | Terms mutate until definitions blur | "term drift", "vocabulary decay" |
+| **C4** | Reference Ambiguity | Vague callbacks produce wrong references | "reference confusion", "link ambiguity" |
+| **C5** | Goal Creep | Outputs chase adjacent goals | "scope creep", "mission drift" |
+| **C6** | Evidence Entropy | Decisions become unrecoverable | "decision loss", "rationale decay" |
+| **C7** | Thread Fragmentation | Continuity breaks across sessions | "session loss", "continuity break" |
+
+### **MCP Tool Categories**
+
+| Category | Definition | Examples | Forbidden Terms |
+|----------|------------|----------|-----------------|
+| **Read-Only Tools** | Tools that retrieve information without side effects | `linkedin.search_jobs()`, `catalog.search_courses()` | "query tools", "search tools" |
+| **Draft-Only Tools** | Tools that create content but don't send externally | `outreach.compose_message()`, `resume.tailor()` | "creation tools", "generation tools" |
+| **Human-Gated Tools** | Tools that require explicit human approval | `outreach.send_message()`, `application.submit()` | "approval tools", "manual tools" |
+| **Forbidden Tools** | Tools that are never allowed | `system.shell()`, `file.delete()` | "dangerous tools", "blocked tools" |
+
+## 📋 Validation Rules
+
+### **Required Fields for All Documents**
+- `project: Career Intelligence Space`
+- `type: [document_type]`
+- `status: [active|deprecated|experimental]`
+- `updated: [ISO date]`
+- `schema_version: v1`
+
+### **Status Values**
+- `active` - Currently in use and enforced
+- `deprecated` - Being phased out, use with caution
+- `experimental` - Under development, not enforced
+
+### **Forbidden Patterns**
+- No synonyms for defined terms
+- No abbreviations without definition
+- No vague references ("the system", "that thing")
+- No mixed terminology (use consistent terms throughout)
+
+## 🚨 Linter Configuration
+
+```yaml
+# .github/workflows/ontology-lint.yml
+ontology_enforcement:
+  blocking: true
+  check_vocabulary: true
+  check_synonyms: true
+  check_abbreviations: true
+  check_references: true
+  fail_on_drift: true
+```
+
+## 📚 Reference Materials
+
+- **Full Harness Specification**: `docs/HARNESS/README.md`
+- **Decision Log Schema**: `docs/GOVERNANCE/decision_log_schema.yml`
+- **MCP Integration Spec**: `docs/GOVERNANCE/mcp_integration_spec.md`
+- **Career Coaching Branch**: `docs/GOVERNANCE/career_coaching_branch.md`
+
+Vocabulary drift is the keystone collapse risk. This ontology prevents it. 🛡️

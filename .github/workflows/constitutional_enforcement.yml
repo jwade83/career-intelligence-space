@@ -1,0 +1,83 @@
+name: Constitutional Enforcement
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  constitutional_compliance:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+      
+      - name: C3 Vocabulary Enforcement
+        run: |
+          echo "🔍 Checking for vocabulary drift (C3 protection)..."
+          python scripts/ontology_linter.py
+          if [ $? -ne 0 ]; then
+            echo "❌ C3 Vocabulary drift detected - blocking commit"
+            echo "🛡️  Use exact vocabulary from docs/GOVERNANCE/ontology.yml"
+            exit 1
+          fi
+          echo "✅ C3 Vocabulary enforcement passed"
+      
+      - name: C6 Evidence Entropy Prevention
+        run: |
+          echo "🔍 Checking decision log completeness (C6 protection)..."
+          python scripts/decision_log_validator.py
+          if [ $? -ne 0 ]; then
+            echo "❌ C6 Evidence entropy detected - blocking commit"
+            echo "🛡️  All decisions must have complete provenance"
+            exit 1
+          fi
+          echo "✅ C6 Evidence entropy prevention passed"
+      
+      - name: C7 Thread Fragmentation Prevention
+        run: |
+          echo "🔍 Checking checkpoint support (C7 protection)..."
+          python scripts/checkpoint_validator.py
+          if [ $? -ne 0 ]; then
+            echo "❌ C7 Thread fragmentation detected - blocking commit"
+            echo "🛡️  All changes must have checkpoint support"
+            exit 1
+          fi
+          echo "✅ C7 Thread fragmentation prevention passed"
+      
+      - name: C5 Goal Creep Prevention
+        run: |
+          echo "🔍 Checking human approval gates (C5 protection)..."
+          python scripts/human_gate_validator.py
+          if [ $? -ne 0 ]; then
+            echo "❌ C5 Goal creep detected - blocking commit"
+            echo "🛡️  External actions require human approval"
+            exit 1
+          fi
+          echo "✅ C5 Goal creep prevention passed"
+      
+      - name: Constitutional Compliance Summary
+        run: |
+          echo "🎯 Constitutional Compliance Summary"
+          echo "=================================="
+          echo "✅ C3 Vocabulary Drift Prevention"
+          echo "✅ C6 Evidence Entropy Prevention"
+          echo "✅ C7 Thread Fragmentation Prevention"
+          echo "✅ C5 Goal Creep Prevention"
+          echo ""
+          echo "🛡️  All constitutional requirements satisfied"
+          echo "📚 Reference: docs/GOVERNANCE/README.md"

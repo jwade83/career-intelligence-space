@@ -24,6 +24,31 @@ This guide explains how to use GitHub Copilot Chat Assistant on mobile devices t
 - **✅ Use**: Mobile browser → github.com → Copilot Chat Assistant
 - **❌ Avoid**: GitHub Mobile App (limited file creation capabilities)
 
+## ✅ Mobile Compliance Checklist
+
+### **Before Submitting Any Mobile Capture:**
+
+#### **Frontmatter Validation**
+- [ ] `project: Career Intelligence Space`
+- [ ] `type: mobile_copilot_field_capture` (or appropriate type)
+- [ ] `status: active`
+- [ ] `tags: [mobile_copilot, field_capture, [specific_tags]]`
+- [ ] `source: mobile_github_copilot`
+- [ ] `captured_at: 'YYYY-MM-DD'` (current date)
+
+#### **Content Validation**
+- [ ] Clear and descriptive title
+- [ ] Well-structured content with proper markdown
+- [ ] Relevant tags (2-3 specific tags beyond mobile_copilot)
+- [ ] Actionable next steps included
+- [ ] File placed in correct directory (00_SANDBOX/agent_inbox/)
+
+#### **Mobile-Specific Requirements**
+- [ ] Filename follows convention: `YYYY-MM-DD_descriptive_name.md`
+- [ ] Content is mobile-optimized (concise, bullet points)
+- [ ] No sensitive information (PII, confidential data)
+- [ ] Proper markdown formatting for mobile readability
+
 ## 🚀 Quick Start
 
 ### **Step 1: Access Repository**
