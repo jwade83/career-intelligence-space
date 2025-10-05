@@ -268,8 +268,8 @@ The workflow automatically:
 - **Mobile App**: [GitHub Mobile App](https://github.com/mobile)
 
 ### **Mobile Capture Support**
-- **Issue Templates**: [Mobile Issue Templates](../.github/ISSUE_TEMPLATE/)
-- **Workflow Documentation**: [GitHub Actions Workflows](../.github/workflows/)
+- **Issue Templates**: [Mobile Issue Templates](../../.github/ISSUE_TEMPLATE/)
+- **Workflow Documentation**: [GitHub Actions Workflows](../../.github/workflows/)
 - **Mobile Guide**: [Mobile Copilot Guide](./mobile_copilot_field_capture_guide.md)
 
 ---

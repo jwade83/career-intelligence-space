@@ -100,8 +100,8 @@ This directory contains standardized templates for mobile GitHub Copilot Chat As
 
 ### **First-Time Mobile Users:**
 1. **Start with Basic Field Capture** - Easiest template to learn
-2. **Follow Mobile Workflow Guide** - [Complete Mobile Workflow](../docs/MOBILE_UI/mobile_workflow_complete.md)
-3. **Use Compliance Checklist** - [Mobile Compliance Guide](../docs/MOBILE_UI/mobile_copilot_field_capture_guide.md#mobile-compliance-checklist)
+2. **Follow Mobile Workflow Guide** - [Complete Mobile Workflow](../../../docs/MOBILE_UI/mobile_workflow_complete.md)
+3. **Use Compliance Checklist** - [Mobile Compliance Guide](../../../docs/MOBILE_UI/mobile_copilot_field_capture_guide.md#mobile-compliance-checklist)
 4. **Practice with Templates** - Try different templates for different content types
 
 ### **Mobile Best Practices:**
@@ -113,9 +113,9 @@ This directory contains standardized templates for mobile GitHub Copilot Chat As
 ## 🔗 Related Resources
 
 ### **Mobile Documentation:**
-- **Complete Mobile Workflow**: [Mobile Workflow Guide](../docs/MOBILE_UI/mobile_workflow_complete.md)
-- **Mobile User Guide**: [Mobile Copilot Guide](../docs/MOBILE_UI/mobile_copilot_field_capture_guide.md)
-- **Compliance Requirements**: [Frontmatter Rules](../docs/Golden_Rules.md)
+- **Complete Mobile Workflow**: [Mobile Workflow Guide](../../../docs/MOBILE_UI/mobile_workflow_complete.md)
+- **Mobile User Guide**: [Mobile Copilot Guide](../../../docs/MOBILE_UI/mobile_copilot_field_capture_guide.md)
+- **Compliance Requirements**: [Frontmatter Rules](../../../docs/Golden_Rules.md)
 
 ### **Template Support:**
 - **Template Issues**: Create issue with `mobile_copilot` tag

@@ -1,6 +1,6 @@
 ---
 project: Career Intelligence Space
-type: quick_reference
+type: quick-reference
 status: active
 tags: ['quick-reference', 'protocol-agent', 'abs-agent', 'conversational-interface']
 phase: sandboxing

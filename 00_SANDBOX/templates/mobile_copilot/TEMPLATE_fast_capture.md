@@ -186,10 +186,10 @@ Replace these placeholders with your actual content:
 ## 🔗 Related Resources
 
 ### **Fast Capture Support**
-- **Fast Capture Guide**: [Mobile Fast Capture Guide](../docs/MOBILE_UI/mobile_fast_capture.md)
-- **Complete Workflow**: [Mobile Workflow Guide](../docs/MOBILE_UI/mobile_workflow_complete.md)
-- **Compliance Guide**: [Mobile Compliance Checklist](../docs/MOBILE_UI/mobile_copilot_field_capture_guide.md#mobile-compliance-checklist)
-- **Onboarding**: [Mobile Onboarding Guide](../docs/MOBILE_UI/mobile_user_onboarding.md)
+- **Fast Capture Guide**: [Mobile Fast Capture Guide](../../../docs/MOBILE_UI/mobile_fast_capture.md)
+- **Complete Workflow**: [Mobile Workflow Guide](../../../docs/MOBILE_UI/mobile_workflow_complete.md)
+- **Compliance Guide**: [Mobile Compliance Checklist](../../../docs/MOBILE_UI/mobile_copilot_field_capture_guide.md#mobile-compliance-checklist)
+- **Onboarding**: [Mobile Onboarding Guide](../../../docs/MOBILE_UI/mobile_user_onboarding.md)
 
 ### **Advanced Templates**
 - **Technical Analysis**: [Technical Template](./TEMPLATE_technical_analysis.md)

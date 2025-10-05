@@ -33,10 +33,10 @@ Processing → Integration → Archive
 
 #### **Step 2: Template Selection**
 1. **Choose Capture Type**:
-   - **Basic Field Capture**: [Template](./00_SANDBOX/templates/mobile_copilot/TEMPLATE_basic_field_capture.md)
-   - **Technical Analysis**: [Template](./00_SANDBOX/templates/mobile_copilot/TEMPLATE_technical_analysis.md)
-   - **Meta Insight**: [Template](./00_SANDBOX/templates/mobile_copilot/TEMPLATE_meta_insight.md)
-   - **Systems Documentation**: [Template](./00_SANDBOX/templates/mobile_copilot/TEMPLATE_systems_doc.md)
+   - **Basic Field Capture**: [Template](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_basic_field_capture.md)
+   - **Technical Analysis**: [Template](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_technical_analysis.md)
+   - **Meta Insight**: [Template](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_meta_insight.md)
+   - **Systems Documentation**: [Template](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_systems_doc.md)
 
 ### **Phase 2: Content Generation**
 
