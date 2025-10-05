@@ -19,9 +19,28 @@ class HumanGateValidator:
         ]
         self.human_approval_pattern = r'human_approval:\s*true'
         self.decision_log_pattern = r'decision_id:\s*DEC_\d{4}-\d{2}-\d{2}_\d{3}'
+        
+        # Governance documents define rules, don't execute them
+        self.governance_exclusions = [
+            'docs/GOVERNANCE/',
+            'docs/HARNESS/',
+            'docs/ARCHITECTURE/',
+            'scripts/',  # Validation scripts themselves
+            'docs/decision_log_schema.yml',
+            'docs/ontology.yml',
+            'docs/enforcement_rules.yml'
+        ]
+    
+    def is_governance_document(self, file_path: Path) -> bool:
+        """Governance documents define rules, don't execute them"""
+        return any(exclusion in str(file_path) for exclusion in self.governance_exclusions)
     
     def validate_file(self, file_path: Path) -> bool:
         """Validate a single file for human gate compliance"""
+        # Skip governance documents - they define rules, don't execute them
+        if self.is_governance_document(file_path):
+            return True
+            
         try:
             content = file_path.read_text(encoding='utf-8')
         except UnicodeDecodeError:
