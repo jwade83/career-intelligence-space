@@ -5,15 +5,21 @@ on:
   issue_comment:
     types: [created]
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   process-mobile-capture:
     if: contains(github.event.issue.labels.*.name, 'mobile_copilot')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
+          fetch-depth: 0
       
       - name: Extract Issue Content
         id: extract
@@ -31,7 +37,21 @@ jobs:
           FILENAME="${DATE}_${CLEAN_TITLE}.md"
           echo "filename=$FILENAME" >> $GITHUB_OUTPUT
       
+      - name: Validate Issue Content
+        id: validate
+        run: |
+          if [ -z "${{ github.event.issue.title }}" ]; then
+            echo "error=Title is required" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          if [ -z "${{ github.event.issue.body }}" ]; then
+            echo "error=Body is required" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          echo "valid=true" >> $GITHUB_OUTPUT
+          
       - name: Create Mobile Capture File
+        if: steps.validate.outputs.valid == 'true'
         run: |
           mkdir -p 00_SANDBOX/agent_inbox
           
@@ -83,7 +103,7 @@ jobs:
       
       - name: Push Changes
         run: |
-          git push origin ${{ github.ref_name }}
+          git push origin ${{ github.head_ref }}
       
       - name: Create Processing PR
         run: |
@@ -106,6 +126,7 @@ jobs:
             --assignee "@jwade83"
       
       - name: Comment on Issue
+        if: success()
         run: |
           gh issue comment ${{ github.event.issue.number }} --body "✅ **Mobile Field Capture Processed**
           
@@ -116,3 +137,15 @@ jobs:
           - **Status**: Ready for workflow processing
           
           The capture will be processed through the standard workflow and integrated into the repository."
+          
+      - name: Comment on Issue (Error)
+        if: failure()
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "❌ **Mobile Field Capture Failed**
+          
+          There was an error processing your mobile field capture:
+          
+          - **Error**: ${{ steps.validate.outputs.error || 'Unknown error' }}
+          - **Status**: Please try again or contact support
+          
+          The issue has been logged for investigation."

@@ -1,0 +1,58 @@
+---
+name: Mobile Meta Insight
+description: Strategic insight capture using mobile GitHub interface
+title: "[INSIGHT] Meta Insight - [Date]"
+labels: ["mobile_copilot", "meta_insight", "strategic"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Insight Context
+        Please provide the following strategic information:
+        
+  - type: input
+    id: pattern
+    attributes:
+      label: Pattern Identified
+      description: What pattern or trend have you identified?
+      placeholder: "e.g., Market shift, User behavior change, etc."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting Evidence
+      description: What evidence supports this insight?
+      placeholder: "Provide data, observations, or examples..."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: implications
+    attributes:
+      label: Strategic Implications
+      description: What are the strategic implications?
+      placeholder: "Describe the strategic impact and implications..."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: analysis
+    attributes:
+      label: Meta Analysis
+      description: Provide your meta insight analysis
+      placeholder: "Enter your meta analysis, strategic insights, or recommendations..."
+    validations:
+      required: true
+      
+  - type: checkboxes
+    id: actions
+    attributes:
+      label: Strategic Recommendations
+      description: Select the strategic actions to take
+      options:
+        - label: "Action 1"
+        - label: "Action 2"
+        - label: "Action 3"

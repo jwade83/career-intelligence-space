@@ -1,0 +1,58 @@
+---
+name: Mobile Technical Analysis
+description: Technical field analysis capture using mobile GitHub interface
+title: "[TECH] Analysis - [Date]"
+labels: ["mobile_copilot", "technical_analysis", "field_capture"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Technical Context
+        Please provide the following technical information:
+        
+  - type: input
+    id: system
+    attributes:
+      label: System Name
+      description: What system is being analyzed?
+      placeholder: "e.g., Career Intelligence Space, Mobile App, etc."
+    validations:
+      required: true
+      
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      description: Which component is being analyzed?
+      placeholder: "e.g., Mobile UI, Backend API, Database, etc."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: issue
+    attributes:
+      label: Technical Issue
+      description: Describe the technical issue or analysis
+      placeholder: "Describe the technical problem or analysis..."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: analysis
+    attributes:
+      label: Analysis Content
+      description: Provide your technical analysis
+      placeholder: "Enter your technical analysis, findings, or recommendations..."
+    validations:
+      required: true
+      
+  - type: checkboxes
+    id: recommendations
+    attributes:
+      label: Key Recommendations
+      description: Select the key recommendations from your analysis
+      options:
+        - label: "Recommendation 1"
+        - label: "Recommendation 2"
+        - label: "Recommendation 3"
