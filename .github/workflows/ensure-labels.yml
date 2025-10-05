@@ -1,0 +1,30 @@
+name: Ensure Required Labels
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  ensure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          make_label(){
+            name="$1"; desc="$2"; color="$3";
+            gh label create "$name" --description "$desc" --color "$color" 2>/dev/null || gh label edit "$name" --description "$desc" --color "$color"
+          }
+          make_label mobile_copilot "Mobile Copilot field capture" 0e8a16
+          make_label field_capture "Field capture items" 5319e7
+          make_label urgent "Time-sensitive" d93f0b
+          make_label automated "Automated action" 0b5394
+

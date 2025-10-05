@@ -1,0 +1,35 @@
+name: PR Frontmatter Normalize
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+          fetch-depth: 0
+
+      - name: Frontmatter Autofix
+        uses: ./.github/actions/frontmatter-autofix
+
+      - name: Commit normalization (if any)
+        shell: bash
+        run: |
+          if ! git diff --quiet --staged; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(normalize): auto-fix frontmatter in changed files"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+
