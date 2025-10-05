@@ -51,6 +51,19 @@ types:
   - mobile_copilot_field_capture
   - mobile_copilot_technical_analysis
   - mobile_copilot_meta_insight
+  - analysis
+  - design_sandbox
+  - protocol_agent
+  - design_principles
+  - implementation_checklist
+  - chronicle_360
+  - chronicle
+  - documentation
+  - quick-reference
+  - governance_spec
+  - career_coaching_spec
+  - integration_spec
+  - guide
 statuses:
   - draft
   - matured
@@ -61,5 +74,6 @@ statuses:
   - completed
   - in-progress
   - digest
+  - in-review
 projects:
   - Career Intelligence Space
