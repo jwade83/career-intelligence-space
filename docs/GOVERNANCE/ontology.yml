@@ -11,7 +11,7 @@ enforcement_level: blocking
 
 ## 🎯 Purpose
 
-**C3 Vocabulary Drift is the keystone collapse risk.** Without stable vocabulary, all other protections fail. This ontology defines the canonical terms and their meanings, enforced by blocking linter.
+C3 Vocabulary Drift is the keystone collapse risk. Without stable vocabulary, all other protections fail. This ontology defines the canonical terms and their meanings, enforced by blocking linter.
 
 ## 🚨 Enforcement Rules
 
@@ -124,4 +124,4 @@ ontology_enforcement:
 - **MCP Integration Spec**: `docs/GOVERNANCE/mcp_integration_spec.md`
 - **Career Coaching Branch**: `docs/GOVERNANCE/career_coaching_branch.md`
 
-**Vocabulary drift is the keystone collapse risk. This ontology prevents it.** 🛡️
+Vocabulary drift is the keystone collapse risk. This ontology prevents it. 🛡️

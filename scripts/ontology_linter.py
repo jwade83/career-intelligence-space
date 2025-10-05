@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 class OntologyLinter:
-    def __init__(self, ontology_file: str = "docs/GOVERNANCE/ontology.yml"):
+    def __init__(self, ontology_file: str = "docs/ONTOLOGY.yml"):
         self.ontology_file = Path(ontology_file)
         self.violations = []
         self.load_ontology()
