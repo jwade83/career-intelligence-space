@@ -6,7 +6,6 @@ tags: [ontology, vocabulary_enforcement, c3_protection, keystone]
 updated: 2025-01-10
 schema_version: v1
 enforcement_level: blocking
----
 
 # Ontology: Vocabulary Enforcement Schema
 
@@ -124,7 +123,5 @@ ontology_enforcement:
 - **Decision Log Schema**: `docs/GOVERNANCE/decision_log_schema.yml`
 - **MCP Integration Spec**: `docs/GOVERNANCE/mcp_integration_spec.md`
 - **Career Coaching Branch**: `docs/GOVERNANCE/career_coaching_branch.md`
-
----
 
 **Vocabulary drift is the keystone collapse risk. This ontology prevents it.** 🛡️
