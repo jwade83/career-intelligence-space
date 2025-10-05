@@ -1,9 +1,9 @@
 ---
 name: Mobile Field Capture
-about: Quick field intelligence capture using mobile GitHub interface
+description: Quick field intelligence capture using mobile GitHub interface
 title: "[MOBILE] Field Capture - [Date]"
 labels: ["mobile_copilot", "field_capture", "urgent"]
-assignees: ["@jwade83"]
+assignees: []
 ---
 
 ## Field Data

@@ -1,9 +1,9 @@
 ---
 name: Mobile Meta Insight
-about: Strategic insight capture using mobile GitHub interface
+description: Strategic insight capture using mobile GitHub interface
 title: "[INSIGHT] Meta Insight - [Date]"
 labels: ["mobile_copilot", "meta_insight", "strategic"]
-assignees: ["@jwade83"]
+assignees: []
 ---
 
 ## Insight Context

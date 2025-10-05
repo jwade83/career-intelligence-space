@@ -1,9 +1,9 @@
 ---
 name: Mobile Technical Analysis
-about: Technical field analysis capture using mobile GitHub interface
+description: Technical field analysis capture using mobile GitHub interface
 title: "[TECH] Analysis - [Date]"
 labels: ["mobile_copilot", "technical_analysis", "field_capture"]
-assignees: ["@jwade83"]
+assignees: []
 ---
 
 ## Technical Context
