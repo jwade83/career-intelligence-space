@@ -18,6 +18,36 @@ class DecisionLogValidator:
             'human_approval', 'timestamp', 'provenance'
         ]
     
+    def _load_frontmatter(self, file_path: Path) -> Dict[str, Any]:
+        try:
+            content = file_path.read_text(encoding='utf-8')
+        except UnicodeDecodeError:
+            return {}
+        if '---' not in content:
+            return {}
+        parts = content.split('---', 2)
+        if len(parts) < 3:
+            return {}
+        try:
+            return yaml.safe_load(parts[1]) or {}
+        except yaml.YAMLError:
+            return {}
+
+    def _is_decision_log(self, file_path: Path) -> bool:
+        """Only validate files explicitly marked as decision logs.
+        Criteria: frontmatter type == 'decision_log' OR tags includes 'decision_log'.
+        """
+        fm = self._load_frontmatter(file_path)
+        if not fm:
+            return False
+        if str(fm.get('type', '')).strip() == 'decision_log':
+            return True
+        tags = fm.get('tags') or []
+        try:
+            return 'decision_log' in tags
+        except Exception:
+            return False
+    
     def validate_decision_log_file(self, file_path: Path) -> bool:
         """Validate a single decision log file"""
         try:
@@ -75,20 +105,14 @@ class DecisionLogValidator:
         return True
     
     def validate_repository(self) -> bool:
-        """Validate all decision log files in repository"""
+        """Validate all decision log files in repository (explicitly typed)."""
         print("🔍 Checking repository for decision log completeness...")
-        
-        # Find all decision log files
-        decision_files = []
-        for pattern in ['*decision*.md', '*DEC_*.md', '*decision_log*.md']:
-            decision_files.extend(Path('.').rglob(pattern))
-        
+        md_files = list(Path('.').rglob('*.md'))
+        decision_files = [p for p in md_files if self._is_decision_log(p)]
         if not decision_files:
             print("ℹ️  No decision log files found")
             return True
-        
         total_violations = 0
-        
         for file_path in decision_files:
             if not self.validate_decision_log_file(file_path):
                 total_violations += 1
