@@ -5,6 +5,7 @@ status: active
 tags: [decisions, provenance, harness]
 updated: 2025-09-30
 decision_id: DEC_2025-09-30_001
+rationale: "Maintains decision provenance and context for architectural choices"
 ---
 
 # Decision Log
