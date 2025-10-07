@@ -1954,7 +1954,7 @@ docs/VISION.md - Missing frontmatter
 
 docs/SYNTH_RUNBOOK.md - Missing frontmatter
 
-docs/SETUP.md - Missing frontmatter
+docs/SETUP_Cursor.md - Missing frontmatter
 
 docs/RESEARCH_RUNBOOK.md - Missing frontmatter
 
