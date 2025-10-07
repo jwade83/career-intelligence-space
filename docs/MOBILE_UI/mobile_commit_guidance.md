@@ -233,7 +233,7 @@ Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=workf
 ### **Commit Documentation**
 - **Repository Instructions**: [.github/copilot-instructions.md](../../.github/copilot-instructions.md)
 - **VS Code Settings**: [.vscode/settings.json](../../.vscode/settings.json)
-- **Mobile Templates**: [Mobile Templates](../../00_SANDBOX/templates/mobile_copilot/)
+- **Mobile Templates**: [Mobile Templates](.)
 
 ### **Mobile Workflow**
 - **Mobile Guide**: [Mobile Copilot Guide](./mobile_copilot_field_capture_guide.md)

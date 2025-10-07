@@ -22,7 +22,7 @@ For details on the current prototype status, see [docs/meta/README_State_of_Prot
 - **⚡ One-Click Capture**: [Mobile One-Click Guide](./docs/MOBILE_UI/mobile_one_click_capture.md) 🚀 **FASTEST WAY - USE GITHUB GUI**
 - **⚡ Fast Field Capture**: [Mobile Fast Capture Guide](./docs/MOBILE_UI/mobile_fast_capture.md) 🚀 **FASTEST WAY TO CAPTURE**
 - **Mobile Field Capture**: [Mobile Copilot Guide](./docs/MOBILE_UI/mobile_copilot_field_capture_guide.md) ⭐ **MOBILE USERS START HERE**
-- **Quick Templates**: [Mobile Templates](./00_SANDBOX/templates/mobile_copilot/)
+- **Quick Templates**: [Mobile Templates](./docs/MOBILE_UI/)
 - **Compliance Check**: [Frontmatter Requirements](./docs/Golden_Rules.md)
 - **Mobile Workflow**: [End-to-End Mobile Guide](./docs/MOBILE_UI/mobile_workflow_complete.md)
 - **First-Time Users**: [Mobile Onboarding Guide](./docs/MOBILE_UI/mobile_user_onboarding.md) 🆕 **NEW USERS START HERE**
