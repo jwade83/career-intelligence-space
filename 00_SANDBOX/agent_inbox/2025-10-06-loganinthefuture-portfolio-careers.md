@@ -1,14 +1,11 @@
 ---
 project: Career Intelligence Space
 type: field_case
-template_id: field_case_v3.1
-template_ver: 1.0
-source: tiktok
-captured_at: "2025-10-06"
-status: draft
+status: active
 tags: [field_capture, strategic_insight, portfolio_careers]
+source: tiktok
+captured_at: '2025-10-06'
 generator: chatgpt-copilot-mobile
-slug: 2025-10-06-@loganinthefuture-portfolio-careers
 ---
 
 # Specialize First: Designing a Sustainable Portfolio Career
