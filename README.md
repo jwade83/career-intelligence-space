@@ -9,6 +9,10 @@ updated: 2025-10-02
 # career-intelligence-space
 Comprehensive career intelligence platform with AI-powered insights for job seekers and career professionals
 
+## 🧭 Prototype State
+This project is in active development as an AI-assisted systems learning journal.  
+For details on the current prototype status, see [docs/meta/README_State_of_Prototype.md](./docs/meta/README_State_of_Prototype.md).
+
 ## 🚀 Quick Access
 - **Latest Session Summary**: [Project 360° Sign-off Chronicle (2025-09-27)](./08_CHRONICLE/20250927_Project-360-Signoff.md)
 - **Chronicle Index**: [08_CHRONICLE/INDEX.md](./08_CHRONICLE/INDEX.md)
@@ -24,30 +28,51 @@ Comprehensive career intelligence platform with AI-powered insights for job seek
 - **First-Time Users**: [Mobile Onboarding Guide](./docs/MOBILE_UI/mobile_user_onboarding.md) 🆕 **NEW USERS START HERE**
 
 ### 📝 Mobile Commit Templates
-For mobile users who need quick commit message templates:
+For mobile users who need quick commit message templates. **See [Learning Commit Guidelines](./docs/meta/LEARNING_COMMIT_GUIDELINES.md) for full philosophy.**
 
 **Basic Mobile Capture:**
 ```
-feat(mobile-copilot): add [description]
+learn(mobile-copilot): add field capture of [topic]
 
-Source-Provenance: Mobile GitHub Copilot
-Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=basic_field_capture
+Learning Context:
+- Attempted to capture [specific insight/learning] from [source]
+- Learned [what was discovered/understood]
+- System evolved to include [how this changes approach]
+
+Technical Details:
+- Source-Provenance: Mobile GitHub Copilot
+- Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=basic_field_capture
+- Type: mobile_copilot_field_capture (ontology compliant)
 ```
 
 **Technical Analysis:**
 ```
-feat(mobile-copilot): add technical analysis of [topic]
+learn(mobile-copilot): add technical analysis of [topic]
 
-Source-Provenance: Mobile GitHub Copilot
-Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=technical_analysis
+Learning Context:
+- Attempted to analyze [specific technical aspect]
+- Learned [technical insights gained]
+- System evolved to include [how this informs future technical decisions]
+
+Technical Details:
+- Source-Provenance: Mobile GitHub Copilot
+- Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=technical_analysis
+- Type: mobile_copilot_technical_analysis (ontology compliant)
 ```
 
 **Meta Insight:**
 ```
-feat(mobile-copilot): add meta insight on [topic]
+learn(mobile-copilot): add meta insight on [topic]
 
-Source-Provenance: Mobile GitHub Copilot
-Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=meta_insight
+Learning Context:
+- Attempted to understand [meta-pattern/process insight]
+- Learned [meta-level understanding gained]
+- System evolved to include [how this changes meta-approach]
+
+Technical Details:
+- Source-Provenance: Mobile GitHub Copilot
+- Mobile-Context: device=[device_type], method=mobile_copilot_chat, template=meta_insight
+- Type: mobile_copilot_meta_insight (ontology compliant)
 ```
 
 ## 🤖 Deckard Protocol Agent
