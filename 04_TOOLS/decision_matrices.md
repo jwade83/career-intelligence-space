@@ -4,6 +4,7 @@ type: spec
 status: draft
 tags: ['misc']
 updated: 2025-10-02
+decision_id: DEC-2025-10-02-001
 ---
 
 # Decision Matrices for Career Intelligence

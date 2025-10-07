@@ -87,8 +87,7 @@ def changed_md_files():
             files = [f for f in out.splitlines() if f.endswith(".md")]
     except Exception:
         files=[]
-    if not files:
-        files = [str(p) for p in Path(".").rglob("*.md")]
+    # Do not fallback to repo-wide scan; keep scope limited to diffs
     keep=[]
     for f in files:
         skip=False

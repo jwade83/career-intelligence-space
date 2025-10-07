@@ -21,13 +21,6 @@ jobs:
           token: ${{ github.token }}
           fetch-depth: 0
       
-      - name: Extract Issue Content
-        id: extract
-        run: |
-          echo "title=${{ github.event.issue.title }}" >> $GITHUB_OUTPUT
-          echo "body=${{ github.event.issue.body }}" >> $GITHUB_OUTPUT
-          echo "labels=${{ github.event.issue.labels }}" >> $GITHUB_OUTPUT
-      
       - name: Generate Filename
         id: filename
         run: |
@@ -85,6 +78,11 @@ jobs:
           - [ ] Process through workflow
           - [ ] Archive if complete
           EOF
+
+      - name: Create Branch
+        if: steps.validate.outputs.valid == 'true'
+        run: |
+          git checkout -b mobile-capture/${{ github.event.issue.number }}
       
       - name: Commit Mobile Capture
         run: |
@@ -103,9 +101,11 @@ jobs:
       
       - name: Push Changes
         run: |
-          git push origin ${{ github.head_ref }}
+          git push -u origin HEAD
       
       - name: Create Processing PR
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh pr create \
             --title "Mobile Field Capture: ${{ github.event.issue.title }}" \
@@ -127,6 +127,8 @@ jobs:
       
       - name: Comment on Issue
         if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh issue comment ${{ github.event.issue.number }} --body "✅ **Mobile Field Capture Processed**
           
@@ -140,6 +142,8 @@ jobs:
           
       - name: Comment on Issue (Error)
         if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh issue comment ${{ github.event.issue.number }} --body "❌ **Mobile Field Capture Failed**
           

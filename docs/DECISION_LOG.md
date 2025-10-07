@@ -4,6 +4,15 @@ type: decision_log
 status: active
 tags: [decisions, provenance, harness]
 updated: 2025-09-30
+decision_id: DEC_2025-09-30_001
+rationale: "Maintains decision provenance and context for architectural choices"
+evidence_sources: ["decision_log_schema.yml", "constitutional_enforcement"]
+human_approval: true
+timestamp: 2025-09-30T00:00:00Z
+provenance:
+  source: "human_review"
+  reviewer: "johnwade"
+  review_date: 2025-09-30T00:00:00Z
 ---
 
 # Decision Log

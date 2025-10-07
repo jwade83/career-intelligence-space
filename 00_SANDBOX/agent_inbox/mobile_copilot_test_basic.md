@@ -6,6 +6,7 @@ tags: [mobile_copilot, test, basic]
 source: mobile_github_copilot
 captured_at: '2025-10-03'
 updated: '2025-10-04'
+---
 
 Mobile Copilot Basic Test
 

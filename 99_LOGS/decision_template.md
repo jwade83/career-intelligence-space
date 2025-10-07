@@ -4,6 +4,7 @@ type: spec
 status: draft
 tags: ['misc', 'template']
 updated: 2025-10-02
+decision_id: DEC-2025-10-02-TEMPLATE
 ---
 
 # Decision Record Template
