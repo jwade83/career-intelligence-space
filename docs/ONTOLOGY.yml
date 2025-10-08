@@ -51,6 +51,7 @@ types:
   - mobile_copilot_field_capture
   - mobile_copilot_technical_analysis
   - mobile_copilot_meta_insight
+  - field_case
   - analysis
   - design_sandbox
   - protocol_agent
