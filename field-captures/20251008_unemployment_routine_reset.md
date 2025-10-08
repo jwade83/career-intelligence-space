@@ -5,7 +5,6 @@ status: active
 tags: [field_capture, behavioral_routine, job_search, career_reintegration]
 source: chatgpt-mobile
 captured_at: '2025-10-08'
-generator: chatgpt-mobile
 ---
 
 # Unemployment Routine Reset: Behavioral Scaffolding for Job Search Reintegration
@@ -19,10 +18,11 @@ generator: chatgpt-mobile
 > The transition from employment to unemployment removes critical external scaffolding — successful reintegration requires deliberately rebuilding that structure through behavioral routines before attempting job search activities.
 
 ## Source Context
-- **Creator**: Career Intelligence Space Field Research
+- **Creator**: ChatGPT Mobile Analysis
 - **Link-id**: unemployment-routine-reset-2025
 - **Content Type**: behavioral_routine
 - **Original Title**: Unemployment Routine Reset Protocol
+- **Captured via**: ChatGPT Mobile
 
 ## Analysis Notes
 This protocol addresses a critical gap in traditional job search advice: the assumption that unemployed individuals can immediately engage in productive job search activities without first rebuilding the psychological and behavioral infrastructure that employment naturally provides.
