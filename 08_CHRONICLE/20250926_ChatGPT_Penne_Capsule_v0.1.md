@@ -19,7 +19,7 @@ updated: 2025-09-26
 ## Evidence/links
 - Transcript (local): ../99_LOGS/transcripts/2025-09-26_chatgpt-confirm_github_repo.md
 - 5th-Derivative Capsule: ./20250925_CIF-5th_Derivative_Reflexive_Capsule_v0.1.md
-- CIS Guidelines & Setup: ../docs/SETUP.md
+- CIS Guidelines & Setup: ../docs/SETUP_Cursor.md
 - Penne convo (mirror locally before linking): [link pending local export]
 
 ## Insights and Lessons

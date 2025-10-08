@@ -74,7 +74,7 @@ provenance:
 - **Field Capture**: `00_SANDBOX/agent_inbox/`
 - **Technical Analysis**: `00_SANDBOX/systems/`
 - **Meta Insights**: `00_SANDBOX/meta_insights/`
-- **Templates**: `00_SANDBOX/templates/mobile_copilot/`
+- **Templates**: `docs/MOBILE_UI/`
 
 #### **Naming Conventions**
 - **Format**: `YYYY-MM-DD_descriptive_name.md`

@@ -201,14 +201,14 @@ Use proper CIS frontmatter with type: meta_insight_tracking and include detailed
 
 ### **Related Documentation**
 - [Mobile UI Gap Analysis](../MOBILE_UI/mobile_ui_gap_analysis.md)
-- [Field Agent v0.6 Specification](../AGENTS/field_agent_v06_spec.md)
+- [Field Agent v0.6 Specification](../AGENTS/field_agent_v06_complete.md)
 - [CIS Ontology](../ONTOLOGY.yml)
 - [Frontmatter Requirements](../Golden_Rules.md)
 
 ### **Template Library**
-- [Basic Field Capture Templates](../../00_SANDBOX/templates/mobile_copilot/)
-- [Technical Analysis Templates](../../00_SANDBOX/templates/mobile_copilot/)
-- [Meta Insight Templates](../../00_SANDBOX/templates/mobile_copilot/)
+- [Basic Field Capture Templates](.)
+- [Technical Analysis Templates](.)
+- [Meta Insight Templates](.)
 
 ---
 

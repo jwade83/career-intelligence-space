@@ -199,15 +199,15 @@ mobile_device: [your_device]
 ## 🔗 Related Resources
 
 ### **Fast Capture Support**
-- **Template Library**: [Mobile Templates](../../00_SANDBOX/templates/mobile_copilot/)
+- **Template Library**: [Mobile Templates](.)
 - **Complete Workflow**: [Mobile Workflow Guide](./mobile_workflow_complete.md)
 - **Compliance Guide**: [Mobile Compliance Checklist](./mobile_copilot_field_capture_guide.md#mobile-compliance-checklist)
 - **Onboarding**: [Mobile Onboarding Guide](./mobile_user_onboarding.md)
 
 ### **Advanced Features**
-- **Technical Analysis**: [Technical Template](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_technical_analysis.md)
-- **Meta Insights**: [Meta Insight Template](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_meta_insight.md)
-- **Systems Documentation**: [Systems Template](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_systems_doc.md)
+- **Technical Analysis**: [Technical Template](TEMPLATE_technical_analysis.md)
+- **Meta Insights**: [Meta Insight Template](TEMPLATE_meta_insight.md)
+- **Systems Documentation**: [Systems Template](TEMPLATE_systems_doc.md)
 
 ---
 

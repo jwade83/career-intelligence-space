@@ -2,11 +2,33 @@
 project: Career Intelligence Space
 type: spec
 status: matured
-tags: [cursor, ide, setup, workflow, ci]
+tags: [cursor, ide, setup, workflow, ci, prerequisites, bootstrap, repository]
 updated: 2025-09-27
 ---
 
-# Cursor IDE Setup
+# Project Setup & Cursor IDE Configuration
+
+## Prerequisites
+- **Git**: Version control system
+- **Cursor IDE**: AI-powered code editor
+- **GitHub Account**: For repository access and PR management
+- **Terminal Access**: For git operations and CI/CD workflows
+
+## Repository Layout
+The Career Intelligence Space follows a structured directory organization:
+- `00_SANDBOX/` - Experimental work and design iterations
+- `01_GUIDELINES/` - Project guidelines and frameworks
+- `02_TEMPLATES/` - Reusable templates and formats
+- `03_CHECKPOINTS/` - Project milestones and assessments
+- `03_RESEARCH/` - Research findings and company intelligence
+- `04_TOOLS/` - Decision matrices and tracking tools
+- `05_ASSETS/` - Portfolio materials and case studies
+- `05_EXPORTS/` - Published content and deliverables
+- `06_CASES/` - Case studies and examples
+- `08_CHRONICLE/` - Project chronicles and documentation
+- `10_LLM_STREAMS/` - AI interaction logs and prompts
+- `11_FUTURE/` - Future planning and hardware assets
+- `99_LOGS/` - System logs and operational records
 
 ## Repo Path (Single-Clone, Dual-Interface)
 Local clone used by both **Cursor** and **Terminal**:

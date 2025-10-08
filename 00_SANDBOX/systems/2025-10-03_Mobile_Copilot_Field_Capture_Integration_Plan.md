@@ -55,7 +55,7 @@ Direct File Creation → Branch Management → Repository Integration
 - Troubleshooting common issues
 
 #### **1.2 Mobile Copilot Prompt Templates**
-**Location**: `00_SANDBOX/templates/mobile_copilot/`
+**Location**: `docs/MOBILE_UI/`
 **Purpose**: Standardized prompts for consistent results
 **Templates**:
 - `TEMPLATE_basic_field_capture.md`
@@ -64,7 +64,7 @@ Direct File Creation → Branch Management → Repository Integration
 - `TEMPLATE_systems_documentation.md`
 
 #### **1.3 Mobile Copilot Integration Spec**
-**Location**: `docs/AGENTS/mobile_copilot_field_capture_spec.md`
+**Location**: `docs/MOBILE_UI/mobile_copilot_specification.md`
 **Purpose**: Technical specification for mobile copilot integration
 **Content**:
 - Technical architecture
