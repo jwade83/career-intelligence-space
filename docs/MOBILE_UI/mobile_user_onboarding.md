@@ -24,11 +24,11 @@ This guide provides a comprehensive onboarding experience for new mobile users o
 
 #### **Step 2: Mobile Quick Start**
 1. **Read Mobile Guide**: [Mobile Copilot Guide](./mobile_copilot_field_capture_guide.md)
-2. **Review Templates**: [Mobile Templates](../../00_SANDBOX/templates/mobile_copilot/)
+2. **Review Templates**: [Mobile Templates](.)
 3. **Check Compliance**: [Frontmatter Requirements](../Golden_Rules.md)
 
 #### **Step 3: First Capture Preparation**
-1. **Choose Template**: Start with [Basic Field Capture](../../00_SANDBOX/templates/mobile_copilot/TEMPLATE_basic_field_capture.md)
+1. **Choose Template**: Start with [Basic Field Capture](TEMPLATE_basic_field_capture.md)
 2. **Prepare Content**: Have a simple observation or insight ready
 3. **Check Connection**: Ensure stable internet connection
 
@@ -180,7 +180,7 @@ Use the [Mobile Compliance Checklist](./mobile_copilot_field_capture_guide.md#mo
 ### **Essential Reading**
 - **Mobile Guide**: [Mobile Copilot Guide](./mobile_copilot_field_capture_guide.md)
 - **Complete Workflow**: [Mobile Workflow Guide](./mobile_workflow_complete.md)
-- **Template Library**: [Mobile Templates](../../00_SANDBOX/templates/mobile_copilot/)
+- **Template Library**: [Mobile Templates](.)
 - **Compliance Rules**: [Frontmatter Requirements](../Golden_Rules.md)
 
 ### **Support Resources**

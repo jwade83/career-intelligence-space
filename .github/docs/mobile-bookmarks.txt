@@ -1,0 +1,31 @@
+# Mobile Bookmarks for Field Capture Setup
+# Save these to your mobile browser for quick access
+
+# === ONE-TIME SETUP ===
+Create PAT:
+https://github.com/settings/tokens?type=beta
+
+Add Secret to Repo:
+https://github.com/jwade83/career-intelligence-space/settings/secrets/actions/new
+
+# === REGULAR USE ===
+View Active PRs:
+https://github.com/jwade83/career-intelligence-space/pulls
+
+Create Issue/PR (Copilot):
+https://github.com/jwade83/career-intelligence-space
+
+# === MONITORING ===
+View Workflow Runs:
+https://github.com/jwade83/career-intelligence-space/actions
+
+View Secrets:
+https://github.com/jwade83/career-intelligence-space/settings/secrets/actions
+
+# === TROUBLESHOOTING ===
+Check Branch Protection:
+https://github.com/jwade83/career-intelligence-space/settings/branches
+
+View Workflow Files:
+https://github.com/jwade83/career-intelligence-space/tree/main/.github/workflows
+

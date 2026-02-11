@@ -6,11 +6,36 @@ tags: [mobile_copilot, templates, index, quick_access]
 updated: '2025-10-03'
 ---
 
-# Mobile Copilot Templates - Quick Access
+# Mobile UI Documentation Hub
 
 ## 🎯 Overview
 
-This directory contains standardized templates for mobile GitHub Copilot Chat Assistant field capture. All templates ensure consistent frontmatter compliance and mobile-optimized content structure.
+This directory contains all mobile-related documentation, templates, and guides for the Career Intelligence Space mobile workflow. Everything you need for mobile field capture, user onboarding, and mobile-specific processes is centralized here.
+
+## 📚 Complete Mobile Documentation Index
+
+### **📖 Core Documentation**
+- **[Mobile User Onboarding](mobile_user_onboarding.md)** - Getting started with mobile workflows
+- **[Mobile Workflow Complete](mobile_workflow_complete.md)** - Comprehensive mobile workflow guide
+- **[Mobile Copilot Field Capture Guide](mobile_copilot_field_capture_guide.md)** - Detailed capture instructions
+- **[Mobile Copilot Specification](mobile_copilot_specification.md)** - Technical specifications and requirements
+
+### **⚡ Quick Capture Workflows**
+- **[Mobile Fast Capture](mobile_fast_capture.md)** - Quick capture workflow
+- **[Mobile One Click Capture](mobile_one_click_capture.md)** - One-click capture process
+- **[Mobile Commit Guidance](mobile_commit_guidance.md)** - Commit best practices for mobile
+
+### **📊 Analysis & Planning**
+- **[Mobile UI Gap Analysis](mobile_ui_gap_analysis.md)** - Current state analysis and improvements
+
+### **📝 Templates**
+- **[Template Mobile Note](template_mobile_note.md)** - Basic mobile note template
+- **[Template Basic Field Capture](TEMPLATE_basic_field_capture.md)** - Standard field capture template
+- **[Template Fast Capture](TEMPLATE_fast_capture.md)** - Quick capture template
+- **[Template Technical Analysis](TEMPLATE_technical_analysis.md)** - Technical analysis template
+- **[Template Meta Insight](TEMPLATE_meta_insight.md)** - Strategic insight template
+- **[Template Meta Insight Tracking](TEMPLATE_meta_insight_tracking.md)** - Insight tracking template
+- **[Template Systems Doc](TEMPLATE_systems_doc.md)** - System documentation template
 
 ## 📱 Quick Template Access
 

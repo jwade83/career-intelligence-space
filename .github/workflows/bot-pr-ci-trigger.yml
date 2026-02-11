@@ -1,0 +1,73 @@
+name: Bot PR CI Trigger
+
+# This workflow automatically triggers CI checks for PRs created by bots
+# (like GitHub Copilot or github-actions) by pushing an empty commit
+# using a PAT, which bypasses the GitHub Actions security restriction.
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  trigger-ci:
+    runs-on: ubuntu-latest
+    # Only run for bot authors (Copilot, GitHub Actions, etc.)
+    if: |
+      github.event.pull_request.user.type == 'Bot' ||
+      contains(github.event.pull_request.user.login, '[bot]') ||
+      contains(github.event.pull_request.user.login, 'app/')
+    
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.BOT_CI_TRIGGER_PAT || secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Check if CI already triggered
+        id: check_ci
+        run: |
+          # Check if there are any workflow runs for this PR
+          RUNS=$(gh run list --branch "${{ github.event.pull_request.head.ref }}" --limit 5 --json databaseId --jq 'length')
+          echo "runs_count=$RUNS" >> $GITHUB_OUTPUT
+          
+          # Check for the trigger commit message
+          if git log --oneline -5 | grep -q "chore: trigger CI checks"; then
+            echo "trigger_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "trigger_exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Push empty commit to trigger CI
+        if: |
+          steps.check_ci.outputs.runs_count == '0' ||
+          steps.check_ci.outputs.trigger_exists == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: trigger CI checks"
+          git push
+        env:
+          # Use PAT if available, otherwise fall back to GITHUB_TOKEN
+          # Note: GITHUB_TOKEN won't trigger workflows, so this is mainly for safety
+          GITHUB_TOKEN: ${{ secrets.BOT_CI_TRIGGER_PAT || secrets.GITHUB_TOKEN }}
+      
+      - name: Add comment to PR
+        if: steps.check_ci.outputs.runs_count == '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: '🤖 **Auto-triggered CI checks**\n\nThis PR was created by a bot, so I pushed an empty commit to trigger the required CI checks. The PR will be ready to merge once all checks pass.'
+            });
+
